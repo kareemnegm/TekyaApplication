@@ -16,10 +16,18 @@ class Provider extends Authenticatable
         'user_name',
         'email',
         'password',
-        'type',//shop or charity
+        'type', //shop or charity
         'mobile'
 
     ];
+
+    public function providerShopDetails()
+    {
+        return $this->hasOne(ProviderShopDetails::class);
+    }
+
+
+    
     protected $hidden = [
         'password',
         'remember_token',
