@@ -22,6 +22,6 @@ class providerShopBranch extends Model
     }
     public function paymentOption()
     {
-        return $this->belongsToMany(PaymentOption::class);
+        return $this->belongsToMany(PaymentOption::class,'shop_branch_payments');
     }
 }

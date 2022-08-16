@@ -17,8 +17,8 @@ class CreateProviderShopBranchesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->boolean('is_head');
-            $table->boolean('is_active');
+            $table->boolean('is_head')->default(1);
+            $table->boolean('is_active')->default(0);
             $table->string('working_hours_day');
             $table->unsignedBigInteger('provider_shop_details_id');
             $table->foreign('provider_shop_details_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();

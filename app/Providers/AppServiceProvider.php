@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Classes\ProviderClass;
+use App\Interfaces\ProviderInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(ProviderInterface::class, ProviderClass::class);
+
     }
 
     /**

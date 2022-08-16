@@ -17,7 +17,7 @@ class Provider extends Authenticatable
         'email',
         'password',
         'type', //shop or charity
-        'mobile'
+        'number'
 
     ];
 
@@ -27,7 +27,7 @@ class Provider extends Authenticatable
     }
 
 
-    
+
     protected $hidden = [
         'password',
         'remember_token',
