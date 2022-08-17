@@ -29,7 +29,6 @@ class BaseFormRequest extends FormRequest
             'message'=>'Validation error', //Massage Return in Response Data field
              'status'=>'failed',
             'error' => $validator->errors()->all(), //Validator Errors
-            'message' => $validator->errors()->all(), //Validator Errors
         ];
         //   return response()->json($res,200,JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
           throw new HttpResponseException(response()->json($res

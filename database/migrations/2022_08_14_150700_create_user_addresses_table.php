@@ -21,7 +21,7 @@ class CreateUserAddressesTable extends Migration
             $table->string('re_mobile');
             $table->string('street');
             $table->text('address_details');
-            $table->text('nearest_landMark')->nullable();
+            $table->text('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_default')->default(1);
             $table->text('area');

@@ -19,9 +19,8 @@ class AreaController extends Controller
      */
     public function store(AreaFormRequest $request)
     {
-        $data = $request->input();
-        Area::create($data);
-        return $this->successResponse();
+         Area::create($request->validated());
+        return $this->successResponse('Created Sucessfully',201);
     }
 
     /**
@@ -30,9 +29,21 @@ class AreaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getArea($id)
+    public function show($id)
     {
-        return new AreaResource(Area::findOrFail($id));
+        return $this->dataResponse(['data'=>new AreaResource(Area::findOrFail($id))],'OK',200);
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return $this->dataResponse(['data'=> AreaResource::collection(Area::all())],'OK',200);
     }
 
     /**
@@ -44,7 +55,8 @@ class AreaController extends Controller
     public function getAllGovernmentAreas($id)
     {
         $area = Area::where('government_id', $id)->get();
-        return  AreaResource::collection($area);
+        return $this->dataResponse(['data'=> AreaResource::collection($area)],'OK',200);
+
     }
 
     /**
@@ -54,11 +66,11 @@ class AreaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AreaFormRequest $request, $id)
     {
         $area = Area::findOrFail($id);
-        $area->update([$request->input()]);
-        return $this->successResponse();
+        $area->update([$request->validated()]);
+        return $this->successResponse('Updated Sucessfully',200);
     }
 
     /**
@@ -71,6 +83,6 @@ class AreaController extends Controller
     {
         $area = Area::findOrFail($id);
         $area->delete();
-        return $this->successResponse();
+        return $this->successResponse('Deleted Sucessfully',200);
     }
 }

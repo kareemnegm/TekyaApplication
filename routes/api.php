@@ -39,18 +39,14 @@ Route::group(['prefix' => 'area'], function () {
     Route::delete('/{id}', 'GovernmentArea\AreaController@destroy');
 });
 
-Route::group(['prefix' => 'category'], function () {
-    Route::post('/', 'Category\CategoryController@createCategory');
-    Route::get('/', 'Category\CategoryController@getCategories');
-    Route::get('/{id}', 'Category\CategoryController@getCategoryById');
-    Route::put('/{id}', 'Category\CategoryController@updateCategory');
-    Route::delete('/{id}', 'Category\CategoryController@categoryDelete');
-});
+
 Route::group(['prefix' => 'provider'], function () {
     Route::post('/signup', 'User\ProviderController@signUp');
     Route::post('/login', 'User\ProviderController@login');
     Route::post('/shopDetails', 'User\ProviderController@createShopDetails')->middleware(['auth:sanctum']);
     Route::post('/shop/branch', 'User\ProviderController@createBranch')->middleware(['auth:sanctum']);
-    Route::post('/paymentOption', 'User\ProviderController@createPaymentOption')->middleware(['auth:sanctum']);
 
 });
+
+
+
