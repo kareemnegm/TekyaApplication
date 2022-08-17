@@ -9,6 +9,7 @@ use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 
 class ProviderClass implements ProviderInterface{
+    
     public function createShopDetails($details){
         ProviderShopDetails::create($details);
     }

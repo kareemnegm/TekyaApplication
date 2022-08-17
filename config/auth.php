@@ -40,9 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
         'provider'=>[
-            'driver'=>'session',
+            'driver'=>'sanctum',
             'provider'=>'providers'
+        ],
+
+        'user'=>[
+            'driver'=>'sanctum',
+            'provider'=>'users'
         ]
     ],
 

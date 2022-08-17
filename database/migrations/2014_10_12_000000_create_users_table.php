@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('image')->nullable();
-            $table->enum('mobile_code',['010','012','011']);
+            $table->string('mobile_code')->nullable();
             $table->integer('mobile');
             $table->text('location');
             $table->unsignedBigInteger('government_id');

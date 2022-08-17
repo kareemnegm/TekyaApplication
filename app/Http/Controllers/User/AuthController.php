@@ -27,8 +27,8 @@ class AuthController extends Controller
     public function login(UserLoginFormRequest $request)
     {
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            $auth = Auth::user();
+        if (Auth::guard('user')->attempt($credentials)) {
+            $auth = Auth::guard('user')->user();
             $token = $auth->createToken('LaravelSanctumAuth')->plainTextToken;
             return response()->json(['user' => $auth, "token" => $token], 200);
         } else {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\GovernmentArea;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GovernmentFormRequest;
 use App\Http\Resources\GovernmentResource;
 use App\Models\Government;
 use Illuminate\Http\Request;
@@ -10,17 +11,16 @@ use Illuminate\Http\Request;
 class GovernmentController extends Controller
 {
 
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GovernmentFormRequest $request)
     {
-        Government::UpdateOrCreate(['name' => $request->name], ['name' => $request->name]);
-        return $this->successResponse();
+        Government::create($request->validated());
+        return $this->successResponse('Created Sucessfully',201);
     }
 
     /**
@@ -29,9 +29,9 @@ class GovernmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getGovernment($id)
+    public function show($id)
     {
-        return new GovernmentResource(Government::findOrFail($id));
+        return $this->dataResponse(['data'=>new GovernmentResource(Government::findOrFail($id))],'OK',200);
     }
 
     /**
@@ -40,17 +40,25 @@ class GovernmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getAllGovernments()
+    public function index()
     {
-        return  GovernmentResource::collection(Government::all());
+        return $this->dataResponse(['data'=>GovernmentResource::collection(Government::all())],'OK',200);
+
     }
 
 
-    public function update(Request $request, $id)
+    /**
+     * Undocumented function
+     *
+     * @param GovernmentFormRequest $request
+     * @param [type] $id
+     * @return void
+     */
+    public function update(GovernmentFormRequest $request, $id)
     {
         $government = Government::findOrFail($id);
-        $government->update(['name' => $request->name]);
-        return $this->successResponse();
+        $government->update($request->validated());
+        return $this->successResponse('Updated Sucessfully',200);
     }
 
     /**
@@ -63,6 +71,6 @@ class GovernmentController extends Controller
     {
         $government = Government::findOrFail($id);
         $government->delete();
-        return $this->successResponse();
+        return $this->successResponse('Deleted Sucessfully',200);
     }
 }
