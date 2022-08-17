@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePasswordFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Http\Requests\UserLoginFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -34,5 +36,17 @@ class AuthController extends Controller
         } else {
             return $this->errorResponse('Credentials not match', 401);
         }
+    }
+
+    public function ChangePassword(ChangePasswordFormRequest $request)
+    {
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return $this->errorResponse('Current password does not match!', 400);
+        }
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return $this->successResponse();
     }
 }

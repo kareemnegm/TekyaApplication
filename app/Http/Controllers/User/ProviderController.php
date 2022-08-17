@@ -8,6 +8,7 @@ use App\Http\Requests\ProviderLoginFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\ShopDetailsFormRequest;
 use App\Interfaces\ProviderInterface;
+use App\Models\PaymentOption;
 use App\Models\Provider;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
@@ -66,9 +67,21 @@ class ProviderController extends Controller
         $shopDetails = ProviderShopDetails::where('provider_id', $provider_id)->first();
         $details = $request->input();
         $details['provider_shop_details_id'] = $shopDetails->id;
-        $branch=$this->ProviderRepository->createBranch($details);
-        $details['provider_shop_branch_id']=$branch->id;
+        $branch = $this->ProviderRepository->createBranch($details);
+        $details['provider_shop_branch_id'] = $branch->id;
         $this->ProviderRepository->BranchAddress($details);
         return $this->successResponse();
     }
+
+
+    /**!payment section  */
+    public function createPaymentOption(Request $request)
+    {
+        PaymentOption::create([
+            'name' => $request->name
+        ]);
+        return $this->successResponse();
+    }
+
+    /**!end of payment section  */
 }

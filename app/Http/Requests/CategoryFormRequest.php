@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProviderLoginFormRequest extends BaseFormRequest
+class CategoryFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class ProviderLoginFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|exists:providers,email',
-            'password' => 'required'
+           'name'=>'required',
+           'category_id'=>'exists:categories,id'
         ];
     }
 }

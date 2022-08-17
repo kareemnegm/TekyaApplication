@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProviderLoginFormRequest extends BaseFormRequest
+class ChangePasswordFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class ProviderLoginFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|exists:providers,email',
-            'password' => 'required'
+            'current_password' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required',
         ];
     }
 }
