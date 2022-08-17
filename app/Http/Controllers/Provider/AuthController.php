@@ -8,6 +8,7 @@ use App\Http\Requests\ProviderLoginFormRequest;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,7 +18,7 @@ class AuthController extends Controller
      * @param ProvderSignUpFormRequest $request
      * @return void
      */
-    public function signUp(Request $request)
+    public function signUp(ProvderSignUpFormRequest $request)
     {
         $data = $request->input();
         $data['password'] = bcrypt($data['password']);
@@ -35,14 +36,20 @@ class AuthController extends Controller
      */
     public function login(ProviderLoginFormRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-        if (Auth::guard('provider')->attempt($credentials)) {
-            $auth = Auth::guard('provider')->user();
-            $token = $auth->createToken('LaravelSanctumAuth')->plainTextToken;
-            return response()->json(['provider' => $auth, "token" => $token], 200);
-        } else {
+
+        $provider = Provider::where('email', $request->email)->first();
+
+        if (!$provider || !Hash::check($request->password, $provider->password)) {
+
             return $this->errorResponse('Credentials not match', 401);
         }
+
+        $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
+        return response()->json(['provider' => $provider, "token" => $token], 200);
+
+
+
+
+
     }
-    
 }

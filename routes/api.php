@@ -14,39 +14,41 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+Route::get('government_area/{id}', 'AreaController@getAllGovernmentAreas');
+
+
+
+
+
+
+
+Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
+    /**
+     * signup
+     */
+    Route::post('/signup', 'AuthController@signUp');
+    /**
+     * login
+     */
+    Route::post('/login', 'AuthController@login');
 });
 
 
-Route::post('signup', 'User\AuthController@signUp');
-Route::post('login', 'User\AuthController@login');
-Route::put('changePassword', 'User\AuthController@ChangePassword')->middleware('auth:sanctum');
+Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
+    /**
+     * signup
+     */
+    Route::post('signup', 'AuthController@signUp');
+    /**
+     * login
+     */
+    Route::post('login', 'AuthController@login');
 
-Route::group(['prefix' => 'government'], function () {
-    Route::post('/', 'GovernmentArea\GovernmentController@store');
-    Route::put('/{id}', 'GovernmentArea\GovernmentController@update');
-    Route::get('/', 'GovernmentArea\GovernmentController@getAllGovernments');
-    Route::get('/{id}', 'GovernmentArea\GovernmentController@getGovernment');
-    Route::delete('/{id}', 'GovernmentArea\GovernmentController@getGovernment');
-});
-
-Route::group(['prefix' => 'area'], function () {
-    Route::post('/', 'GovernmentArea\AreaController@store');
-    Route::put('/{id}', 'GovernmentArea\AreaController@update');
-    Route::get('/government/{id}', 'GovernmentArea\AreaController@getAllGovernmentAreas');
-    Route::get('/{id}', 'GovernmentArea\AreaController@getArea');
-    Route::delete('/{id}', 'GovernmentArea\AreaController@destroy');
-});
-
-
-Route::group(['prefix' => 'provider'], function () {
-    Route::post('/signup', 'User\ProviderController@signUp');
-    Route::post('/login', 'User\ProviderController@login');
-    Route::post('/shopDetails', 'User\ProviderController@createShopDetails')->middleware(['auth:sanctum']);
-    Route::post('/shop/branch', 'User\ProviderController@createBranch')->middleware(['auth:sanctum']);
+    /**
+     * change password
+     */
 
 });
-
-
-

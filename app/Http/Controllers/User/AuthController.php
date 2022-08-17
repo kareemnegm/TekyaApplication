@@ -28,14 +28,15 @@ class AuthController extends Controller
 
     public function login(UserLoginFormRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-        if (Auth::guard('user')->attempt($credentials)) {
-            $auth = Auth::guard('user')->user();
-            $token = $auth->createToken('LaravelSanctumAuth')->plainTextToken;
-            return response()->json(['user' => $auth, "token" => $token], 200);
-        } else {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+
             return $this->errorResponse('Credentials not match', 401);
         }
+
+        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
+        return response()->json(['user' => $user, "token" => $token], 200);
     }
 
     public function ChangePassword(ChangePasswordFormRequest $request)

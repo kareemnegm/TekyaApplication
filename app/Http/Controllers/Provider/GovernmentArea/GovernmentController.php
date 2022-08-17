@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\GovernmentArea;
+namespace App\Http\Controllers\Provider\GovernmentArea;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GovernmentFormRequest;

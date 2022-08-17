@@ -15,8 +15,8 @@ class CreateProvidersTable extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name');
-            $table->string('email');
+            $table->string('user_name')->unique();
+            $table->string('email')->unique();
             $table->string('password');
             $table->enum('type', ['shop', 'charity']);
             $table->string('number');
