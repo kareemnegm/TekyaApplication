@@ -17,7 +17,7 @@ class Provider extends Authenticatable
         'email',
         'password',
         'type', //shop or charity
-        'number'
+        'mobile'
 
     ];
 

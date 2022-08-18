@@ -19,7 +19,7 @@ class CreateProvidersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('type', ['shop', 'charity']);
-            $table->string('number');
+            $table->string('mobile');
             $table->timestamps();
         });
     }
