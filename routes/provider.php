@@ -11,6 +11,22 @@ Route::post('/shopDetails', 'ShopController@createShopDetails');
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
 
+/**
+ * collections
+ */
+Route::apiResource('/collection', 'CollectionController');
+
+/**
+ * Prodcut
+ */
+Route::apiResource('/product', 'ProductController')->except(['show']);
+Route::get('collection/{id}/products', 'ProductController@index');
+
+
+/**
+ * Bundel
+ */
+Route::apiResource('/bundel', 'BundelController');
 
 
 /**
