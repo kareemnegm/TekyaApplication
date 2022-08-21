@@ -91,7 +91,7 @@ class CollectionRepository implements CollectionInterface
 
         $collection= Collection::findOrFail($collectionID);
         $collection->update($newDetails);
-        if (isset($newDetails['project_image'])) {
+        if (isset($newDetails['collection_image'])) {
             $collection->updateFile($newDetails['collection_image'],'collection_image');
         }
         $collection['collection_image']=$collection->getFirstMediaUrl('collection_image','thumb');
