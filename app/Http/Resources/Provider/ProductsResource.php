@@ -18,7 +18,6 @@ class ProductsResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-
             'name'=>$this->name,
             'description'=>$this->description,
             'price'=>$this->price,
@@ -28,19 +27,8 @@ class ProductsResource extends JsonResource
             'stock_quantity'=>$this->stock_quantity,
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
-
-            'variant'=>$this->when(!is_null($this->variant_id), $this->variant),
-
-            'category'=>[
-                'id'=>$this->category->id,
-                'name'=>$this->category->name
-            ],
-            'collection'=>[
-                'id'=>$this->collection->id,
-                'name'=>$this->collection->name
-            ],
-
-            'product_images'=> ImageResource::collection($this->getMedia()),
+            'product_images'=> ImageResource::collection($this->getMedia('product_images'))?? null,
+            'order'=>$this->order,
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
             'updated_at'=>$this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A'):null,
 

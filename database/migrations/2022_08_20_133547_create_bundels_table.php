@@ -22,13 +22,17 @@ class CreateBundelsTable extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('stock_quantity');
+            $table->integer('total_weight')->nullable();
+
             $table->boolean('is_published');
             $table->boolean('is_delivery');
             $table->boolean('is_pickup');
-            $table->unsignedBigInteger('collection_id')->nullable();
-            $table->foreign('collection_id')->references('id')->on('collections')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->unsignedBigInteger('shop_id') ;
+            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            
             $table->timestamps();
         });
     }

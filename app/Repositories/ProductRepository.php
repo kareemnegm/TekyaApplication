@@ -6,6 +6,7 @@ use App\Interfaces\CollectionInterface;
 use App\Interfaces\ProductInterface;
 use App\Models\Collection;
 use App\Models\Product;
+use GuzzleHttp\Psr7\Request;
 
 class ProductRepository implements ProductInterface
 {
@@ -29,11 +30,10 @@ class ProductRepository implements ProductInterface
                 $q->where('is_publish',$is_publish);
             }
 
-
             if ($request->page) {
-                $collections = $q->paginate($limit);
+                $collections = $q->orderBy('order','ASC')->paginate($limit);
             } else {
-                $collections = $q->get();
+                $collections = $q->orderBy('order','ASC')->get();
             }
 
         return $collections;
@@ -70,17 +70,15 @@ class ProductRepository implements ProductInterface
 
 
         $product=Product::create($productDetails);
-
-
+        $product->attachTags($productDetails['tags']);
 
         if (!empty($productDetails['product_images'])) {
-            foreach($productDetails['product_images'] as $productImage){
-            $product->saveFiles($productImage,'product_images');
-         }
+            // foreach($productDetails['product_images'] as $productImage){
+            $product->saveFiles($productDetails['product_images'],'product_images');
+         
 
 
         }
-
         return $product;
 
     }
@@ -94,6 +92,8 @@ class ProductRepository implements ProductInterface
 
         $product= Product::findOrFail($collectionID);
         $product->update($newDetails);
+        
+        $product->syncTags($newDetails['tags']);
 
         if (!empty($newDetails['product_images'])) {
             foreach($newDetails['product_images'] as $productImage){
@@ -105,5 +105,8 @@ class ProductRepository implements ProductInterface
         return $product;
 
     }
+
+
+    
 
 }

@@ -15,6 +15,7 @@ class Product extends Model implements HasMedia
     use HasFactory,HasTags,InteractsWithMedia , FileTrait;
 
     protected $mediaCollection = 'product_images';
+    protected $appends = ['Tags'];
 
     protected $fillable=[
         'name',
@@ -24,11 +25,13 @@ class Product extends Model implements HasMedia
         'start_date',
         'end_date',
         'stock_quantity',
+        'total_weight',
         'is_published',
         'to_donation',
         'variant_id',
         'collection_id',
         'category_id',
+        'order'
     ];
 
 
@@ -46,6 +49,11 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Collection::class,'collection_id');
     }
 
+
+    public function bundels(){
+        return $this->belongsToMany(Bundel::class , 'bundel_products')->withTimestamps();
+    }
+
        /**
      * Undocumented function
      *
@@ -58,5 +66,15 @@ class Product extends Model implements HasMedia
               ->width(400)
               ->height(600)
               ->sharpen(0);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getTagsAttribute()
+    {
+        return $this->tags()->get();
     }
 }
