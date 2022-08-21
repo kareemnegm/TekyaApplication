@@ -7,14 +7,20 @@ use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductsResource;
 use App\Interfaces\ProductInterface;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    /**
+     * Private variable
+     *
+     * @var ProductInterface
+     */
     private ProductInterface $productInterface;
 
     /**
-     * Undocumented function
+     * Product function
      *
      * @param ProductInterface $productInterface
      */
@@ -25,7 +31,7 @@ class ProductController extends Controller
 
 
     /**
-     * List Collection function
+     * List Product function
      *
      * @param Request $request
      * @return array
@@ -37,7 +43,7 @@ class ProductController extends Controller
     }
 
      /**
-     * Single Collection function
+     * Single Product function
      *
      * @param [type] $projectId
      * @return Object
@@ -50,7 +56,7 @@ class ProductController extends Controller
 
 
      /**
-     * Create Collection function
+     * Create Product function
      *
      * @param [type] $projectId
      * @return Object
@@ -70,11 +76,11 @@ class ProductController extends Controller
     public function update(ProductFormRequest $product,$productId)
     {
         $shopProduct=$this->productInterface->updateShopProduct($productId,$product->validated());
-        return $this->dataResponse(['data'=>$shopProduct],'Updated Successfully',200);
+        return $this->dataResponse(['data'=>New ProductResource($shopProduct)],'Updated Successfully',200);
     }
 
      /**
-     * Delete Single Collection function
+     * Delete Single Product function
      *
      * @param [type] $projectId
      * @return Object
@@ -84,6 +90,49 @@ class ProductController extends Controller
         $this->productInterface->deleteShopProduct($productId);
         return $this->successResponse('Deleted Successfuly',200);
 
+    }
+
+     /**
+     * Delete Single Product function
+     *
+     * @param [type] $projectId
+     * @return Object
+     */
+    public function shopProduct($productId)
+    {
+        $this->productInterface->deleteShopProduct($productId);
+        return $this->successResponse('Deleted Successfuly',200);
+
+    }
+
+     /** 
+      * Order Products
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function orderProduct(Request $request)
+    {
+        $data = $request->data;
+
+        $ids=$request->value;
+        $startIndex=($request->page-1)*$request->length;
+    
+        for($i=$startIndex+1; $i <= $request->length ; $i++){
+            if($i < count($request->value) ) {
+                $row = Product::findOrFail($ids[$i-1]);
+                if ($row) {
+                    $row->update(['order'=>$i]);
+                } 
+            }else{
+             
+                $row = Product::findOrFail($ids[$i-1]);
+                if ($row) {
+                    $row->update(['order'=>$i]);
+                } 
+               break;
+            }
+        }
+        return $this->successResponse();
     }
 
 }

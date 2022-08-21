@@ -47,12 +47,16 @@ Route::apiResource('/collection', 'CollectionController');
  */
 Route::apiResource('/product', 'ProductController')->except(['index']);
 Route::get('collection/{id}/products', 'ProductController@index');
+Route::put('order_product', 'ProductController@orderProduct');
+
 
 
 /**
  * Bundel
  */
 Route::apiResource('/bundel', 'BundelController');
+Route::put('order_bundel', 'BundelController@orderBundel');
+
 
 
 /**

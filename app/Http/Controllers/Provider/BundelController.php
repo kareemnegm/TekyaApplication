@@ -7,14 +7,20 @@ use App\Http\Requests\Provider\BundelFormRequest;
 use App\Http\Resources\Provider\BundelResource;
 use App\Http\Resources\Provider\BundelsResource;
 use App\Interfaces\BundelInterface;
+use App\Models\Bundel;
 use Illuminate\Http\Request;
 
 class BundelController extends Controller
 {
+    /**
+     * Private variable
+     *
+     * @var BundelInterface
+     */
     private BundelInterface $bundelInterface;
 
     /**
-     * Undocumented function
+     * Bundel 
      *
      * @param BundelInterface $bundelInterface
      */
@@ -23,9 +29,8 @@ class BundelController extends Controller
         $this->bundelInterface = $bundelInterface;
     }
 
-
     /**
-     * List Collection function
+     * List Bundek function
      *
      * @param Request $request
      * @return array
@@ -37,20 +42,20 @@ class BundelController extends Controller
     }
 
      /**
-     * Single Collection function
+     * Single Bundel function
      *
      * @param [type] $projectId
      * @return Object
      */
-    public function show(Request $request,$collectionId)
+    public function show(Request $request,$bundelID)
     {
-        $projects=$this->bundelInterface->getBundelById($collectionId,$request);
-        return $this->dataResponse(['data'=>New CollectionResource($projects)],'OK',200);
+        $bundel=$this->bundelInterface->getBundelById($bundelID,$request);
+        return $this->dataResponse(['data'=>New BundelResource($bundel)],'OK',200);
     }
 
 
      /**
-     * Create Collection function
+     * Create Bundel function
      *
      * @param [type] $projectId
      * @return Object
@@ -62,7 +67,7 @@ class BundelController extends Controller
     }
 
     /**
-     * Update Single Project function
+     * Update Single Bundel function
      *
      * @param [type] $projectId
      * @return Object
@@ -70,7 +75,50 @@ class BundelController extends Controller
     public function update(BundelFormRequest $bundel,$bundelID)
     {
         $shopBundel=$this->bundelInterface->updateShopBundel($bundelID,$bundel->validated());
-        return $this->dataResponse(['data'=>$shopBundel],'Updated Successfully',200);
+        return $this->dataResponse(['data'=>New BundelResource($shopBundel)],'Updated Successfully',200);
     }
 
+
+    /**
+     * Delete Single Bundel function
+     *
+     * @param [type] $projectId
+     * @return Object
+     */
+    public function destroy($bundelId)
+    {
+        $this->bundelInterface->deleteShopBundel($bundelId);
+        return $this->successResponse('Deleted Successfuly',200);
+
+    }
+
+    /** 
+      * Order Bundels
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function orderBundel(Request $request)
+    {
+        $data = $request->data;
+
+        $ids=$request->value;
+        $startIndex=($request->page-1)*$request->length;
+    
+        for($i=$startIndex+1; $i <= $request->length ; $i++){
+            if($i < count($request->value) ) {
+                $row = Bundel::findOrFail($ids[$i-1]);
+                if ($row) {
+                    $row->update(['order'=>$i]);
+                } 
+            }else{
+             
+                $row = Bundel::findOrFail($ids[$i-1]);
+                if ($row) {
+                    $row->update(['order'=>$i]);
+                } 
+               break;
+            }
+        }
+        return $this->successResponse();
+    }
 }

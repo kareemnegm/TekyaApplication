@@ -16,6 +16,8 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($this->tags);
+
         return [
             'name'=>$this->name,
             'description'=>$this->description,
@@ -27,7 +29,7 @@ class ProductResource extends JsonResource
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
 
-            'variant'=>$this->when(!is_null($this->variant_id), $this->variant),
+            'variant'=>$this->when(!is_null($this->variant_id), new VariantProductResource($this->variant)),
 
             'category'=>[
                 'id'=>$this->category->id,
@@ -37,8 +39,10 @@ class ProductResource extends JsonResource
                 'id'=>$this->collection->id,
                 'name'=>$this->collection->name
             ],
+            'tags'=>$this->when(isset($this->tags),  TagsResource::collection($this->tags)),
 
-            'product_images'=> ImageResource::collection($this->getMedia()),
+        
+            'product_images'=> ImageResource::collection($this->getMedia('product_images'))?? null,
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
             'updated_at'=>$this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A'):null,
 
