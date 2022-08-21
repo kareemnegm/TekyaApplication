@@ -24,8 +24,7 @@ class ShopBranchResource extends JsonResource
             'is_active' => $this->is_active,
             'address' => $address,
             'working_days' => json_decode($this->working_hours_day),
-            'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
-            'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
+        
 
         ];
     }
