@@ -28,6 +28,7 @@ class ShopBranchFormRequest extends BaseFormRequest
             "phone"=>"required|numeric",
             "is_head"=>'required',
             "working_hours_day"=>"required",
+            "working_hours_day.*.startTimeStandard"=>"in:AM,PM",
             "address"=>"required",
             "street"=>"required",
             "area"=>"required",
