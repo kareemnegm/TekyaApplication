@@ -24,7 +24,7 @@ class CategoryFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-           'name'=>'required',
+           'name'=>'required|unique:categories,name',
            'category_id'=>'exists:categories,id'
         ];
     }

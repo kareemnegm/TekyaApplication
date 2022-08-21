@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         $details = $request->input();
         $this->CategoryRepository->createCategory($details);
-        return $this->successResponse();
+        return $this->successResponse('created successfully',201);
     }
 
     public function update(CategoryFormRequest $request, $id)
