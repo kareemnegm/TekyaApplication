@@ -54,8 +54,8 @@ Route::put('order_product', 'ProductController@orderProduct');
 /**
  * Bundel
  */
-Route::apiResource('/bundel', 'BundelController');
-Route::put('order_bundel', 'BundelController@orderBundel');
+Route::apiResource('/bundle', 'BundelController');
+Route::put('order_bundle', 'BundelController@orderBundel');
 
 
 
