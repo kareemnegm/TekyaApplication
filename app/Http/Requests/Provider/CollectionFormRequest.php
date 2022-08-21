@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Provider;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-class ProvderSignUpFormRequest extends BaseFormRequest
+class CollectionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,9 @@ class ProvderSignUpFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'user_name'=>'required|unique:providers,user_name',
-            'email'=>'required|unique:providers,email',
-            'password'=>'required|min:8',
-            'type'=>'required',
-            'mobile'=>'required|unique:providers,mobile|numeric',
+            'name'=>'required',
+            'is_published'=>'required|in:1,0',
+            'collection_image'=>'nullable'
         ];
     }
 }

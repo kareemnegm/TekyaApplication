@@ -17,6 +17,7 @@ class AuthController extends Controller
 
     public function signUp(UserFormRequest $request)
     {
+        
         $data = $request->input();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
