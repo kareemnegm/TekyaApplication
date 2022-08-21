@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $details = $request->input();
         $this->CategoryRepository->updateCategory($details, $id);
-        return $this->successResponse();
+        return $this->successResponse('updated successfully',200);
     }
 
     public function index(Request $request)
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     public function delete($id)
     {
         $this->CategoryRepository->deleteCategory($id);
-        return $this->successResponse();
+        return $this->successResponse('deleted successfully',200);
     }
 
     public function show($id){
