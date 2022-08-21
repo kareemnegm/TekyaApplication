@@ -51,5 +51,5 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     /**
      * change password
      */
-
 });
+Route::get('category/{id}/shops', 'Provider\ShopController@getShopByCategoryId');

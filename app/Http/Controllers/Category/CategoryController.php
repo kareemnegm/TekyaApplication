@@ -29,9 +29,9 @@ class CategoryController extends Controller
         return $this->successResponse();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return  $this->CategoryRepository->getCategories();
+        return  $this->CategoryRepository->getCategories($request);
     }
 
     public function delete($id)
@@ -40,7 +40,7 @@ class CategoryController extends Controller
         return $this->successResponse();
     }
 
-    public function get($id){
+    public function show($id){
        return  $this->CategoryRepository->getCategory($id);
 
     }

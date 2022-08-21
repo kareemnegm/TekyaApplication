@@ -29,7 +29,7 @@ class UserFormRequest extends BaseFormRequest
             'email'=>'required|email|unique:users',
             'password'=>'required|min:8',
             'mobile'=>'required|numeric',
-            'mobile_code'=>'required|in:010,011,012',
+            'gender'=>'required|in:male,female',
             'government_id'=>'required|exists:governments,id',
             'area_id'=>'required|exists:areas,id',
         ];

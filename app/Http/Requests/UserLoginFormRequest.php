@@ -25,7 +25,8 @@ class UserLoginFormRequest extends BaseFormRequest
     {
 
         return [
-            'email' => 'required|string|exists:users,email',
+            'email' => 'required_without:mobile|string|exists:users,email',
+            'mobile'=>'required_without:email|exists:users,mobile',
             'password' => 'required'
 
         ];

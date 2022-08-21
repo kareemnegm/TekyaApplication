@@ -55,9 +55,14 @@ class ShopController extends Controller
     }
 
 
+
     public function getShopDetails()
     {
         $provider_id = Auth::user()->id;
        return $this->dataResponse(['data'=>$this->ProviderRepository->getShopDetails($provider_id)],'success',200);
+    }
+
+    public function getShopByCategoryId($id,Request $request){
+        return $this->ProviderRepository->getShopByCategoryId($id,$request);
     }
 }

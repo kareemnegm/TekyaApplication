@@ -19,17 +19,21 @@ class CategoryClass implements CategoryInterface
         $category->update($details);
     }
 
-    public function getCategories()
+    public function getCategories($details)
     {
-        return CategoryResource::collection(Category::where('category_id',null)->with('children')->get());
+        $limit = $details->limit ? $details->limit : 10;
+
+        return CategoryResource::collection(Category::where('category_id', null)->with('children')->paginate($limit));
     }
 
-    public function deleteCategory($id){
-        $category=Category::findOrFail($id);
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
         $category->delete();
     }
 
-    public function getCategory($id){
+    public function getCategory($id)
+    {
         return  new CategoryResource(Category::findOrFail($id));
     }
 }

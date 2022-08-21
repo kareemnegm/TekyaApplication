@@ -36,21 +36,30 @@ class ProviderClass implements ProviderInterface
     }
 
 
-    
-    public function getShopDetails($id){
+
+    public function getShopDetails($id)
+    {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
         return new  ShopDetailsResource($shopDetails);
+    }
 
+
+    public function getShopByCategoryId($id, $details)
+    {
+        $limit = $details->limit ? $details->limit : 10;
+        $shops = ProviderShopDetails::where('category_id', $id)->paginate($limit);
+        return ShopDetailsResource::collection($shops);
     }
 
 
 
 
 
-/**
- *!branch section
- *
- */
+    /**
+     *!branch section
+     *
+     */
+
     public function createBranch($details)
     {
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
@@ -90,8 +99,9 @@ class ProviderClass implements ProviderInterface
         $branch->delete();
     }
 
-/**
- *!end of branch section
- *
- */
+
+    /**
+     *!end of branch section
+     *
+     */
 }

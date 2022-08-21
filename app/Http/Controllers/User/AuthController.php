@@ -17,7 +17,7 @@ class AuthController extends Controller
 
     public function signUp(UserFormRequest $request)
     {
-        
+
         $data = $request->input();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
@@ -29,7 +29,11 @@ class AuthController extends Controller
 
     public function login(UserLoginFormRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
+        if (isset($request->email) && !empty($request->email)) {
+            $user = User::where('email', $request->email)->first();
+        } elseif (isset($request->mobile) && !empty($request->mobile)) {
+            $user = User::where('mobile', $request->mobile)->first();
+        }
 
         if (!$user || !Hash::check($request->password, $user->password)) {
 
