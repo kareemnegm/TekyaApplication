@@ -22,7 +22,7 @@ class ShopBranchResource extends JsonResource
             'is_head' => $this->is_head,
             'is_active' => $this->is_active,
             'address' => $address,
-            'working_days' => ($this->working_hours_day),
+            'working_days' => json_decode($this->working_hours_day),
         ];
     }
 }
