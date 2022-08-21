@@ -26,7 +26,7 @@ Route::put('changePassword', 'AuthController@ChangePassword');
  * shopDetails
  */
 
-Route::post('/shopDetails', 'ShopController@updateShopDetails');
+Route::put('/shopDetails', 'ShopController@updateShopDetails');
 Route::get('/shopDetails', 'ShopController@getShopDetails');
 /**
  * /shop/branch

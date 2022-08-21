@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Provider;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PaymentResource;
-use App\Models\PaymentOption;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +14,18 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return $this->dataResponse(['data'=>PaymentResource::collection(PaymentOption::all())],'OK',200);
-
+        //
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -29,10 +35,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        PaymentOption::create([
-            'name' => $request->name
-        ]);
-        return $this->successResponse('created successfully',201);
+        //
     }
 
     /**
@@ -41,11 +44,20 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function show($id)
     {
-        return $this->dataResponse(['data'=>new PaymentResource(PaymentOption::findOrFail($id))],'OK',200);
+        //
+    }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -57,10 +69,7 @@ class PaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $payment = PaymentOption::findOrFail($id);
-        $payment->update($request->input());
-        return $this->successResponse('Updated Successfully',200);
-
+        //
     }
 
     /**
@@ -71,9 +80,6 @@ class PaymentController extends Controller
      */
     public function destroy($id)
     {
-        $payment = PaymentOption::findOrFail($id);
-        $payment->delete();
-        return $this->successResponse('deleted Successfully',200);
+        //
     }
-
 }
