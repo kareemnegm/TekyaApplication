@@ -48,8 +48,10 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
      */
     Route::post('login', 'AuthController@login');
 
-    /**
-     * change password
-     */
+
+    Route::get('categories', 'CategoryController@index');
 });
+
+
+
 Route::get('category/{id}/shops', 'Provider\ShopController@getShopByCategoryId');

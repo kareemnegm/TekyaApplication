@@ -14,14 +14,12 @@ class CreateBundelProductsTable extends Migration
     public function up()
     {
         Schema::create('bundel_products', function (Blueprint $table) {
-            
+
             $table->id();
-    
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
-
             $table->unsignedBigInteger('bundel_id');
-            $table->foreign('bundel_id')->references('id')->on('bundel_id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('bundel_id')->references('id')->on('bundels')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
