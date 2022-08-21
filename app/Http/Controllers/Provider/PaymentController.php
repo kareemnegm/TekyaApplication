@@ -41,7 +41,7 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function show($id)
     {
         return $this->dataResponse(['data'=>new PaymentResource(PaymentOption::findOrFail($id))],'OK',200);
@@ -58,7 +58,7 @@ class PaymentController extends Controller
     public function update(Request $request, $id)
     {
         $payment = PaymentOption::findOrFail($id);
-        $payment->update($request->validated());
+        $payment->update($request->input());
         return $this->successResponse('Updated Successfully',200);
 
     }

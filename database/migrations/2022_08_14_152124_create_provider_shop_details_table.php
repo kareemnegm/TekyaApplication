@@ -21,9 +21,10 @@ class CreateProviderShopDetailsTable extends Migration
             $table->string('instagram_link')->nullable();
             $table->string('email')->nullable();
             $table->string('web_site')->nullable();
-            $table->string('image')->nullable();
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')->references('id')->on('providers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

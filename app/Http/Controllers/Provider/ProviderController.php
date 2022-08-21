@@ -31,7 +31,6 @@ class ProviderController extends Controller
 
     public function updateShopAndUserName(Request $request)
     {
-
         $details = $request->input();
         $user = Auth::user();
         $this->ProviderRepository->updateShopDetails($details,$user->id);
