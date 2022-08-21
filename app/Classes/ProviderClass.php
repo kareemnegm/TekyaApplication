@@ -36,7 +36,7 @@ class ProviderClass implements ProviderInterface
         if (isset($details['shop_cover'])) {
             $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
         }else{
-            $shopDetails->clearMediaCollectionExcept('shop_logo');
+            $shopDetails->clearMediaCollectionExcept('shop_cover');
 
         }
         $shopDetails->update($details);
