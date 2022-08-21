@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Provider;
 
+use App\Http\Resources\ImageResource;
 use App\Models\Government;
 use Illuminate\Http\Resources\Json\JsonResource;
 
