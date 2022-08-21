@@ -79,7 +79,7 @@ class BundelRepository implements BundelInterface
         }
 
 
-        if (!empty($bundelDetails['products_ids'])) {
+        if (!empty($bundelDetails['products'])) {
             $product->products()->attach($bundelDetails['products_ids']);
         }
 
@@ -113,7 +113,7 @@ class BundelRepository implements BundelInterface
 
         if (!empty($newDetails['bundel_images'])) {
             $product->saveFiles($newDetails['bundel_images'],'bundel_images');
-         
+
         }
 
 
@@ -122,6 +122,6 @@ class BundelRepository implements BundelInterface
     }
 
 
-    
+
 
 }
