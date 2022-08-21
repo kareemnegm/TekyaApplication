@@ -32,6 +32,20 @@ class Product extends Model implements HasMedia
     ];
 
 
+    public function variant() {
+        return $this->belongsTo(static::class, 'variant_id');
+      }
+
+     public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class,'collection_id');
+    }
+
        /**
      * Undocumented function
      *

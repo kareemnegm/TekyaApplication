@@ -19,7 +19,7 @@ Route::apiResource('/collection', 'CollectionController');
 /**
  * Prodcut
  */
-Route::apiResource('/product', 'ProductController')->except(['show']);
+Route::apiResource('/product', 'ProductController')->except(['index']);
 Route::get('collection/{id}/products', 'ProductController@index');
 
 

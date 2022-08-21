@@ -75,14 +75,14 @@ class CollectionController extends Controller
     }
 
     /**
-     * Update Single Project function
+     * Delete Single Collection function
      *
      * @param [type] $projectId
      * @return Object
      */
-    public function destory($collectionID)
+    public function destroy($collectionID)
     {
-        $collection=$this->collectionInterface->deleteShopCollection($collectionID);
+        $this->collectionInterface->deleteShopCollection($collectionID);
         return $this->successResponse('Deleted Successfuly',200);
 
     }

@@ -26,7 +26,7 @@ class Provider extends Authenticatable
         return $this->hasOne(ProviderShopDetails::class);
     }
 
-
+  
 
     protected $hidden = [
         'password',

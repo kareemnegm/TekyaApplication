@@ -32,8 +32,8 @@ class ProductController extends Controller
      */
     public function index(Request $request,$collection_id)
     {
-        $bundels=$this->productInterface->getAllShopProduct($request,$collection_id);
-        return $this->dataResponse(['data'=>ProductsResource::collection($bundels)],'OK',200);
+        $products=$this->productInterface->getAllShopProduct($request,$collection_id);
+        return ProductsResource::collection($products);
     }
 
      /**
@@ -71,6 +71,19 @@ class ProductController extends Controller
     {
         $shopProduct=$this->productInterface->updateShopProduct($productId,$product->validated());
         return $this->dataResponse(['data'=>$shopProduct],'Updated Successfully',200);
+    }
+
+     /**
+     * Delete Single Collection function
+     *
+     * @param [type] $projectId
+     * @return Object
+     */
+    public function destroy($productId)
+    {
+        $this->productInterface->deleteShopProduct($productId);
+        return $this->successResponse('Deleted Successfuly',200);
+
     }
 
 }

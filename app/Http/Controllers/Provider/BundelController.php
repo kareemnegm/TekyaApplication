@@ -33,7 +33,7 @@ class BundelController extends Controller
     public function index(Request $request)
     {
         $bundels=$this->bundelInterface->getAllShopBundel($request);
-        return $this->dataResponse(['data'=>BundelsResource::collection($bundels)],'OK',200);
+        return BundelsResource::collection($bundels);
     }
 
      /**
