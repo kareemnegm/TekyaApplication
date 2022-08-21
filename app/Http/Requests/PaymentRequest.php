@@ -24,7 +24,7 @@ class PaymentRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'=>'required|unique:payments,name'
+            'name'=>'required|unique:payment_options,name'
         ];
     }
 }
