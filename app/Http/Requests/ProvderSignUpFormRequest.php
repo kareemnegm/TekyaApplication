@@ -28,7 +28,7 @@ class ProvderSignUpFormRequest extends BaseFormRequest
             'email'=>'required|unique:providers,email',
             'password'=>'required|min:8',
             'type'=>'required',
-            'number'=>'required|unique:providers,number|numeric',
+            'mobile'=>'required|unique:providers,mobile|numeric',
         ];
     }
 }

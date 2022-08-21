@@ -2,10 +2,26 @@
 use Illuminate\Support\Facades\Route;
 
 
+/***
+ *
+ * !my account
+ */
+Route::put('/myAccount', 'ProviderController@updateShopAndUserName');
+Route::put('changePassword', 'AuthController@ChangePassword');
+
+
+
+/**
+ * !end of my account
+ */
+
+
+
 /**
  * shopDetails
  */
-Route::post('/shopDetails', 'ShopController@createShopDetails');
+
+Route::post('/shopDetails', 'ShopController@updateShopDetails');
 /**
  * /shop/branch
  */

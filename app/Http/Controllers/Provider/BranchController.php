@@ -27,15 +27,15 @@ class BranchController extends Controller
     {
         $this->ProviderRepository = $ProviderRepository;
     }
-    
+
     public function createBranch(ShopBranchFormRequest $request)
     {
         $provider_id = Auth::user()->id;
         $shopDetails = ProviderShopDetails::where('provider_id', $provider_id)->first();
         $details = $request->input();
         $details['provider_shop_details_id'] = $shopDetails->id;
-        $branch=$this->ProviderRepository->createBranch($details);
-        $details['provider_shop_branch_id']=$branch->id;
+        $branch = $this->ProviderRepository->createBranch($details);
+        $details['provider_shop_branch_id'] = $branch->id;
         $this->ProviderRepository->BranchAddress($details);
         return $this->successResponse();
     }

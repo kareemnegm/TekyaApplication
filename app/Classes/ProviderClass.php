@@ -9,10 +9,22 @@ use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 
 class ProviderClass implements ProviderInterface{
-    
+
+    /**
+     * shop details
+     */
     public function createShopDetails($details){
         ProviderShopDetails::create($details);
     }
+
+
+    public function updateShopDetails($details,$id){
+        $shopDetails=ProviderShopDetails::where('provider_id',$id)->first();
+        $shopDetails->update($details);
+    }
+
+
+
 
     public function createBranch($details){
         $data=providerShopBranch::create($details);
