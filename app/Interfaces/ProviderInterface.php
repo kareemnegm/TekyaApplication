@@ -15,7 +15,7 @@ interface ProviderInterface{
     */
     public function createBranch($details);
     public function updateBranch($details,$id);
-    public function getBranches($id);
+    public function getBranches($id,$details);
     public function deleteBranch($id);
     public function BranchAddress($branchDetails);
      /**

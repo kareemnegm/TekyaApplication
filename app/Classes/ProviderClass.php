@@ -81,9 +81,11 @@ class ProviderClass implements ProviderInterface
         BranchAddress::create($branchDetails);
     }
 
-    public function getBranches($id)
+    public function getBranches($id,$details)
     {
-        $branches = providerShopBranch::where('provider_shop_details_id', $id)->get();
+        $limit = $details->limit ? $details->limit : 10;
+
+        $branches = providerShopBranch::where('provider_shop_details_id', $id)->paginate($limit);
         return ShopBranchResource::collection($branches);
     }
 
