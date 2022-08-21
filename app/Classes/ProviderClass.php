@@ -2,38 +2,96 @@
 
 namespace App\Classes;
 
+use App\Http\Resources\Provider\ShopBranchResource;
+use App\Http\Resources\Provider\ShopDetailsResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\BranchAddress;
 use App\Models\Provider;
 use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 
-class ProviderClass implements ProviderInterface{
+class ProviderClass implements ProviderInterface
+{
 
     /**
      * shop details
      */
-    public function createShopDetails($details){
-        ProviderShopDetails::create($details);
+    public function createShopDetails($details)
+    {
+
+        $provider = ProviderShopDetails::create($details);
     }
 
 
-    public function updateShopDetails($details,$id){
-        $shopDetails=ProviderShopDetails::where('provider_id',$id)->first();
+    public function updateShopDetails($details, $id)
+    {
+        $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
+        if (isset($details['shop_logo'])) {
+            $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
+        }
+        if (isset($details['shop_cover'])) {
+            $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
+        }
         $shopDetails->update($details);
     }
 
 
+    
+    public function getShopDetails($id){
+        $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
+        return new  ShopDetailsResource($shopDetails);
+
+    }
 
 
-    public function createBranch($details){
-        $data=providerShopBranch::create($details);
+
+
+
+/**
+ *!branch section
+ *
+ */
+    public function createBranch($details)
+    {
+        $details['working_hours_day'] = json_encode($details['working_hours_day']);
+        $data = providerShopBranch::create($details);
+        $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
         return $data;
     }
 
 
-    public function BranchAddress($branchDetails){
+    public function BranchAddress($branchDetails)
+    {
         BranchAddress::create($branchDetails);
     }
 
+    public function getBranches($id)
+    {
+        $branches = providerShopBranch::where('provider_shop_details_id', $id)->get();
+        return ShopBranchResource::collection($branches);
+    }
+
+    public function updateBranch($details, $id)
+    {
+        $branch = providerShopBranch::findOrFail($id);
+        if (isset($details['address']) && !empty($details['address'])) {
+            $address = BranchAddress::where('provider_shop_branch_id', $branch->id)->first();
+            $address->update($details);
+        }
+        if (isset($details['working_hours_day'])) {
+            $details['working_hours_day'] = json_encode($details['working_hours_day']);
+        }
+        $branch->update($details);
+    }
+
+    public function deleteBranch($id)
+    {
+        $branch = providerShopBranch::findOrFail($id);
+        $branch->delete();
+    }
+
+/**
+ *!end of branch section
+ *
+ */
 }

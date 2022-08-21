@@ -15,32 +15,32 @@ class CategoryController extends Controller
         $this->CategoryRepository = $CategoryRepository;
     }
 
-    public function createCategory(CategoryFormRequest $request)
+    public function store(CategoryFormRequest $request)
     {
         $details = $request->input();
         $this->CategoryRepository->createCategory($details);
         return $this->successResponse();
     }
 
-    public function updateCategory(CategoryFormRequest $request, $id)
+    public function update(CategoryFormRequest $request, $id)
     {
         $details = $request->input();
         $this->CategoryRepository->updateCategory($details, $id);
         return $this->successResponse();
     }
 
-    public function getCategories()
+    public function index()
     {
         return  $this->CategoryRepository->getCategories();
     }
 
-    public function categoryDelete($id)
+    public function delete($id)
     {
         $this->CategoryRepository->deleteCategory($id);
         return $this->successResponse();
     }
 
-    public function getCategoryById($id){
+    public function get($id){
        return  $this->CategoryRepository->getCategory($id);
 
     }

@@ -16,16 +16,26 @@ Route::put('changePassword', 'AuthController@ChangePassword');
  */
 
 
+ /**payment option */
+
+ Route::apiResource('/payment', 'PaymentController');
+
+ /**end of payment option  */
 
 /**
  * shopDetails
  */
 
 Route::post('/shopDetails', 'ShopController@updateShopDetails');
+Route::get('/shopDetails', 'ShopController@getShopDetails');
 /**
  * /shop/branch
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
+Route::get('/shop/branches', 'BranchController@getBranches');
+Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
+Route::delete('/shop/branch/{id}', 'BranchController@deleteBranch');
+
 
 /**
  * collections
