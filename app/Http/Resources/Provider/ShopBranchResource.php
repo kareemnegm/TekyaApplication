@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Provider;
 
+use App\Http\Resources\ImageResource;
 use App\Models\Government;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,9 @@ class ShopBranchResource extends JsonResource
             'is_active' => $this->is_active,
             'address' => $address,
             'working_days' => json_decode($this->working_hours_day),
+            'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
+            'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
+
         ];
     }
 }
