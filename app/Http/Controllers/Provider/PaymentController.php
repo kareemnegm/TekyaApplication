@@ -32,7 +32,7 @@ class PaymentController extends Controller
         PaymentOption::create([
             'name' => $request->name
         ]);
-        return $this->successResponse();
+        return $this->successResponse('created successfully',201);
     }
 
     /**
