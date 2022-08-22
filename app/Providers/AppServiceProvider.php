@@ -10,10 +10,15 @@ use App\Interfaces\CategoryInterface;
 use App\Interfaces\CollectionInterface;
 use App\Interfaces\ProductInterface;
 use App\Interfaces\ProviderInterface;
+use App\Interfaces\User\ShopInrerface;
 use App\Repositories\BundelRepository;
 use App\Repositories\CartRepository;
 use App\Repositories\CollectionRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\User\ShopRepository;
+use App\Interfaces\User\CategoryInterface as CategoryUserInterface;
+use App\Repositories\User\CategoryRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CartInterface::class, CartRepository::class);
         $this->app->bind(BundelInterface::class, BundelRepository::class);
         $this->app->bind(CategoryInterface::class, CategoryClass::class);
+        
+
+        $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
+
+        $this->app->bind(ShopInrerface::class, ShopRepository::class);
 
 
     }
