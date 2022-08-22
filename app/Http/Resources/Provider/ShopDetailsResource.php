@@ -16,16 +16,17 @@ class ShopDetailsResource extends JsonResource
      */
     public function toArray($request)
     {
+            
         return [
             'id' => $this->id,
             'shop_name' => $this->shop_name,
-            'whatsapp_number' => $this->whatsapp_number?$this->whatsapp_number:null,
-            'facebook_link' => $this->facebook_link?$this->facebook_link:null,
-            'email' => $this->instagram_link?$this->instagram_link:null,
-            'email' => $this->email?$this->email:null,
-            'web_site' => $this->web_site?$this->web_site:null,
-            'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
-            'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
+            'whatsapp_number' => $this->whatsapp_number ? $this->whatsapp_number : null,
+            'facebook_link' => $this->facebook_link ? $this->facebook_link : null,
+            'email' => $this->instagram_link ? $this->instagram_link : null,
+            'email' => $this->email ? $this->email : null,
+            'web_site' => $this->web_site ? $this->web_site : null,
+            'shop_logo' => new ImageResource($this->getFirstMedia('shop_logo')) ?? null,
+            'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
         ];
     }
 }

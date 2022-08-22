@@ -12,12 +12,12 @@ use Spatie\Tags\HasTags;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory,HasTags,InteractsWithMedia , FileTrait;
+    use HasFactory, HasTags, InteractsWithMedia, FileTrait;
 
     protected $mediaCollection = 'product_images';
     protected $appends = ['Tags'];
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'description',
         'price',
@@ -35,26 +35,33 @@ class Product extends Model implements HasMedia
     ];
 
 
-    public function variant() {
-        return $this->belongsTo(static::class, 'variant_id');
-      }
-
-     public function category()
+    public function cart()
     {
-        return $this->belongsTo(Category::class,'category_id');
+        return $this->belongsToMany(Cart::class,'cart_product')->withPivot(['provider_shop_detail_id','quantity'])->withTimestamps();
+    }
+
+    public function variant()
+    {
+        return $this->belongsTo(static::class, 'variant_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function collection()
     {
-        return $this->belongsTo(Collection::class,'collection_id');
+        return $this->belongsTo(Collection::class, 'collection_id');
     }
 
 
-    public function bundels(){
-        return $this->belongsToMany(Bundel::class , 'bundel_products')->withTimestamps();
+    public function bundels()
+    {
+        return $this->belongsToMany(Bundel::class, 'bundel_products')->withTimestamps();
     }
 
-       /**
+    /**
      * Undocumented function
      *
      * @param Media $media
@@ -63,9 +70,9 @@ class Product extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-              ->width(400)
-              ->height(600)
-              ->sharpen(0);
+            ->width(400)
+            ->height(600)
+            ->sharpen(0);
     }
 
     /**

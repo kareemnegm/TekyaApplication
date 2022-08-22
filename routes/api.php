@@ -50,6 +50,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
 
     Route::get('categories', 'CategoryController@index');
+  
 });
 
 
