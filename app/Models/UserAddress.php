@@ -13,15 +13,15 @@ class UserAddress extends Model
         'user_id',
         're_name',
         're_mobile',
-        'street,
-        address_details',
+        'street',
+        'address_details',
         'nearest_landMark',
         'notes',
         'is_default',
         'area'
     ];
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
 }

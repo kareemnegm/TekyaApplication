@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\User;
 
-use App\Interfaces\CartInterface;
+use App\Http\Resources\User\CartProductResource;
+use App\Interfaces\User\CartInterface;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
@@ -19,11 +20,19 @@ class CartRepository implements CartInterface
     public function IncreaseOrDecreaseProductQuantity($product)
     {
 
+        $cart = Cart::findOrFail($product['cart_id']);
         if ($product['quantity'] == 0) {
-            DB::table('cart_product')->where('cart_id', $product['cart_id'])->where('product_id', $product['product_id'])->delete();
+            $cart = $cart->product()->detach($product['product_id']);
         } else {
-            DB::table('cart_product')->where('cart_id', $product['cart_id'])->where('product_id', $product['product_id'])->update(['quantity' => $product['quantity']]);
-            
+            $cart = $cart->product()->syncWithPivotValues($product['product_id'], ['quantity' => $product['quantity']]);
         }
+    }
+
+
+    public function getCartProducts($cart_id)
+    {
+        $cart = Cart::findOrFail($cart_id);
+       return CartProductResource::collection($cart->product()->get());
+
     }
 }
