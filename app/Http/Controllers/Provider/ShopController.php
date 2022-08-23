@@ -23,7 +23,9 @@ class ShopController extends Controller
     /***
      *
      */
-    public function __construct(ProviderInterface $ProviderRepository)
+
+
+     public function __construct(ProviderInterface $ProviderRepository)
     {
         $this->ProviderRepository = $ProviderRepository;
     }
@@ -65,4 +67,6 @@ class ShopController extends Controller
     public function getShopByCategoryId($id,Request $request){
         return $this->ProviderRepository->getShopByCategoryId($id,$request);
     }
+
+
 }

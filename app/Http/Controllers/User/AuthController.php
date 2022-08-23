@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Http\Requests\UserLoginFormRequest;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class AuthController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
+        Cart::create(['user_id' => $user->id]);
         return $this->dataResponse(['data' => $user, 'token' => $token], 'success', 201);
     }
 

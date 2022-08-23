@@ -14,7 +14,7 @@ class ProviderClass implements ProviderInterface
 {
 
     /**
-     * shop details
+     * !shop details
      */
     public function createShopDetails($details)
     {
@@ -58,7 +58,10 @@ class ProviderClass implements ProviderInterface
         return ShopDetailsResource::collection($shops);
     }
 
-
+    
+/**
+ * !end of shopDetails
+ */
 
 
 

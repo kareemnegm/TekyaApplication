@@ -25,7 +25,7 @@ class ShopController extends Controller
     {
         $this->shopRepository = $shopRepository;
     }
-   
+
     /**
      * Display a listing of the resource.
      *
@@ -45,17 +45,6 @@ class ShopController extends Controller
     {
         $newShops=$this->shopRepository->newShops($request);
         return ShopResource::collection($newShops);
-    }
-
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function shopsProducts(Request $request)
-    {
-        $newShops=$this->shopRepository->shopsProducts($request);
-        return ShopsProductsResoruce::collection($newShops);
     }
 
    

@@ -32,8 +32,13 @@ class User extends Authenticatable
         'mobile_code',
 
     ];
-    public function userAddress(){
+    public function userAddress()
+    {
         return $this->hasMany(UserAddress::class);
+    }
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 
     /**
@@ -41,7 +46,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-protected $hidden = [
+    protected $hidden = [
         'password',
         'remember_token',
     ];
