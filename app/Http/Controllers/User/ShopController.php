@@ -47,5 +47,18 @@ class ShopController extends Controller
         return ShopResource::collection($newShops);
     }
 
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function shopsProducts(Request $request)
+    {
+        $newShops=$this->shopRepository->shopsProducts($request);
+        return ShopsProductsResoruce::collection($newShops);
+    }
+
    
+
 }
