@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\ProductsFormRequest;
-use App\Interfaces\CartInterface;
+use App\Interfaces\User\CartInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,9 +29,14 @@ class CartController extends Controller
     {
         $products = $request->input();
         $products['cart_id'] =  Auth::user()->cart->id;
-
         $this->CartRepository->IncreaseOrDecreaseProductQuantity($products);
         return $this->successResponse('updated successfully', 200);
     }
 
+    public function getCartProducts()
+    {
+        $cart_id = Auth::user()->cart->id;
+       return  $this->CartRepository->getCartProducts($cart_id);
+
+    }
 }

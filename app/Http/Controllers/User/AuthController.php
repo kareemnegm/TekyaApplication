@@ -4,8 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordFormRequest;
-use App\Http\Requests\UserFormRequest;
-use App\Http\Requests\UserLoginFormRequest;
+use App\Http\Requests\User\UserFormRequest;
+use App\Http\Requests\User\UserLoginFormRequest;
 use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;

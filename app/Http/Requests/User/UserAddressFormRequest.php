@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserLoginFormRequest extends BaseFormRequest
+class UserAddressFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +24,10 @@ class UserLoginFormRequest extends BaseFormRequest
      */
     public function rules()
     {
-
         return [
-            'email' => 'required_without:mobile|string|exists:users,email',
-            'mobile'=>'required_without:email|exists:users,mobile',
-            'password' => 'required'
-
+            'address'=>'required',
+            'street'=>'required',
+            'address_details'=>'required',
         ];
     }
 }
