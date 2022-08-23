@@ -63,7 +63,8 @@ class CategoryRepository implements CategoryInterface
         $limit=$request->limit ?$request->limit:10;
 
 
-            $q = ProviderShopDetails::query();
+            $category = Category::findOrFail($categoryID);
+            $q=$category->shops();
 
             // if ($request->is_publish) {
             //     $is_publish = $request->is_publish === 'true'? 1: 0;
@@ -88,7 +89,8 @@ class CategoryRepository implements CategoryInterface
 
         $limit=$request->limit ?$request->limit:10;
 
-            $q = ProviderShopDetails::query();
+            $category = Category::findOrFail($categoryID);
+            $q=$category->products();
 
             // if ($request->is_publish) {
             //     $is_publish = $request->is_publish === 'true'? 1: 0;

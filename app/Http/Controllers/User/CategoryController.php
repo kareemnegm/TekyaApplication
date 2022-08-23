@@ -75,7 +75,7 @@ class CategoryController extends Controller
      */
     public function categoryProducts(Request $request,$categoryID)
     {
-        $categoryProducts=$this->CategoryRepository->categoryShops($request,$categoryID);
+        $categoryProducts=$this->CategoryRepository->categoryProducts($request,$categoryID);
         return ProductsResource::collection($categoryProducts);
 
     }

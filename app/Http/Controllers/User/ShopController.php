@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ShopResource;
+use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Interfaces\User\ShopInrerface;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,17 @@ class ShopController extends Controller
     {
         $newShops=$this->shopRepository->newShops($request);
         return ShopResource::collection($newShops);
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function shopsProducts(Request $request)
+    {
+        $newShops=$this->shopRepository->shopsProducts($request);
+        return ShopsProductsResoruce::collection($newShops);
     }
 
    

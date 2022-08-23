@@ -5,7 +5,7 @@ namespace App\Http\Resources\User;
 use App\Http\Resources\ImageResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShopResource extends JsonResource
+class ShopsProductsResoruce extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,6 +20,7 @@ class ShopResource extends JsonResource
         'shop_name' => $this->shop_name,
         'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
         'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
+        'shop_products'=>ProductsResource::collection($this->products()->orderBy('order','ASC')->take(1)->get())?? null
 
        ];
     }

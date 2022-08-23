@@ -12,7 +12,7 @@ use Spatie\Tags\HasTags;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory,HasTags,InteractsWithMedia , FileTrait;
+    use HasFactory,HasTags,InteractsWithMedia,FileTrait;
 
     protected $mediaCollection = 'product_images';
     protected $appends = ['Tags'];
@@ -31,27 +31,57 @@ class Product extends Model implements HasMedia
         'variant_id',
         'collection_id',
         'category_id',
+        'shop_id',
         'order'
     ];
 
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function variant() {
         return $this->belongsTo(static::class, 'variant_id');
       }
 
+      /**
+       * Undocumented function
+       *
+       * @return void
+       */
      public function category()
     {
         return $this->belongsTo(Category::class,'category_id');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function collection()
     {
         return $this->belongsTo(Collection::class,'collection_id');
     }
 
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function bundels(){
         return $this->belongsToMany(Bundel::class , 'bundel_products')->withTimestamps();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function shop(){
+        return $this->belongsTo(ProviderShopDetails::class , 'shop_id');
     }
 
        /**

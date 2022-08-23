@@ -30,4 +30,15 @@ class Category extends Model
     {
         return $this->children()->with(['subs']);
     }
+
+    public function shops()
+    {
+        return $this->hasMany(ProviderShopDetails::class, 'category_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id');
+    }
+
 }
