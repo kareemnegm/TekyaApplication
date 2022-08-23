@@ -21,8 +21,7 @@ class CreateBranchAddressesTable extends Migration
             $table->string('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
             $table->string('area');
-            $table->unsignedBigInteger('provider_shop_branch_id');
-            $table->foreign('provider_shop_branch_id')->references('id')->on('provider_shop_branches')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }

@@ -35,6 +35,11 @@ class Product extends Model implements HasMedia
         'order'
     ];
 
+    public function cart()
+    {
+        return $this->belongsToMany(Cart::class,'cart_product')->withPivot(['provider_shop_detail_id','quantity'])->withTimestamps();
+    }
+
 
     public function variant() {
         return $this->belongsTo(static::class, 'variant_id');
@@ -75,14 +80,7 @@ class Product extends Model implements HasMedia
     }
 
        /**
-=======
-    public function bundels()
-    {
-        return $this->belongsToMany(Bundel::class, 'bundel_products')->withTimestamps();
-    }
 
-    /**
->>>>>>> eff020e6fd156192dd46ffde6f06ba29f68090a6
      * Undocumented function
      *
      * @param Media $media

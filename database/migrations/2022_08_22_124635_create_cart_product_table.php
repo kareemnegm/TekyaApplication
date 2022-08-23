@@ -17,11 +17,11 @@ class CreateCartProductTable extends Migration
             $table->id();
             $table->unsignedBigInteger('cart_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('provider_shop_detail_id');
+            $table->unsignedBigInteger('provider_shop_details_id');
             $table->integer('quantity');
             $table->foreign('cart_id')->references('id')->on('carts')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('provider_shop_detail_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('provider_shop_details_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

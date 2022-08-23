@@ -16,8 +16,15 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+   
+
     public function product()
     {
-        return $this->belongsToMany(Product::class,'cart_product')->withPivot(['provider_shop_detail_id','quantity'])->withTimestamps();
+        return $this->belongsToMany(Product::class,'cart_product')->withPivot(['provider_shop_details_id','quantity'])->withTimestamps();
+    }
+
+    public function providerShopDetails(){
+        return $this->belongsToMany(ProviderShopDetails::class,'cart_product')->withPivot(['product_id','quantity',])->withTimestamps();
     }
 }
