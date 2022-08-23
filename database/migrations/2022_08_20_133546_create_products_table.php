@@ -28,10 +28,15 @@ class CreateProductsTable extends Migration
             $table->boolean('is_published');
             $table->boolean('to_donation');
             
-            $table->unsignedBigInteger('collection_id')->nullable();
+            $table->unsignedBigInteger('collection_id');
             $table->foreign('collection_id')->references('id')->on('collections')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->unsignedBigInteger('category_id')->nullable();
+
+            $table->unsignedBigInteger('shop_id');
+            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->unsignedBigInteger('variant_id')->nullable();
             $table->foreign('variant_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ShopResource;
+use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Interfaces\User\ShopInrerface;
 use Illuminate\Http\Request;
 
@@ -46,5 +47,5 @@ class ShopController extends Controller
         return ShopResource::collection($newShops);
     }
 
-
+   
 }

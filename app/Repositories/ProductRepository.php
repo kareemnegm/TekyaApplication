@@ -68,6 +68,7 @@ class ProductRepository implements ProductInterface
      */
     public function createShopProduct(array $productDetails){
 
+        $productDetails['shop_id']=auth('provider')->user()->providerShopDetails->id;
 
         $product=Product::create($productDetails);
         $product->attachTags($productDetails['tags']);
@@ -91,6 +92,9 @@ class ProductRepository implements ProductInterface
     public function updateShopProduct($collectionID, array $newDetails){
 
         $product= Product::findOrFail($collectionID);
+        
+        $newDetails['shop_id']=auth('provider')->user()->providerShopDetails->id;
+
         $product->update($newDetails);
         
         $product->syncTags($newDetails['tags']);

@@ -51,8 +51,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
     Route::get('main_categories', 'CategoryController@getCategories');
     Route::get('sub_categories/{categoryID}', 'CategoryController@getSubCategories');
-    Route::get('category_shops/{categoryID}', 'CategoryController@getSubCategories');
-    Route::get('category_products/{categoryID}', 'CategoryController@getSubCategories');
+    Route::get('category_shops/{categoryID}', 'CategoryController@categoryShops');
+    Route::get('category_products/{categoryID}', 'CategoryController@categoryProducts');
 
 
 
@@ -62,7 +62,9 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
+    Route::get('shops_products', 'ShopController@shopsProducts');
 
+    
 
 
 });
