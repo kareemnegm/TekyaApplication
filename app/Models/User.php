@@ -32,6 +32,10 @@ class User extends Authenticatable
         'mobile_code',
 
     ];
+
+    public function message(){
+        return $this->hasMany(Message::class);
+    }
     public function userAddress()
     {
         return $this->hasMany(UserAddress::class);
