@@ -64,6 +64,10 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('new_shops', 'ShopController@newShops');
     Route::get('shops_products', 'ShopController@shopsProducts');
 
+    Route::get('shop/{shopID}/products', 'ShopController@getProductsShop');
+    Route::get('shop/{shopID}', 'ShopController@getShopDetails');
+    Route::get('shop/{shopID}/branches', 'ShopController@getShopBranches');
+
     
 
 

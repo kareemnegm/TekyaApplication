@@ -91,6 +91,64 @@ class ShopRepository implements ShopInrerface
         return $shops;
     }
 
+
+     /**
+     * New Shop Liste function
+     *
+     * @param [type] $projectId
+     * @return void
+     */
+    public function getProductsShop($request,$shopID){
+
+            $limit=$request->limit ?$request->limit:10;
+
+            $shop = ProviderShopDetails::findOrFail($shopID);
+            $q=$shop->products();
+        
+  
+            if ($request->page) {
+                $shops = $q->orderBy('order','ASC')->paginate($limit);
+            } else {
+                $shops = $q->orderBy('order','ASC')->get();
+            }
+
+        return $shops;
+    }
+
+     /**
+     * New Shop Liste function
+     *
+     * @param [type] $projectId
+     * @return void
+     */
+    public function getShopDetails($request,$shopID){
+        $shop = ProviderShopDetails::findOrFail($shopID);
+        return $shop;
+    }
+    
+
+      /**
+     * New Shop Liste function
+     *
+     * @param [type] $projectId
+     * @return void
+     */
+    public function getShopBranches($request,$shopID){
+        $limit=$request->limit ?$request->limit:10;
+
+        $shop = ProviderShopDetails::findOrFail($shopID);
+        $q=$shop->branches();
+    
+
+        if ($request->page) {
+            $branches = $q->orderBy('id','ASC')->paginate($limit);
+        } else {
+            $branches = $q->orderBy('id','ASC')->get();
+        }
+
+    return $branches;
+    }
+
     
     
 

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User\ProductsResource;
+use App\Http\Resources\User\ShopBracnhesResource;
 use App\Http\Resources\User\ShopResource;
 use App\Http\Resources\User\ShopsProductsResoruce;
+use App\Http\Resources\User\ShopsResource;
 use App\Interfaces\User\ShopInrerface;
 use Illuminate\Http\Request;
 
@@ -34,7 +37,7 @@ class ShopController extends Controller
     public function nearestShops(Request $request)
     {
         $nearestShops=$this->shopRepository->nearestShops($request);
-        return ShopResource::collection($nearestShops);
+        return ShopsResource::collection($nearestShops);
     }
      /**
      * Display a listing of the resource.
@@ -44,7 +47,7 @@ class ShopController extends Controller
     public function newShops(Request $request)
     {
         $newShops=$this->shopRepository->newShops($request);
-        return ShopResource::collection($newShops);
+        return ShopsResource::collection($newShops);
     }
 
 
@@ -59,6 +62,41 @@ class ShopController extends Controller
         return ShopsProductsResoruce::collection($newShops);
     }
 
-   
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getProductsShop(Request $request,$shopID)
+    {
+        $products=$this->shopRepository->getProductsShop($request,$shopID);
+        return ProductsResource::collection($products);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getShopDetails(Request $request,$shopID)
+    {
+        $products=$this->shopRepository->getShopDetails($request,$shopID);
+        return $this->dataResponse(['data'=>new ShopResource($products)],'OK',200);
+
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getShopBranches(Request $request,$shopID)
+    {
+        $products=$this->shopRepository->getShopBranches($request,$shopID);
+        return ShopBracnhesResource::collection($products);
+
+
+    }
 
 }

@@ -39,6 +39,11 @@ class ProviderShopDetails extends Model implements HasMedia
         return $this->hasMany(Product::class,'shop_id');
     }
 
+
+    public function branches()
+    {
+        return $this->hasMany(providerShopBranch::class,'provider_shop_details_id');
+    }
        /**
      * Undocumented function
      *
