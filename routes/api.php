@@ -26,6 +26,10 @@ Route::apiResource('/category', 'Category\CategoryController');
 
 
 
+Route::group(['prefix' => 'user/message', 'namespace' => 'Message','middleware' => 'auth:user'], function () {
+
+    Route::post('/', 'MessageController@sendMessage');
+});
 Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     /**
      * signup
@@ -63,10 +67,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
     Route::get('shops_products', 'ShopController@shopsProducts');
-
-    
-
-
 });
 
 

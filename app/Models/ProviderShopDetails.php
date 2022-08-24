@@ -23,7 +23,9 @@ class ProviderShopDetails extends Model implements HasMedia
         'category_id'
 
     ];
-
+    public function message(){
+        return $this->hasMany(Message::class);
+    }
     public function productsCarts()
     {
         return $this->belongsToMany(Product::class,'cart_product','product_id')->withPivot(['product_id ','quantity'])->withTimestamps();
