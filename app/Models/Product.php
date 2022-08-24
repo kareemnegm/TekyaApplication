@@ -12,7 +12,7 @@ use Spatie\Tags\HasTags;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory,HasTags,InteractsWithMedia , FileTrait;
+    use HasFactory, HasTags, InteractsWithMedia, FileTrait;
 
     protected $mediaCollection = 'product_images';
     protected $appends = ['Tags'];
@@ -35,12 +35,23 @@ class Product extends Model implements HasMedia
         'order'
     ];
 
+    public function order()
+    {
+        return $this->belongsToMany(Order::class);
+    }
 
-    public function variant() {
+    public function cart()
+    {
+        return $this->belongsToMany(Cart::class, 'cart_product')->withPivot(['provider_shop_detail_id', 'quantity'])->withTimestamps();
+    }
+
+
+    public function variant()
+    {
         return $this->belongsTo(static::class, 'variant_id');
     }
 
-     public function category()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
@@ -61,8 +72,9 @@ class Product extends Model implements HasMedia
      *
      * @return void
      */
-    public function bundels(){
-        return $this->belongsToMany(Bundel::class , 'bundel_products')->withTimestamps();
+    public function bundels()
+    {
+        return $this->belongsToMany(Bundel::class, 'bundel_products')->withTimestamps();
     }
 
     /**
@@ -70,19 +82,13 @@ class Product extends Model implements HasMedia
      *
      * @return void
      */
-    public function shop(){
-        return $this->belongsTo(ProviderShopDetails::class , 'shop_id');
-    }
-
-       /**
-=======
-    public function bundels()
+    public function shop()
     {
-        return $this->belongsToMany(Bundel::class, 'bundel_products')->withTimestamps();
+        return $this->belongsTo(ProviderShopDetails::class, 'shop_id');
     }
 
     /**
->>>>>>> eff020e6fd156192dd46ffde6f06ba29f68090a6
+
      * Undocumented function
      *
      * @param Media $media

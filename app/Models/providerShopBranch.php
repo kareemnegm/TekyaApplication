@@ -14,7 +14,8 @@ class providerShopBranch extends Model
         'is_head',
         'working_hours_day',
         'provider_shop_details_id',
-        'is_active'
+        'is_active',
+        'branch_address_id'
     ];
     public function provider_shop_details()
     {
@@ -27,6 +28,6 @@ class providerShopBranch extends Model
 
     public function BranchAddress()
     {
-        return $this->hasOne(BranchAddress::class);
+        return $this->belongsTo(BranchAddress::class);
     }
 }

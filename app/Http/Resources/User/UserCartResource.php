@@ -5,7 +5,7 @@ namespace App\Http\Resources\User;
 use App\Http\Resources\ImageResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CartProductResource extends JsonResource
+class UserCartResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,11 @@ class CartProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'price' => $this->price,
-            'over_price' => $this->over_price,
-            'quantity' => $this->pivot->quantity,
-           'product_image' => new ImageResource($this->getFirstMedia('product_images')) ?? null,
+            'shop_name' => $this->shop_name,
+            'shop_logo' => new ImageResource($this->getFirstMedia('shop_logo')) ?? null,
+            'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
+            'products' => CartProductResource::collection($this->productsCarts()->get())
+
         ];
     }
 }

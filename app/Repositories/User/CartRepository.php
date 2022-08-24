@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Http\Resources\User\CartProductResource;
+use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Models\Cart;
 use App\Models\Product;
@@ -32,7 +33,6 @@ class CartRepository implements CartInterface
     public function getCartProducts($cart_id)
     {
         $cart = Cart::findOrFail($cart_id);
-       return CartProductResource::collection($cart->product()->get());
-
+        return UserCartResource::collection($cart->providerShopDetails()->distinct()->get());
     }
 }

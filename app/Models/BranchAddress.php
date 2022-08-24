@@ -15,10 +15,9 @@ class BranchAddress extends Model
         'nearest_landmark',
         'notes',
         'area',
-        'provider_shop_branch_id',
     ];
     public function providerShopBranch()
     {
-        return $this->belongsTo(providerShopBranch::class);
+        return $this->hasOne(providerShopBranch::class);
     }
 }

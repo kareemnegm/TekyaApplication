@@ -58,7 +58,7 @@ class ProviderClass implements ProviderInterface
         return ShopDetailsResource::collection($shops);
     }
 
-    
+
 /**
  * !end of shopDetails
  */
@@ -75,13 +75,13 @@ class ProviderClass implements ProviderInterface
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
         $data = providerShopBranch::create($details);
         $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
-        return $data;
+        
     }
 
 
     public function BranchAddress($branchDetails)
     {
-        BranchAddress::create($branchDetails);
+      return  BranchAddress::create($branchDetails);
     }
 
     public function getBranches($id,$details)
