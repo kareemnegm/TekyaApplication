@@ -13,8 +13,7 @@ class Message extends Model
         'shop_id',
         'title',
         'message',
-        'date',
-        'day',
+
     ];
     public function user(){
         return $this->belongsTo(User::class);

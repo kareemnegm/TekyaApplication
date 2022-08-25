@@ -17,8 +17,6 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->text('title');
             $table->text('message');
-            $table->date('date');
-            $table->date('day');
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();

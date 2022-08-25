@@ -30,6 +30,16 @@ Route::group(['prefix' => 'user/message', 'namespace' => 'Message','middleware' 
 
     Route::post('/', 'MessageController@sendMessage');
 });
+
+Route::group(['prefix' => 'provider/message', 'namespace' => 'Message','middleware' => 'auth:provider'], function () {
+
+    Route::get('/', 'MessageController@ProviderRetrieveMessages');
+});
+
+
+
+
+
 Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     /**
      * signup
