@@ -17,10 +17,12 @@ use App\Repositories\CollectionRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\User\ShopRepository;
 use App\Interfaces\User\CategoryInterface as CategoryUserInterface;
+use App\Interfaces\User\OrderInterface;
 use App\Interfaces\User\UserInterface;
 use App\Repositories\MessageRepository;
 use App\Repositories\User\CartRepository;
 use App\Repositories\User\CategoryRepository;
+use App\Repositories\User\OrderRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 
         $this->app->bind(ShopInrerface::class, ShopRepository::class);
+
+        $this->app->bind(OrderInterface::class, OrderRepository::class);
+
     }
 
     /**

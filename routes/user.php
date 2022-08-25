@@ -28,3 +28,9 @@ Route::group(['prefix' => 'cart'], function () {
     Route::put('/product/quantity', 'CartController@IncreaseOrDecreaseProductQuantity');
     Route::get('/', 'CartController@getCartProducts');
 });
+
+
+Route::group(['prefix' => 'order'], function () {
+    Route::get('/order_review', 'OrderController@orderReview');
+
+});

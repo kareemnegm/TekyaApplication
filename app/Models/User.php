@@ -40,9 +40,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAddress::class);
     }
+
     public function cart()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasOne(Cart::class,'user_id','id');
     }
 
     /**
