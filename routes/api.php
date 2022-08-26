@@ -21,7 +21,7 @@ Route::get('government_area/{id}', 'AreaController@getAllGovernmentAreas');
 Route::get('/payment', 'Provider\PaymentController@index');
 Route::apiResource('/category', 'Category\CategoryController');
 
-Route::group(['namespace' => 'GovernmentArea'], function () {
+Route::group(['namespace' => 'Provider\GovernmentArea'], function () {
     Route::apiResource('government', 'GovernmentController');
     Route::apiResource('area', 'AreaController');
 });
