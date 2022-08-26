@@ -26,7 +26,7 @@ class ProductsResource extends JsonResource
             'end_date'=>$this->end_date,
             'stock_quantity'=>$this->stock_quantity,
             'to_donation'=>$this->to_donation,
-
+            'order'=>$this->order,
             'shop'=>[
                 'id'=>$this->shop->id,
                 'name'=>$this->shop->shop_name,

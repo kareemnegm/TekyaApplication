@@ -32,13 +32,18 @@ class User extends Authenticatable
         'mobile_code',
 
     ];
+
+    public function message(){
+        return $this->hasMany(Message::class);
+    }
     public function userAddress()
     {
         return $this->hasMany(UserAddress::class);
     }
+
     public function cart()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasOne(Cart::class,'user_id','id');
     }
 
     /**

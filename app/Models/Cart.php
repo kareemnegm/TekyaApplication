@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+    protected $hidden = ['pivot'];
+
     protected $fillable = [
         'id',
         'user_id',

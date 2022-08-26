@@ -29,6 +29,10 @@ Route::group(['namespace' => 'GovernmentArea'], function () {
 
 
 
+Route::group(['prefix' => 'user/message', 'namespace' => 'Message','middleware' => 'auth:user'], function () {
+
+    Route::post('/', 'MessageController@sendMessage');
+});
 Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     /**
      * signup
