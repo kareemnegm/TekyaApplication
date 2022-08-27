@@ -43,7 +43,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return response()->json(['user' => $user, "token" => $token], 200);
+        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 200);
+
     }
 
     public function ChangePassword(ChangePasswordFormRequest $request)

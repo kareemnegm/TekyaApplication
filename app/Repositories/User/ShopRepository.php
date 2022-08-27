@@ -1,11 +1,12 @@
 <?php
 namespace App\Repositories\User;
 
+use App\Http\Controllers\Controller;
 use App\Interfaces\User\ShopInrerface;
 use App\Models\Category;
 use App\Models\ProviderShopDetails;
 
-class ShopRepository implements ShopInrerface
+class ShopRepository extends Controller implements ShopInrerface
 {
 
     /**
@@ -42,24 +43,9 @@ class ShopRepository implements ShopInrerface
      */
     public function newShops($request){
 
-        $limit=$request->limit ?$request->limit:10;
-
-      
-            $q = ProviderShopDetails::query();
-    
-
-
-            // if ($request->is_publish) {
-            //     $is_publish = $request->is_publish === 'true'? 1: 0;
-            //     $q->where('is_publish',$is_publish);
-            // }
-            if ($request->page) {
-                $shops = $q->orderBy('id','DESC')->paginate($limit);
-            } else {
-                $shops = $q->orderBy('id','DESC')->get();
-            }
-
-        return $shops;
+        $q = ProviderShopDetails::query();
+        $shops = $q->orderBy('id','DESC')->get();
+            return $shops;
     }
 
     /**
@@ -104,8 +90,8 @@ class ShopRepository implements ShopInrerface
 
             $shop = ProviderShopDetails::findOrFail($shopID);
             $q=$shop->products();
-        
-  
+
+
             if ($request->page) {
                 $shops = $q->orderBy('order','ASC')->paginate($limit);
             } else {
@@ -125,7 +111,7 @@ class ShopRepository implements ShopInrerface
         $shop = ProviderShopDetails::findOrFail($shopID);
         return $shop;
     }
-    
+
 
       /**
      * New Shop Liste function
@@ -138,7 +124,7 @@ class ShopRepository implements ShopInrerface
 
         $shop = ProviderShopDetails::findOrFail($shopID);
         $q=$shop->branches();
-    
+
 
         if ($request->page) {
             $branches = $q->orderBy('id','ASC')->paginate($limit);
@@ -149,7 +135,7 @@ class ShopRepository implements ShopInrerface
     return $branches;
     }
 
-    
-    
+
+
 
 }

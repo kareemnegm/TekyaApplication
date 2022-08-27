@@ -51,7 +51,8 @@ class AuthController extends Controller
         }
 
         $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
-        return response()->json(['provider' => $provider, "token" => $token], 200);
+        return $this->dataResponse(['provider' => $provider, 'token' => $token], 'success', 200);
+
     }
 
 
