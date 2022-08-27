@@ -42,6 +42,6 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        return  $this->CategoryRepository->getCategory($id);
+        return $this->dataResponse(['category'=> $this->CategoryRepository->getCategory($id)],'OK',200);
     }
 }
