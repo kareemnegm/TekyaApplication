@@ -17,18 +17,18 @@ interface CategoryInterface {
      *
      * @return void
      */
-    public function getSubCategories($req,$categoryID);
+    public function getSubCategories($req);
      /**
      * Undocumented function
      *
      * @return void
      */
-    public function categoryShops($req,$categoryID);
+    public function categoryShops($req);
 
     /**
      * Undocumented function
      *
      * @return void
      */
-    public function categoryProducts($req,$categoryID);
+    public function categoryProducts($req);
 }
