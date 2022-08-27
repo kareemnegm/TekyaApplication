@@ -52,8 +52,7 @@ class ProviderClass implements ProviderInterface
 
     public function getShopByCategoryId($id, $details)
     {
-        $limit = $details->limit ? $details->limit : 10;
-        $shops = ProviderShopDetails::where('category_id', $id)->paginate($limit);
+        $shops = ProviderShopDetails::where('category_id', $id)->get();
         return ShopDetailsResource::collection($shops);
     }
 
