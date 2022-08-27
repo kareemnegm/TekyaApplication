@@ -28,15 +28,13 @@ class ProviderClass implements ProviderInterface
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
         if (isset($details['shop_logo'])) {
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
-        }else{
+        } else {
             $shopDetails->clearMediaCollectionExcept('shop_logo');
-
         }
         if (isset($details['shop_cover'])) {
             $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
-        }else{
+        } else {
             $shopDetails->clearMediaCollectionExcept('shop_cover');
-
         }
         $shopDetails->update($details);
     }
@@ -57,9 +55,9 @@ class ProviderClass implements ProviderInterface
     }
 
 
-/**
- * !end of shopDetails
- */
+    /**
+     * !end of shopDetails
+     */
 
 
 
@@ -73,19 +71,18 @@ class ProviderClass implements ProviderInterface
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
         $data = providerShopBranch::create($details);
         $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
-
     }
 
 
     public function BranchAddress($branchDetails)
     {
-      return  BranchAddress::create($branchDetails);
+        return  BranchAddress::create($branchDetails);
     }
 
-    public function getBranches($id,$details)
+    public function getBranches($id, $details)
     {
 
-        $branches = providerShopBranch::where('shop_id',$id)->get();
+        $branches = providerShopBranch::where('shop_id', $id)->get();
         return ShopBranchResource::collection($branches);
     }
 
@@ -93,7 +90,7 @@ class ProviderClass implements ProviderInterface
     {
         $branch = providerShopBranch::findOrFail($id);
         if (isset($details['address']) && !empty($details['address'])) {
-            $address = BranchAddress::where('provider_shop_branch_id', $branch->id)->first();
+            $address = BranchAddress::where('id', $branch->branch_address_id)->first();
             $address->update($details);
         }
         if (isset($details['working_hours_day'])) {
