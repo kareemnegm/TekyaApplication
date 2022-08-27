@@ -50,17 +50,21 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::post('login', 'AuthController@login');
 
     Route::get('main_categories', 'CategoryController@getCategories');
-    Route::get('sub_categories/{categoryID}', 'CategoryController@getSubCategories');
-    Route::get('category_shops/{categoryID}', 'CategoryController@categoryShops');
-    Route::get('category_products/{categoryID}', 'CategoryController@categoryProducts');
+    Route::get('sub_categories', 'CategoryController@getSubCategories');
+    Route::get('category_shops', 'CategoryController@categoryShops');
+    Route::get('category_products', 'CategoryController@categoryProducts');
 
     /**
      * Shops Apis
      */
-
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
+
     Route::get('shops_products', 'ShopController@shopsProducts');
+    Route::get('shop/products', 'ShopController@getProductsShop');
+
+    Route::get('shop', 'ShopController@getShopDetails');
+    Route::get('shop/branches', 'ShopController@getShopBranches');
 
 
 });

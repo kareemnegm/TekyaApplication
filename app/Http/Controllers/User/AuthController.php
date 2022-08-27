@@ -24,7 +24,7 @@ class AuthController extends Controller
         $user = User::create($data);
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
         Cart::create(['user_id' => $user->id]);
-        return $this->dataResponse(['data' => $user, 'token' => $token], 'success', 201);
+        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 201);
     }
 
 

@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,19 +42,39 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Url record not found.',
+                    'data' => NULL,
+                ], 404);
+            }
+        });
+
+        $this->renderable(function (ModelNotFoundException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Model record not found.',
+                    'data' => NULL,
+                ], 404);
+            }
+        });
     }
+
+    
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return $request->expectsJson()
-            ? response()->json(
-                [
-                    'code' => 401,
-                    'message' => $exception->getMessage(),
-                    'status' => 'Failed'
-                ],
-                401
-            )
-            : redirect()->guest($exception->redirectTo() ?? route('login'));
+
+        if (!Auth::user()) {
+            return response()->json(['status' => 401,'message' => 'Unauthenticated.','data'=>NULL], 401);
+        }
+
+        return redirect()->guest('/');
     }
 }

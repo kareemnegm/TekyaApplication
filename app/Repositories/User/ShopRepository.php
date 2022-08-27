@@ -17,23 +17,10 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function nearestShops($request){
 
-        $limit=$request->limit ?$request->limit:10;
-
         $q = ProviderShopDetails::query();
-
-            // if ($request->is_publish) {
-            //     $is_publish = $request->is_publish === 'true'? 1: 0;
-            //     $q->where('is_publish',$is_publish);
-            // }
-
-            if ($request->page) {
-                $shops = $q->orderBy('id','ASC')->paginate($limit);
-            } else {
-                $shops = $q->orderBy('id','ASC')->get();
-            }
+        $shops = $q->orderBy('id','ASC')->get();
 
         return $shops;
-
     }
     /**
      * New Shop Liste function
@@ -45,7 +32,7 @@ class ShopRepository extends Controller implements ShopInrerface
 
         $q = ProviderShopDetails::query();
         $shops = $q->orderBy('id','DESC')->get();
-            return $shops;
+        return $shops;
     }
 
     /**
@@ -56,24 +43,14 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function shopsProducts($request){
 
-        $limit=$request->limit ?$request->limit:10;
-
             if ($request->category_id) {
                 $category = Category::findOrFail($request->category_id);
                 $q=$category->shops();
             }else{
                 $q = ProviderShopDetails::query();
             }
-            // if ($request->is_publish) {
-            //     $is_publish = $request->is_publish === 'true'? 1: 0;
-            //     $q->where('is_publish',$is_publish);
-            // }
-            if ($request->page) {
-                $shops = $q->orderBy('id','DESC')->paginate($limit);
-            } else {
-                $shops = $q->orderBy('id','DESC')->get();
-            }
 
+         $shops = $q->orderBy('id','DESC')->get();
         return $shops;
     }
 
@@ -84,19 +61,14 @@ class ShopRepository extends Controller implements ShopInrerface
      * @param [type] $projectId
      * @return void
      */
-    public function getProductsShop($request,$shopID){
+    public function getProductsShop($request){
 
-            $limit=$request->limit ?$request->limit:10;
 
-            $shop = ProviderShopDetails::findOrFail($shopID);
+            $shop = ProviderShopDetails::findOrFail($request->shop_id);
             $q=$shop->products();
 
-
-            if ($request->page) {
-                $shops = $q->orderBy('order','ASC')->paginate($limit);
-            } else {
                 $shops = $q->orderBy('order','ASC')->get();
-            }
+
 
         return $shops;
     }
@@ -107,8 +79,8 @@ class ShopRepository extends Controller implements ShopInrerface
      * @param [type] $projectId
      * @return void
      */
-    public function getShopDetails($request,$shopID){
-        $shop = ProviderShopDetails::findOrFail($shopID);
+    public function getShopDetails($request){
+        $shop = ProviderShopDetails::findOrFail($request->shop_id);
         return $shop;
     }
 
@@ -119,20 +91,14 @@ class ShopRepository extends Controller implements ShopInrerface
      * @param [type] $projectId
      * @return void
      */
-    public function getShopBranches($request,$shopID){
-        $limit=$request->limit ?$request->limit:10;
+    public function getShopBranches($request){
 
-        $shop = ProviderShopDetails::findOrFail($shopID);
+        $shop = ProviderShopDetails::findOrFail($request->shop_id);
         $q=$shop->branches();
 
+        $branches = $q->orderBy('id','ASC')->get();
 
-        if ($request->page) {
-            $branches = $q->orderBy('id','ASC')->paginate($limit);
-        } else {
-            $branches = $q->orderBy('id','ASC')->get();
-        }
-
-    return $branches;
+        return $branches;
     }
 
 
