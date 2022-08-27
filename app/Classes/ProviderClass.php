@@ -26,7 +26,6 @@ class ProviderClass implements ProviderInterface
     public function updateShopDetails($details, $id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
-
         if (isset($details['shop_logo'])) {
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
         }else{
@@ -75,7 +74,7 @@ class ProviderClass implements ProviderInterface
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
         $data = providerShopBranch::create($details);
         $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
-        
+
     }
 
 
@@ -86,9 +85,8 @@ class ProviderClass implements ProviderInterface
 
     public function getBranches($id,$details)
     {
-        $limit = $details->limit ? $details->limit : 10;
 
-        $branches = providerShopBranch::where('provider_shop_details_id', $id)->paginate($limit);
+        $branches = providerShopBranch::where('shop_id',$id)->get();
         return ShopBranchResource::collection($branches);
     }
 

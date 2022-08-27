@@ -37,7 +37,7 @@ class ProviderShopDetails extends Model implements HasMedia
     }
     public function provider()
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Provider::class,'provider_id');
     }
 
     public function category()

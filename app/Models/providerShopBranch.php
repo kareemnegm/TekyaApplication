@@ -13,13 +13,13 @@ class providerShopBranch extends Model
         'phone',
         'is_head',
         'working_hours_day',
-        'provider_shop_details_id',
+        'shop_id',
         'is_active',
         'branch_address_id'
     ];
     public function provider_shop_details()
     {
-        return $this->belongsTo(ProviderShopDetails::class);
+        return $this->belongsTo(ProviderShopDetails::class,'shop_id');
     }
     public function paymentOption()
     {

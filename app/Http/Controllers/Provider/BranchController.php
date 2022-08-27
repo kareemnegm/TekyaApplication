@@ -33,6 +33,7 @@ class BranchController extends Controller
         $provider_id = Auth::user()->id;
         $shopDetails = ProviderShopDetails::where('provider_id', $provider_id)->first();
         $details = $request->input();
+        $details['shop_id'] = $shopDetails['id'];
         $address = $this->ProviderRepository->BranchAddress($details);
         $details['branch_address_id'] = $address->id;
         $this->ProviderRepository->createBranch($details);
@@ -42,7 +43,7 @@ class BranchController extends Controller
     public function getBranches(Request $request)
     {
         $shop_id = Auth::user()->providerShopDetails->value('id');
-        return $this->ProviderRepository->getBranches($shop_id, $request);
+        return $this->paginateCollection($this->ProviderRepository->getBranches($shop_id, $request),$request->limit,'branch');
     }
 
     public function updateBranch(Request $request, $id)

@@ -31,7 +31,7 @@ class Controller extends BaseController
 
     public function successResponse($message = null, $code = null){
         $success = [
-            'code' => $code ? $code : 200,
+            'status' => $code ? $code : 200,
             'message' => $message ? $message : 'success'
         ];
 
@@ -40,7 +40,7 @@ class Controller extends BaseController
 
     public function errorResponse($message , $code){
         $error = [
-            'code' => $code,
+            'status' => $code,
             'message' => $message
         ];
 
@@ -49,7 +49,7 @@ class Controller extends BaseController
 
     public function errorResponseWithstatus($message , $code){
         $error = [
-            'code' => $code,
+            'status' => $code,
             'message' => $message
         ];
 

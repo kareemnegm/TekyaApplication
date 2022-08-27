@@ -79,7 +79,7 @@ class BundelRepository implements BundelInterface
         }
 
 
-        if (!empty($bundelDetails['products'])) {
+        if (!empty($bundelDetails['products_ids'])) {
             $product->products()->attach($bundelDetails['products_ids']);
         }
 

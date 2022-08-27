@@ -33,7 +33,8 @@ class CollectionController extends Controller
     public function index(Request $request)
     {
         $projects=$this->collectionInterface->getAllShopCollection($request);
-        return CollectionsResource::collection($projects);
+        return $this->paginateCollection(CollectionsResource::collection($projects),$request->limit,'collection');
+
     }
 
      /**

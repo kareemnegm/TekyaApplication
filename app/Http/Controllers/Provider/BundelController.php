@@ -9,6 +9,7 @@ use App\Http\Resources\Provider\BundelsResource;
 use App\Interfaces\BundelInterface;
 use App\Models\Bundel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BundelController extends Controller
 {
@@ -20,7 +21,7 @@ class BundelController extends Controller
     private BundelInterface $bundelInterface;
 
     /**
-     * Bundel 
+     * Bundel
      *
      * @param BundelInterface $bundelInterface
      */
@@ -37,24 +38,25 @@ class BundelController extends Controller
      */
     public function index(Request $request)
     {
-        $bundels=$this->bundelInterface->getAllShopBundel($request);
-        return BundelsResource::collection($bundels);
+        $bundels = $this->bundelInterface->getAllShopBundel($request);
+        return $this->paginateCollection(BundelsResource::collection($bundels),$request->limit,'budnel');
+
     }
 
-     /**
+    /**
      * Single Bundel function
      *
      * @param [type] $projectId
      * @return Object
      */
-    public function show(Request $request,$bundelID)
+    public function show(Request $request, $bundelID)
     {
-        $bundel=$this->bundelInterface->getBundelById($bundelID,$request);
-        return $this->dataResponse(['data'=>New BundelResource($bundel)],'OK',200);
+        $bundel = $this->bundelInterface->getBundelById($bundelID, $request);
+        return $this->dataResponse(['data' => new BundelResource($bundel)], 'OK', 200);
     }
 
 
-     /**
+    /**
      * Create Bundel function
      *
      * @param [type] $projectId
@@ -62,8 +64,11 @@ class BundelController extends Controller
      */
     public function store(BundelFormRequest $bundel)
     {
-        $shopCollection=$this->bundelInterface->createShopBundel($bundel->validated());
-        return $this->dataResponse(['data'=>New BundelResource($shopCollection)],'OK',200);
+        $auth_id = Auth::user()->providerShopDetails->id;
+        $details=$bundel->validated();
+        $details['shop_id']=$auth_id;
+        $shopCollection = $this->bundelInterface->createShopBundel($details);
+        return $this->dataResponse(['data' => new BundelResource($shopCollection)], 'OK', 200);
     }
 
     /**
@@ -72,10 +77,10 @@ class BundelController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function update(BundelFormRequest $bundel,$bundelID)
+    public function update(BundelFormRequest $bundel, $bundelID)
     {
-        $shopBundel=$this->bundelInterface->updateShopBundel($bundelID,$bundel->validated());
-        return $this->dataResponse(['data'=>New BundelResource($shopBundel)],'Updated Successfully',200);
+        $shopBundel = $this->bundelInterface->updateShopBundel($bundelID, $bundel->validated());
+        return $this->dataResponse(['data' => new BundelResource($shopBundel)], 'Updated Successfully', 200);
     }
 
 
@@ -88,12 +93,11 @@ class BundelController extends Controller
     public function destroy($bundelId)
     {
         $this->bundelInterface->deleteShopBundel($bundelId);
-        return $this->successResponse('Deleted Successfuly',200);
-
+        return $this->successResponse('Deleted Successfuly', 200);
     }
 
-    /** 
-      * Order Bundels
+    /**
+     * Order Bundels
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -101,22 +105,22 @@ class BundelController extends Controller
     {
         $data = $request->data;
 
-        $ids=$request->value;
-        $startIndex=($request->page-1)*$request->length;
-    
-        for($i=$startIndex+1; $i <= $request->length ; $i++){
-            if($i < count($request->value) ) {
-                $row = Bundel::findOrFail($ids[$i-1]);
+        $ids = $request->value;
+        $startIndex = ($request->page - 1) * $request->length;
+
+        for ($i = $startIndex + 1; $i <= $request->length; $i++) {
+            if ($i < count($request->value)) {
+                $row = Bundel::findOrFail($ids[$i - 1]);
                 if ($row) {
-                    $row->update(['order'=>$i]);
-                } 
-            }else{
-             
-                $row = Bundel::findOrFail($ids[$i-1]);
+                    $row->update(['order' => $i]);
+                }
+            } else {
+
+                $row = Bundel::findOrFail($ids[$i - 1]);
                 if ($row) {
-                    $row->update(['order'=>$i]);
-                } 
-               break;
+                    $row->update(['order' => $i]);
+                }
+                break;
             }
         }
         return $this->successResponse();

@@ -39,7 +39,8 @@ class ProductController extends Controller
     public function index(Request $request,$collection_id)
     {
         $products=$this->productInterface->getAllShopProduct($request,$collection_id);
-        return ProductsResource::collection($products);
+        return $this->paginateCollection(ProductsResource::collection($products),$request->limit,'product');
+
     }
 
      /**
@@ -105,7 +106,7 @@ class ProductController extends Controller
 
     }
 
-     /** 
+     /**
       * Order Products
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
@@ -116,19 +117,19 @@ class ProductController extends Controller
 
         $ids=$request->value;
         $startIndex=($request->page-1)*$request->length;
-    
+
         for($i=$startIndex+1; $i <= $request->length ; $i++){
             if($i < count($request->value) ) {
                 $row = Product::findOrFail($ids[$i-1]);
                 if ($row) {
                     $row->update(['order'=>$i]);
-                } 
+                }
             }else{
-             
+
                 $row = Product::findOrFail($ids[$i-1]);
                 if ($row) {
                     $row->update(['order'=>$i]);
-                } 
+                }
                break;
             }
         }
