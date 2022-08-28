@@ -79,11 +79,18 @@ class ProviderClass implements ProviderInterface
         return  BranchAddress::create($branchDetails);
     }
 
+
+
+    public function getBranch($details)
+    {
+        $branches = providerShopBranch::findOrFail($details['branch_id']);
+        return $branches;
+    }
     public function getBranches($id, $details)
     {
 
         $branches = providerShopBranch::where('shop_id', $id)->get();
-        return ShopBranchResource::collection($branches);
+        return $branches;
     }
 
     public function updateBranch($details, $id)

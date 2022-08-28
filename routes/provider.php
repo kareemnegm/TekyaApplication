@@ -33,6 +33,7 @@ Route::get('/shopDetails', 'ShopController@getShopDetails');
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
 Route::get('/shop/branches', 'BranchController@getBranches');
+Route::get('/shop/branch', 'BranchController@getBranch');
 Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
 Route::delete('/shop/branch/{id}', 'BranchController@deleteBranch');
 

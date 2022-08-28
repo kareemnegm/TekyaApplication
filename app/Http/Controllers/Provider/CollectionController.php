@@ -46,7 +46,7 @@ class CollectionController extends Controller
     public function show(Request $request,$collectionId)
     {
         $projects=$this->collectionInterface->getCollectionById($collectionId,$request);
-        return $this->dataResponse(['data'=>New CollectionResource($projects)],'OK',200);
+        return $this->dataResponse(['collection'=>New CollectionResource($projects)],'OK',200);
     }
 
 
@@ -59,7 +59,7 @@ class CollectionController extends Controller
     public function store(CollectionFormRequest $collection)
     {
         $shopCollection=$this->collectionInterface->createShopCollection($collection->validated());
-        return $this->dataResponse(['data'=>New CollectionResource($shopCollection)],'OK',200);
+        return $this->dataResponse(['collection'=>New CollectionResource($shopCollection)],'OK',200);
     }
 
     /**
@@ -71,7 +71,7 @@ class CollectionController extends Controller
     public function update(CollectionFormRequest $collection,$collectionID)
     {
         $collection=$this->collectionInterface->updateShopCollection($collectionID,$collection->validated());
-        return $this->dataResponse(['data'=>New CollectionResource($collection)],'Updated Successfully',200);
+        return $this->dataResponse(['collection'=>New CollectionResource($collection)],'Updated Successfully',200);
 
     }
 

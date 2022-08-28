@@ -25,7 +25,7 @@ class ShopController extends Controller
      */
 
 
-     public function __construct(ProviderInterface $ProviderRepository)
+    public function __construct(ProviderInterface $ProviderRepository)
     {
         $this->ProviderRepository = $ProviderRepository;
     }
@@ -43,8 +43,8 @@ class ShopController extends Controller
         $provider_id = Auth::user()->id;
         $details = $request->input();
         $details['provider_id'] = $provider_id;
-        $this->ProviderRepository->createShopDetails($details);
-        return $this->successResponse();
+        $data = $this->ProviderRepository->createShopDetails($details);
+        return $this->dataResponse(['shop' => $data], 'success', 200);
     }
 
 
@@ -61,12 +61,11 @@ class ShopController extends Controller
     public function getShopDetails()
     {
         $provider_id = Auth::user()->id;
-       return $this->dataResponse(['data'=>$this->ProviderRepository->getShopDetails($provider_id)],'success',200);
+        return $this->dataResponse(['shop' => $this->ProviderRepository->getShopDetails($provider_id)], 'success', 200);
     }
 
-    public function getShopByCategoryId($id,Request $request){
-             return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id,$request),$request->limit,'shop');
+    public function getShopByCategoryId($id, Request $request)
+    {
+        return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id, $request), $request->limit, 'shop');
     }
-
-
 }

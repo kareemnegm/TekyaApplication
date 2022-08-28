@@ -15,7 +15,8 @@ class MessageRepository implements MessageInterface
 
     public function Messages($data)
     {
-        $messages = Message::where('shop_id', $data)->get();
+        $limit = $data['limit'] ? $data['limit'] : 10;
+        $messages = Message::where('shop_id', $data['shop_id'])->paginate($limit);
         return MessageResource::collection($messages);
     }
 }

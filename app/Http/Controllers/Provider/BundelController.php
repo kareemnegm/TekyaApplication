@@ -39,7 +39,7 @@ class BundelController extends Controller
     public function index(Request $request)
     {
         $bundels = $this->bundelInterface->getAllShopBundel($request);
-        return $this->paginateCollection(BundelsResource::collection($bundels),$request->limit,'budnel');
+        return $this->paginateCollection(BundelsResource::collection($bundels),$request->limit,'bundle');
 
     }
 
@@ -52,7 +52,7 @@ class BundelController extends Controller
     public function show(Request $request, $bundelID)
     {
         $bundel = $this->bundelInterface->getBundelById($bundelID, $request);
-        return $this->dataResponse(['data' => new BundelResource($bundel)], 'OK', 200);
+        return $this->dataResponse(['bundle' => new BundelResource($bundel)], 'OK', 200);
     }
 
 
@@ -68,7 +68,7 @@ class BundelController extends Controller
         $details=$bundel->validated();
         $details['shop_id']=$auth_id;
         $shopCollection = $this->bundelInterface->createShopBundel($details);
-        return $this->dataResponse(['data' => new BundelResource($shopCollection)], 'OK', 200);
+        return $this->dataResponse(['bundle' => new BundelResource($shopCollection)], 'OK', 200);
     }
 
     /**
@@ -80,7 +80,7 @@ class BundelController extends Controller
     public function update(BundelFormRequest $bundel, $bundelID)
     {
         $shopBundel = $this->bundelInterface->updateShopBundel($bundelID, $bundel->validated());
-        return $this->dataResponse(['data' => new BundelResource($shopBundel)], 'Updated Successfully', 200);
+        return $this->dataResponse(['bundle' => new BundelResource($shopBundel)], 'Updated Successfully', 200);
     }
 
 

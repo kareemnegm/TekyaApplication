@@ -31,8 +31,8 @@ class AreaController extends Controller
      */
     public function show($id)
     {
-        return $this->dataResponse(['data'=>new AreaResource(Area::findOrFail($id))],'OK',200);
-        
+        return $this->dataResponse(['area'=>new AreaResource(Area::findOrFail($id))],'OK',200);
+
     }
 
     /**
@@ -43,7 +43,7 @@ class AreaController extends Controller
      */
     public function index()
     {
-        return $this->dataResponse(['data'=> AreaResource::collection(Area::all())],'OK',200);
+        return $this->dataResponse(['area'=> AreaResource::collection(Area::all())],'OK',200);
     }
 
     /**
@@ -55,7 +55,7 @@ class AreaController extends Controller
     public function getAllGovernmentAreas($id)
     {
         $area = Area::where('government_id', $id)->get();
-        return $this->dataResponse(['data'=> AreaResource::collection($area)],'OK',200);
+        return $this->dataResponse(['area'=> AreaResource::collection($area)],'OK',200);
 
     }
 

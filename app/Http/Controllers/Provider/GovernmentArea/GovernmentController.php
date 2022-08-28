@@ -31,7 +31,7 @@ class GovernmentController extends Controller
      */
     public function show($id)
     {
-        return $this->dataResponse(['data'=>new GovernmentResource(Government::findOrFail($id))],'OK',200);
+        return $this->dataResponse(['government'=>new GovernmentResource(Government::findOrFail($id))],'OK',200);
     }
 
     /**
@@ -42,7 +42,7 @@ class GovernmentController extends Controller
      */
     public function index()
     {
-        return $this->dataResponse(['data'=>GovernmentResource::collection(Government::all())],'OK',200);
+        return $this->dataResponse(['government'=>GovernmentResource::collection(Government::all())],'OK',200);
 
     }
 

@@ -17,7 +17,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return $this->dataResponse(['data'=>PaymentResource::collection(PaymentOption::all())],'OK',200);
+        return $this->dataResponse(['payment'=>PaymentResource::collection(PaymentOption::all())],'OK',200);
 
     }
 
@@ -45,7 +45,7 @@ class PaymentController extends Controller
 
     public function show($id)
     {
-        return $this->dataResponse(['data'=>new PaymentResource(PaymentOption::findOrFail($id))],'OK',200);
+        return $this->dataResponse(['payment'=>new PaymentResource(PaymentOption::findOrFail($id))],'OK',200);
 
     }
 

@@ -52,7 +52,7 @@ class ProductController extends Controller
     public function show(Request $request,$collectionId)
     {
         $projects=$this->productInterface->getProductById($collectionId,$request);
-        return $this->dataResponse(['data'=>New ProductResource($projects)],'OK',200);
+        return $this->dataResponse(['product'=>New ProductResource($projects)],'OK',200);
     }
 
 
@@ -65,7 +65,7 @@ class ProductController extends Controller
     public function store(ProductFormRequest $bundel)
     {
         $shopCollection=$this->productInterface->createShopProduct($bundel->validated());
-        return $this->dataResponse(['data'=>New ProductResource($shopCollection)],'OK',200);
+        return $this->dataResponse(['product'=>New ProductResource($shopCollection)],'OK',200);
     }
 
     /**
@@ -77,7 +77,7 @@ class ProductController extends Controller
     public function update(ProductFormRequest $product,$productId)
     {
         $shopProduct=$this->productInterface->updateShopProduct($productId,$product->validated());
-        return $this->dataResponse(['data'=>New ProductResource($shopProduct)],'Updated Successfully',200);
+        return $this->dataResponse(['product'=>New ProductResource($shopProduct)],'Updated Successfully',200);
     }
 
      /**
