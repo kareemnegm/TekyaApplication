@@ -32,7 +32,7 @@ interface ShopInrerface {
      * @param [type] $request
      * @return void
      */
-    public function getProductsShop($request,$shopID);
+    public function getProductsShop($request);
 
       /**
      * Undocumented function
@@ -40,7 +40,7 @@ interface ShopInrerface {
      * @param [type] $request
      * @return void
      */
-    public function getShopDetails($request,$shopID);
+    public function getShopDetails($request);
 
          /**
      * Undocumented function
@@ -48,11 +48,11 @@ interface ShopInrerface {
      * @param [type] $request
      * @return void
      */
-    public function getShopBranches($request,$shopID);
+    public function getShopBranches($request);
 
-    
-    
-    
 
-    
+
+
+
+
 }

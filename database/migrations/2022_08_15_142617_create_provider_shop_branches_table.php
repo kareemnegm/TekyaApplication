@@ -21,7 +21,9 @@ class CreateProviderShopBranchesTable extends Migration
             $table->boolean('is_active')->default(0);
             $table->string('working_hours_day');
             $table->unsignedBigInteger('branch_address_id');
+            $table->unsignedBigInteger('shop_id');
             $table->foreign('branch_address_id')->references('id')->on('branch_addresses')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

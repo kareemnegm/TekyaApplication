@@ -65,7 +65,7 @@ class ShopController extends Controller
     }
 
     public function getShopByCategoryId($id,Request $request){
-        return $this->ProviderRepository->getShopByCategoryId($id,$request);
+             return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id,$request),$request->limit,'shop');
     }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\ShopIdFormRequest;
 use App\Http\Resources\User\ProductsResource;
 use App\Http\Resources\User\ShopBracnhesResource;
 use App\Http\Resources\User\ShopResource;
@@ -37,7 +38,8 @@ class ShopController extends Controller
     public function nearestShops(Request $request)
     {
         $nearestShops=$this->shopRepository->nearestShops($request);
-        return ShopsResource::collection($nearestShops);
+
+        return $this->paginateCollection(ShopsResource::collection($nearestShops),$request->limit,'shops');
     }
      /**
      * Display a listing of the resource.
@@ -47,7 +49,7 @@ class ShopController extends Controller
     public function newShops(Request $request)
     {
         $newShops=$this->shopRepository->newShops($request);
-        return ShopsResource::collection($newShops);
+        return $this->paginateCollection(ShopsResource::collection($newShops),$request->limit,'shops');
     }
 
 
@@ -58,8 +60,9 @@ class ShopController extends Controller
      */
     public function shopsProducts(Request $request)
     {
-        $newShops=$this->shopRepository->shopsProducts($request);
-        return ShopsProductsResoruce::collection($newShops);
+        $shopsProducts=$this->shopRepository->shopsProducts($request);
+        return $this->paginateCollection(ShopsProductsResoruce::collection($shopsProducts),$request->limit,'shops_products');
+
     }
 
 
@@ -68,10 +71,11 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getProductsShop(Request $request,$shopID)
+    public function getProductsShop(ShopIdFormRequest $request)
     {
-        $products=$this->shopRepository->getProductsShop($request,$shopID);
-        return ProductsResource::collection($products);
+        $products=$this->shopRepository->getProductsShop($request);
+        return $this->paginateCollection(ProductsResource::collection($products),$request->limit,'products');
+
     }
 
 
@@ -80,10 +84,11 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopDetails(Request $request,$shopID)
+    public function getShopDetails(Request $request)
     {
-        $products=$this->shopRepository->getShopDetails($request,$shopID);
-        return $this->dataResponse(['data'=>new ShopResource($products)],'OK',200);
+        $products=$this->shopRepository->getShopDetails($request);
+
+        return $this->dataResponse(['shop'=>new ShopResource($products)],'OK',200);
 
     }
     /**
@@ -91,10 +96,10 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopBranches(Request $request,$shopID)
+    public function getShopBranches(ShopIdFormRequest $request)
     {
-        $products=$this->shopRepository->getShopBranches($request,$shopID);
-        return ShopBracnhesResource::collection($products);
+        $branches=$this->shopRepository->getShopBranches($request);
+        return $this->paginateCollection(ShopBracnhesResource::collection($branches),$request->limit,'branches');
 
 
     }

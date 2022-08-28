@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CategoryIdFormRequest;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\User\CategoriesResource;
 use App\Http\Resources\User\ProductsResource;
@@ -38,7 +39,8 @@ class CategoryController extends Controller
     public function getCategories(Request $request)
     {
         $mainCategoires=$this->CategoryRepository->getCategories($request);
-        return CategoriesResource::collection($mainCategoires);
+        return $this->paginateCollection(CategoriesResource::collection($mainCategoires),$request->limit,'categories');
+
     }
 
     /**
@@ -47,10 +49,10 @@ class CategoryController extends Controller
      * @param Request $request
      * @return void
      */
-    public function getSubCategories(Request $request,$categoryID)
+    public function getSubCategories(CategoryIdFormRequest $request)
     {
-        $mainCategoires=$this->CategoryRepository->getSubCategories($request,$categoryID);
-        return SubCategoriesResource::collection($mainCategoires);
+        $mainCategoires=$this->CategoryRepository->getSubCategories($request);
+        return $this->paginateCollection(SubCategoriesResource::collection($mainCategoires),$request->limit,'sub_categories');
     }
 
     /**
@@ -59,11 +61,10 @@ class CategoryController extends Controller
      * @param Request $request
      * @return void
      */
-    public function categoryShops(Request $request,$categoryID)
+    public function categoryShops(CategoryIdFormRequest $request)
     {
-        $categoryShops=$this->CategoryRepository->categoryShops($request,$categoryID);
-        return ShopResource::collection($categoryShops);
-
+        $categoryShops=$this->CategoryRepository->categoryShops($request);
+        return $this->paginateCollection(ShopResource::collection($categoryShops),$request->limit,'category_shops');
 
     }
 
@@ -73,10 +74,11 @@ class CategoryController extends Controller
      * @param Request $request
      * @return void
      */
-    public function categoryProducts(Request $request,$categoryID)
+    public function categoryProducts(CategoryIdFormRequest $request)
     {
-        $categoryProducts=$this->CategoryRepository->categoryProducts($request,$categoryID);
-        return ProductsResource::collection($categoryProducts);
+        $categoryProducts=$this->CategoryRepository->categoryProducts($request);
+        return $this->paginateCollection(ProductsResource::collection($categoryProducts),$request->limit,'category_products');
+
 
     }
 }

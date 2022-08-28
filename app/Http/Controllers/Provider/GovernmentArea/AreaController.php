@@ -32,7 +32,7 @@ class AreaController extends Controller
     public function show($id)
     {
         return $this->dataResponse(['data'=>new AreaResource(Area::findOrFail($id))],'OK',200);
-
+        
     }
 
     /**

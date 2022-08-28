@@ -37,7 +37,7 @@ class ProviderShopDetails extends Model implements HasMedia
     }
     public function provider()
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Provider::class,'provider_id');
     }
 
     public function category()
@@ -53,7 +53,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     public function branches()
     {
-        return $this->hasMany(providerShopBranch::class,'provider_shop_details_id');
+        return $this->hasMany(providerShopBranch::class,'shop_id');
     }
        /**
      * Undocumented function

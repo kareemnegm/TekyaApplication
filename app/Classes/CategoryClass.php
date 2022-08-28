@@ -21,9 +21,8 @@ class CategoryClass implements CategoryInterface
 
     public function getCategories($details)
     {
-        $limit = $details->limit ? $details->limit : 10;
 
-        return CategoryResource::collection(Category::where('category_id', null)->with('children')->paginate($limit));
+        return CategoryResource::collection(Category::where('category_id', null)->with('children')->get());
     }
 
     public function deleteCategory($id)

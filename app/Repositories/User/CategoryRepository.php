@@ -37,11 +37,11 @@ class CategoryRepository implements CategoryInterface
      * @param [type] $projectId
      * @return void
      */
-    public function getSubCategories($request,$categoryID){
+    public function getSubCategories($request){
         $limit=$request->limit ?$request->limit:10;
 
-        
-        $mainCategory = Category::findOrFail($categoryID);
+
+        $mainCategory = Category::findOrFail($request->category_id);
         $q=$mainCategory->subs();
 
             if ($request->page) {
@@ -58,12 +58,12 @@ class CategoryRepository implements CategoryInterface
      * @param [type] $projectId
      * @return void
      */
-    public function categoryShops($request,$categoryID){
+    public function categoryShops($request){
 
         $limit=$request->limit ?$request->limit:10;
 
 
-            $category = Category::findOrFail($categoryID);
+        $category = Category::findOrFail($request->category_id);
             $q=$category->shops();
 
             // if ($request->is_publish) {
@@ -85,11 +85,11 @@ class CategoryRepository implements CategoryInterface
      * @param [type] $projectId
      * @return void
      */
-    public function categoryProducts($request,$categoryID){
+    public function categoryProducts($request){
 
         $limit=$request->limit ?$request->limit:10;
 
-            $category = Category::findOrFail($categoryID);
+        $category = Category::findOrFail($request->category_id);
             $q=$category->products();
 
             // if ($request->is_publish) {

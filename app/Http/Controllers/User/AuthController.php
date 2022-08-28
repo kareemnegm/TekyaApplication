@@ -19,12 +19,15 @@ class AuthController extends Controller
     public function signUp(UserFormRequest $request)
     {
 
-        $data = $request->input();
+        $data = $request->all();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
+        if (isset($data['user_image'])) {
+            $user->saveFiles($data['user_image'], 'user_image');
+        }
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
         Cart::create(['user_id' => $user->id]);
-        return $this->dataResponse(['data' => $user, 'token' => $token], 'success', 201);
+        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 201);
     }
 
 
@@ -43,7 +46,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return response()->json(['user' => $user, "token" => $token], 200);
+        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 200);
+
     }
 
     public function ChangePassword(ChangePasswordFormRequest $request)

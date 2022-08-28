@@ -16,10 +16,8 @@ class OrderReviewResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'shop'
-      
+            'shop',
             'products' => CartProductResource::collection($this)
-
         ];
     }
 }
