@@ -39,7 +39,7 @@ class BranchController extends Controller
         $address = $this->ProviderRepository->BranchAddress($details);
         $details['branch_address_id'] = $address->id;
         $branch =   $this->ProviderRepository->createBranch($details);
-        return $this->dataResponse(['branch' => new ShopBranchResource($branch)], 'success', 200);
+        return $this->dataResponse(['branch' => new ShopBranchResource($branch)], 'created successful', 200);
     }
 
     public function getBranches(Request $request)
@@ -56,8 +56,8 @@ class BranchController extends Controller
     public function updateBranch(Request $request, $id)
     {
         $details = $request->input();
-        $this->ProviderRepository->updateBranch($details, $id);
-        return $this->successResponse('updated successfully', 200);
+        $data = $this->ProviderRepository->updateBranch($details, $id);
+        return $this->dataResponse(['branch' => $data], 'update successful', 200);
     }
 
     public function deleteBranch($id)

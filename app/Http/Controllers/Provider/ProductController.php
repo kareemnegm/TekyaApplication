@@ -65,7 +65,7 @@ class ProductController extends Controller
     public function store(ProductFormRequest $bundel)
     {
         $shopCollection=$this->productInterface->createShopProduct($bundel->validated());
-        return $this->dataResponse(['product'=>New ProductResource($shopCollection)],'OK',200);
+        return $this->dataResponse(['product'=>New ProductResource($shopCollection)],'created successful',200);
     }
 
     /**

@@ -19,8 +19,9 @@ class GovernmentController extends Controller
      */
     public function store(GovernmentFormRequest $request)
     {
-        Government::create($request->validated());
-        return $this->successResponse('Created Sucessfully',201);
+       $data=Government::create($request->validated());
+        return $this->dataResponse(['Government' => $data], 'created successful', 200);
+
     }
 
     /**
@@ -58,7 +59,8 @@ class GovernmentController extends Controller
     {
         $government = Government::findOrFail($id);
         $government->update($request->validated());
-        return $this->successResponse('Updated Sucessfully',200);
+        return $this->dataResponse(['government' => $government], 'update successful', 200);
+
     }
 
     /**

@@ -44,7 +44,7 @@ class ShopController extends Controller
         $details = $request->input();
         $details['provider_id'] = $provider_id;
         $data = $this->ProviderRepository->createShopDetails($details);
-        return $this->dataResponse(['shop' => $data], 'success', 200);
+        return $this->dataResponse(['shop' => $data], 'created successful', 200);
     }
 
 

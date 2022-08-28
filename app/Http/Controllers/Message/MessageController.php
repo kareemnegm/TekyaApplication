@@ -22,7 +22,7 @@ class MessageController extends Controller
         $data = $request->input();
            $data['user_id'] = Auth::user()->id;
         $this->MessageRepository->sendMessage($data);
-        return $this->successResponse('success', 201);
+        return $this->successResponse('success', 200);
     }
 
     public function ProviderRetrieveMessages(Request $request)

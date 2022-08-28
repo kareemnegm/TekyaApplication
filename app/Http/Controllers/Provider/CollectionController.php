@@ -59,7 +59,7 @@ class CollectionController extends Controller
     public function store(CollectionFormRequest $collection)
     {
         $shopCollection=$this->collectionInterface->createShopCollection($collection->validated());
-        return $this->dataResponse(['collection'=>New CollectionResource($shopCollection)],'OK',200);
+        return $this->dataResponse(['collection'=>New CollectionResource($shopCollection)],'created successful',200);
     }
 
     /**

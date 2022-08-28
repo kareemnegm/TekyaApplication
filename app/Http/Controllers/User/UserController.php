@@ -25,7 +25,7 @@ class UserController extends Controller
         $data = $request->input();
         $data['user_id'] = $user_id;
         $this->UserRepository->addAddress($data);
-        return $this->successResponse('created successfully', 201);
+        return $this->successResponse('created successfully', 200);
     }
 
     public function updateAddress(Request $request, $id)

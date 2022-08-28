@@ -30,10 +30,10 @@ class PaymentController extends Controller
      */
     public function store(PaymentRequest $request)
     {
-        PaymentOption::create([
+       $data= PaymentOption::create([
             'name' => $request->name
         ]);
-        return $this->successResponse('created successfully',201);
+        return $this->dataResponse(['payment' => $data], 'created successful', 200);
     }
 
     /**
@@ -60,7 +60,7 @@ class PaymentController extends Controller
     {
         $payment = PaymentOption::findOrFail($id);
         $payment->update($request->input());
-        return $this->successResponse('Updated Successfully',200);
+        return $this->dataResponse(['payment' => $payment], 'update successful', 200);
 
     }
 

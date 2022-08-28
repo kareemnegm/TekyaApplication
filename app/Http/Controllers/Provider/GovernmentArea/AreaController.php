@@ -19,8 +19,8 @@ class AreaController extends Controller
      */
     public function store(AreaFormRequest $request)
     {
-         Area::create($request->validated());
-        return $this->successResponse('Created Sucessfully',201);
+        $data =  Area::create($request->validated());
+        return $this->dataResponse(['area' => $data], 'created successful', 200);
     }
 
     /**
@@ -31,8 +31,7 @@ class AreaController extends Controller
      */
     public function show($id)
     {
-        return $this->dataResponse(['area'=>new AreaResource(Area::findOrFail($id))],'OK',200);
-
+        return $this->dataResponse(['area' => new AreaResource(Area::findOrFail($id))], 'success', 200);
     }
 
     /**
@@ -43,7 +42,7 @@ class AreaController extends Controller
      */
     public function index()
     {
-        return $this->dataResponse(['area'=> AreaResource::collection(Area::all())],'OK',200);
+        return $this->dataResponse(['area' => AreaResource::collection(Area::all())], 'OK', 200);
     }
 
     /**
@@ -55,8 +54,7 @@ class AreaController extends Controller
     public function getAllGovernmentAreas($id)
     {
         $area = Area::where('government_id', $id)->get();
-        return $this->dataResponse(['area'=> AreaResource::collection($area)],'OK',200);
-
+        return $this->dataResponse(['area' => AreaResource::collection($area)], 'OK', 200);
     }
 
     /**
@@ -70,7 +68,7 @@ class AreaController extends Controller
     {
         $area = Area::findOrFail($id);
         $area->update([$request->validated()]);
-        return $this->successResponse('Updated Sucessfully',200);
+        return $this->dataResponse(['area' => $area], 'update successful', 200);
     }
 
     /**
@@ -83,6 +81,6 @@ class AreaController extends Controller
     {
         $area = Area::findOrFail($id);
         $area->delete();
-        return $this->successResponse('Deleted Sucessfully',200);
+        return $this->successResponse('Deleted Sucessfully', 200);
     }
 }

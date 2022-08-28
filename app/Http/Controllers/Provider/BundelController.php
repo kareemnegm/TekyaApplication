@@ -68,7 +68,7 @@ class BundelController extends Controller
         $details=$bundel->validated();
         $details['shop_id']=$auth_id;
         $shopCollection = $this->bundelInterface->createShopBundel($details);
-        return $this->dataResponse(['bundle' => new BundelResource($shopCollection)], 'OK', 200);
+        return $this->dataResponse(['bundle' => new BundelResource($shopCollection)], 'created successful', 200);
     }
 
     /**

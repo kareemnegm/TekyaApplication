@@ -18,15 +18,15 @@ class CategoryController extends Controller
     public function store(CategoryFormRequest $request)
     {
         $details = $request->input();
-        $this->CategoryRepository->createCategory($details);
-        return $this->successResponse('created successfully', 201);
+        $data = $this->CategoryRepository->createCategory($details);
+        return $this->dataResponse(['category' => $data], 'OK', 200);
     }
 
     public function update(CategoryFormRequest $request, $id)
     {
         $details = $request->input();
-        $this->CategoryRepository->updateCategory($details, $id);
-        return $this->successResponse('updated successfully', 200);
+       $data= $this->CategoryRepository->updateCategory($details, $id);
+        return $this->dataResponse(['category' => $data], 'OK', 200);
     }
 
     public function index(Request $request)
@@ -42,6 +42,6 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        return $this->dataResponse(['category'=> $this->CategoryRepository->getCategory($id)],'OK',200);
+        return $this->dataResponse(['category' => $this->CategoryRepository->getCategory($id)], 'OK', 200);
     }
 }

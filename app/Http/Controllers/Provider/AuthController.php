@@ -30,7 +30,7 @@ class AuthController extends Controller
         $data['provider_id'] = $user->id;
         ProviderShopDetails::create($data);
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['provider' => $user, 'token' => $token], 'success', 201);
+        return $this->dataResponse(['provider' => $user, 'token' => $token], 'success', 200);
     }
 
 
