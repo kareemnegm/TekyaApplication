@@ -25,7 +25,7 @@ Route::delete('address/{id}', 'UserController@deleteAddress');
 
 Route::group(['prefix' => 'cart'], function () {
     Route::post('/product', 'CartController@addProductsToCart');
-    Route::put('/product/quantity', 'CartController@IncreaseOrDecreaseProductQuantity');
+    Route::put('product/quantity', 'CartController@IncreaseOrDecreaseProductQuantity');
     Route::get('/', 'CartController@getCartProducts');
 });
 

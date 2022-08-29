@@ -2,34 +2,99 @@
 
 namespace App\Repositories\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CartProductResource;
 use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Product;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CartRepository implements CartInterface
+class CartRepository extends Controller implements CartInterface
 {
 
-    public function addProductsToCart($products, $cart_id)
+    /**
+     * Add Product To Cart function
+     *
+     * @param [type] $req
+     * @return void
+     */
+    public function addProductsToCart($req)
     {
-        $cart = Cart::findOrFail($cart_id);
-        $cart = $cart->product()->syncWithPivotValues($products['product_id'], ['quantity' => $products['quantity'], 'provider_shop_detail_id' => $products['shop_id']]);
+        $cart_id = Auth::user()->cart->id;
+        $product=Product::findOrFail($req['product_id']);
+
+        $availableStock=$product->stock_quantity;
+
+        $productInCart = CartProduct::where('cart_id',$cart_id)->where('product_id',$req['product_id'])->where('provider_shop_details_id',$req['shop_id'])->first();
+
+
+        if ($availableStock <  $req['quantity']) {
+            return $this->errorResponseWithMessage('Out Of Stock',422);
+        }
+        elseif($availableStock >  $req['quantity'] & !$productInCart){
+    
+        $quantity=$req['quantity'] > 1  ? 1 :$req['quantity'];
+    
+            CartProduct::create([
+            'cart_id'=> $cart_id, 
+            'product_id'=> $req['product_id'], 
+            'provider_shop_details_id'=> $req['shop_id'], 
+            'quantity'=> $quantity, 
+            ]);
+            return $this->successResponse('Product added in cart successfully.');
+
+        }
+            elseif($productInCart){
+            return $this->errorResponseWithMessage('Product is in cart.',422);
+        }
+
     }
 
-    public function IncreaseOrDecreaseProductQuantity($product)
+    /**
+     * IncreaseOrDecreaseProduct function
+     *
+     * @param [type] $req
+     * @return void
+     */
+    public function IncreaseOrDecreaseProductQuantity($req)
     {
+        $cart_id = Auth::user()->cart->id;
 
-        $cart = Cart::findOrFail($product['cart_id']);
-        if ($product['quantity'] == 0) {
-            $cart = $cart->product()->detach($product['product_id']);
-        } else {
-            $cart = $cart->product()->syncWithPivotValues($product['product_id'], ['quantity' => $product['quantity']]);
+        $productInCart = CartProduct::where('cart_id',$cart_id)->
+        where('product_id',$req['product_id'])->where('provider_shop_details_id',$req['shop_id'])->first();
+
+
+        $product=Product::findOrFail($req['product_id']);
+        $availableStock=$product->stock_quantity;
+
+        if ($availableStock <  $req['quantity']) {
+
+            return $this->errorResponseWithMessage('Out Of Stock.',422);
+
+        }elseif ($req['quantity'] == 0) {
+
+            $productInCart->delete();
+            return $this->successResponse('Product removed from cart successfully.');
+
+
+        }elseif($availableStock >  $req['quantity'] && $productInCart){ 
+
+            $productInCart->update(['quantity' => $req['quantity']]);
+            return $this->successResponse('Product quantity updated successfully.');
         }
     }
 
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $cart_id
+     * @return void
+     */
     public function getCartProducts($cart_id)
     {
         $cart = Cart::findOrFail($cart_id);
