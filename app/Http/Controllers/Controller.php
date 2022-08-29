@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Controller as BaseController;
 
 use Illuminate\Pagination\Paginator;
@@ -56,6 +57,19 @@ class Controller extends BaseController
         return response()->json($error, $code);
     }
 
+
+    public function errorResponseWithMessage($message , $code){
+
+      $res=[
+            'status' => $code ? $code : 422, 
+            'message'=>'Validation error', 
+            'error' => [$message], 
+            'data'=>null
+        ];
+        
+        throw new HttpResponseException(response()->json($res
+        , 422));
+    }
     /**
   * Gera a paginação dos itens de um array ou collection.
   *

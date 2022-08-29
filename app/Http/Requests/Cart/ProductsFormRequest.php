@@ -3,7 +3,13 @@
 namespace App\Http\Requests\Cart;
 
 use App\Http\Requests\BaseFormRequest;
+use App\Models\CartProduct;
+use App\Rules\ProductInCartRule;
+use App\Rules\ShopinCartRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ProductsFormRequest extends BaseFormRequest
 {
@@ -22,11 +28,37 @@ class ProductsFormRequest extends BaseFormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
+        $request['cart_id'] = Auth::user()->cart->id;
+
         return [
-            'product_id'=>'required|exists:products,id',
-            
+            'product_id'=>['required','exists:products,id',
+            new ProductInCartRule($request)
+        ],
+    
+            'shop_id' => [                                                                  
+                'required',                                                            
+                
+                Rule::exists('products', 'shop_id')                     
+                ->where('id',$request->product_id)->where('shop_id',$request->shop_id),     
+
+                new ShopinCartRule($request)
+            ],  
+            'quantity'=> 'required|integer'                                                                     
+      
+        ];
+    }
+
+      /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {  
+        return [
+        'shop_id.exists'=>'The selected product shop id is invalid.',
         ];
     }
 }
