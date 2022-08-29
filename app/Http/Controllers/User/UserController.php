@@ -27,7 +27,7 @@ class UserController extends Controller
         $this->UserRepository->addAddress($data);
         return $this->successResponse('created successfully', 200);
     }
-
+    
     public function updateAddress(Request $request, $id)
     {
         $user_id = Auth::user()->id;
@@ -70,5 +70,5 @@ class UserController extends Controller
     }
 
 
-    
+
 }

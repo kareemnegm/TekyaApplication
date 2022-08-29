@@ -43,4 +43,6 @@ class Collection extends Model implements HasMedia
         return $this->belongsTo(ProviderShopDetails::class,'shop_id');
     }
 
+    
+
 }

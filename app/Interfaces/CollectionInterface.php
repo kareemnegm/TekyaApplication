@@ -2,9 +2,10 @@
 
 namespace App\Interfaces;
 
-interface CollectionInterface{
+interface CollectionInterface
+{
 
-   /**
+    /**
      * All Ceneters Of Project function
      *
      * @return void
@@ -41,7 +42,9 @@ interface CollectionInterface{
     public function updateShopCollection($collectionID, array $newDetails);
 
 
+    public function rename( $details);
 
 
 
+    public function publish_unPublish( $details);
 }

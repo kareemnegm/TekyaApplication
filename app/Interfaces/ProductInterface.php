@@ -2,14 +2,15 @@
 
 namespace App\Interfaces;
 
-interface ProductInterface{
+interface ProductInterface
+{
 
-   /**
+    /**
      * All Shop Procuts function
      *
      * @return void
      */
-    public function getAllShopProduct($request,$collectionId);
+    public function getAllShopProduct($request, $collectionId);
     /**
      * Single Product Shop function
      *
@@ -17,7 +18,7 @@ interface ProductInterface{
      * @return void
      */
     public function getProductById($ProductID);
-   
+
     /**
      * Create Product Shop function
      *
@@ -43,4 +44,11 @@ interface ProductInterface{
      */
     public function deleteShopProduct($ProductID);
 
+
+
+    public function remove_product_from_collection($products);
+
+
+    
+    public function move_product_from_collection($products,$collection_id);
 }
