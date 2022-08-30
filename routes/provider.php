@@ -48,7 +48,8 @@ Route::put('collection_published', 'CollectionController@publish_unPublish');
 /**
  * Prodcut
  */
-Route::apiResource('/product', 'ProductController')->except(['index']);
+Route::apiResource('/product', 'ProductController')->except(['index','destroy']);
+Route::delete('/product', 'ProductController@destroy');
 Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
 Route::get('collection/{id}/products', 'ProductController@index');
 Route::put('order_product', 'ProductController@orderProduct');

@@ -86,9 +86,10 @@ class ProductController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function destroy($productId)
+    public function destroy(ProductIdsFormRequest $request)
     {
-        $this->productInterface->deleteShopProduct($productId);
+        // dd();
+        $this->productInterface->deleteShopProduct($request->product_id);
         return $this->successResponse('Deleted Successfuly', 200);
     }
 
@@ -147,10 +148,7 @@ class ProductController extends Controller
     {
         $products = $request->product_id;
         $collection_id = $request->collection_id;
-        $data = $this->productInterface->move_product_from_collection($products,$collection_id);
+        $data = $this->productInterface->move_product_from_collection($products, $collection_id);
         $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
     }
-
-
-
 }
