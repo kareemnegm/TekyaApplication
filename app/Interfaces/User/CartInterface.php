@@ -7,6 +7,6 @@ interface CartInterface
 
     public function addProductsToCart($req);
     public function IncreaseOrDecreaseProductQuantity($req);
-    public function getCartProducts($cart_id);
+    public function getCartProducts();
 
 }

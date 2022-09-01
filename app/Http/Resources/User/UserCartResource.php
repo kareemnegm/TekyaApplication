@@ -20,7 +20,9 @@ class UserCartResource extends JsonResource
             'shop_name' => $this->shop_name,
             'shop_logo' => new ImageResource($this->getFirstMedia('shop_logo')) ?? null,
             'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
-            'products' => CartProductResource::collection($this->productsCarts()->get())
+            'total_products'=>count($this->productsCarts),
+            'total_price'=>$this->productsCarts->sum('price'),
+            'products' => CartProductResource::collection($this->productsCarts)
 
         ];
     }

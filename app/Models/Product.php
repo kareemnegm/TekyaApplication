@@ -32,7 +32,8 @@ class Product extends Model implements HasMedia
         'collection_id',
         'category_id',
         'shop_id',
-        'order'
+        'order',
+     
     ];
 
     public function order()

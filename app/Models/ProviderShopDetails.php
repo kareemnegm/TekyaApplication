@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FileTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -28,7 +29,7 @@ class ProviderShopDetails extends Model implements HasMedia
     }
     public function productsCarts()
     {
-        return $this->belongsToMany(Product::class,'cart_product','product_id')->withPivot(['product_id ','quantity'])->withTimestamps();
+        return $this->belongsToMany(Product::class,'cart_product')->withPivot(['quantity'])->select(['product_id','name','description','price','over_price','quantity']);
     }
 
     public function cart()

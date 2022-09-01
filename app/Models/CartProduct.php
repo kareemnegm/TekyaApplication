@@ -18,4 +18,23 @@ class CartProduct extends Model
         'quantity'
 
     ];
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function shop()
+    {
+        return $this->belongsTo(ProviderShopDetails::class, 'provider_shop_details_id');
+    }
+     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

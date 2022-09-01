@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\ProductsFormRequest;
 use App\Http\Requests\User\ProductQuantityFormRequest;
+use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +58,11 @@ class CartController extends Controller
      */
     public function getCartProducts()
     {
-        $cart_id = Auth::user()->cart->id;
-       return  $this->CartRepository->getCartProducts($cart_id);
-
+        $cart=$this->CartRepository->getCartProducts();
+        return $this->dataResponse([
+            'total_products_price' => $cart['total_products_price'],
+            'total_cart_shops' => $cart['total_cart_shops'],
+            'total_cart_products' => $cart['total_cart_products']
+            ,'cart' => $cart['cart_itmes']], 'OK', 200);
     }
 }
