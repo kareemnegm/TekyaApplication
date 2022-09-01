@@ -50,5 +50,8 @@ interface ProductInterface
 
 
 
-    public function move_product_from_collection($products,$collection_id);
+    public function move_product_from_collection($products, $collection_id);
+
+
+    public function publishOrUnPublishProduct($productDetails);
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
+use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductsResource;
 use App\Interfaces\ProductInterface;
@@ -150,5 +151,16 @@ class ProductController extends Controller
         $collection_id = $request->collection_id;
         $data = $this->productInterface->move_product_from_collection($products, $collection_id);
         $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+    }
+
+    public function publishOrUnPublishProduct(ProductPublishUnPublishFormRequest $request)
+    {
+        $productDetails = $request->input();
+        $this->productInterface->publishOrUnPublishProduct($productDetails);
+        if ($productDetails['is_published'] == 0) {
+            return $this->successResponse('product unpublished', 200);
+        } elseif ($productDetails['is_published'] == 1) {
+            return $this->successResponse('product published', 200);
+        }
     }
 }
