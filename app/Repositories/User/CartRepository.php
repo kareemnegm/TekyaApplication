@@ -9,6 +9,7 @@ use App\Interfaces\User\CartInterface;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Product;
+use App\Models\ProviderShopDetails;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -95,9 +96,26 @@ class CartRepository extends Controller implements CartInterface
      * @param [type] $cart_id
      * @return void
      */
-    public function getCartProducts($cart_id)
+    public function getCartProducts()
     {
-        $cart = Cart::findOrFail($cart_id);
-        return UserCartResource::collection($cart->providerShopDetails()->distinct()->get());
+        $cart_id = Auth::user()->cart->id;
+        $cart  = Cart::findOrFail($cart_id);
+
+        $cartUser = ProviderShopDetails::whereHas('cart',
+                    function ($query) use($cart){$query->where('cart_id', $cart->id);})
+                   ->distinct()
+                    ->orderBy('created_at','DESC')->get();
+
+            
+            $countShop=count($cartUser);
+            $countProducts=$cart->products()->count();
+            $toalPrice=$cart->products()->sum('price');
+
+       return [
+        'cart_itmes'=>UserCartResource::collection($cartUser),
+        'total_cart_shops'=>$countShop,
+        'total_cart_products'=>$countProducts,
+        'total_products_price'=>$toalPrice,
+       ];
     }
 }

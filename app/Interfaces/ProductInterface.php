@@ -42,13 +42,16 @@ interface ProductInterface
      * @param array $newDetails
      * @return void
      */
-    public function deleteShopProduct($ProductID);
+    public function deleteShopProduct($ProductIDs);
 
 
 
     public function remove_product_from_collection($products);
 
 
-    
-    public function move_product_from_collection($products,$collection_id);
+
+    public function move_product_from_collection($products, $collection_id);
+
+
+    public function publishOrUnPublishProduct($productDetails);
 }

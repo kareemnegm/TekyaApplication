@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\ShopDetailsFormRequest;
 use App\Interfaces\ProviderInterface;
@@ -48,10 +49,10 @@ class ShopController extends Controller
     }
 
 
-    public function updateShopDetails(ShopDetailsFormRequest $request)
+    public function updateShopDetails(UpdateShopDetailsFormRequest $request)
     {
         $provider_id = Auth::user()->id;
-        $details = $request->all();
+        $details = $request->input();
         $this->ProviderRepository->updateShopDetails($details, $provider_id);
         return $this->successResponse('updated successful', 200);
     }

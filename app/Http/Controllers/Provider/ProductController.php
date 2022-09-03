@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
+use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductsResource;
 use App\Interfaces\ProductInterface;
@@ -86,9 +87,10 @@ class ProductController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function destroy($productId)
+    public function destroy(ProductIdsFormRequest $request)
     {
-        $this->productInterface->deleteShopProduct($productId);
+        // dd();
+        $this->productInterface->deleteShopProduct($request->product_id);
         return $this->successResponse('Deleted Successfuly', 200);
     }
 
@@ -137,17 +139,28 @@ class ProductController extends Controller
 
     public function remove_product_from_collection(ProductIdsFormRequest $request)
     {
-        $products = $request->product_ids;
-        $this->productInterface->remove_product_from_collection($products);
-        return $this->successResponse('removed Successfully', 200);
+        $products = $request->input();
+        $data = $this->productInterface->remove_product_from_collection($products);
+        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'removed Successfully', 200);
     }
 
 
     public function move_product_from_collection(ProductIdsFormRequest $request)
     {
-        $products = $request->product_ids;
+        $products = $request->product_id;
         $collection_id = $request->collection_id;
-        $this->productInterface->move_product_from_collection($products, $collection_id);
-        return $this->successResponse('moved Successfully', 200);
+        $data = $this->productInterface->move_product_from_collection($products, $collection_id);
+        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+    }
+
+    public function publishOrUnPublishProduct(ProductPublishUnPublishFormRequest $request)
+    {
+        $productDetails = $request->input();
+        $this->productInterface->publishOrUnPublishProduct($productDetails);
+        if ($productDetails['is_published'] == 0) {
+            return $this->successResponse('product unpublished', 200);
+        } elseif ($productDetails['is_published'] == 1) {
+            return $this->successResponse('product published', 200);
+        }
     }
 }

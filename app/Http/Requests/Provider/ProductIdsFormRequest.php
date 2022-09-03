@@ -25,8 +25,9 @@ class ProductIdsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'product_ids.*'=>'required|exists:products,id',
-            'collection_id'=>'exists:collections,id',
+            'product_id.*' => 'required|exists:products,id',
+            'collection_id' => 'exists:collections,id',
+
         ];
     }
 }

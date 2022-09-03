@@ -54,10 +54,10 @@ class ProductRepository implements ProductInterface
      * @param [type] $projectId
      * @return void
      */
-    public function deleteShopProduct($projectID)
+    public function deleteShopProduct($projectIDs)
     {
 
-        Product::destroy($projectID);
+        Product::destroy($projectIDs);
     }
     /**
      * Create Product  function
@@ -114,9 +114,14 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function move_product_from_collection($products,$collection_id)
+    public function move_product_from_collection($products, $collection_id)
     {
         $products = Product::whereIn('id', $products)->update(['collection_id' => $collection_id]);
         return $products;
+    }
+
+    public function publishOrUnPublishProduct($productDetails)
+    {
+        $products = Product::where('id', $productDetails['product_id'])->update(['is_published' => $productDetails['is_published']]);
     }
 }

@@ -25,7 +25,7 @@ class ShopDetailsFormRequest extends BaseFormRequest
     {
         return [
             'shop_name'=>'required'
-
+            
         ];
     }
 }

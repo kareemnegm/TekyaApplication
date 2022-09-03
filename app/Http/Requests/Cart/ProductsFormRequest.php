@@ -36,17 +36,17 @@ class ProductsFormRequest extends BaseFormRequest
             'product_id'=>['required','exists:products,id',
             new ProductInCartRule($request)
         ],
-    
-            'shop_id' => [                                                                  
-                'required',                                                            
-                
+
+            'shop_id' => [
+                'required',
+
                 Rule::exists('products', 'shop_id')                     
-                ->where('id',$request->product_id)->where('shop_id',$request->shop_id),     
+                ->where('id',$request->product_id)->where('shop_id',$request->shop_id),
 
                 new ShopinCartRule($request)
-            ],  
-            'quantity'=> 'required|integer'                                                                     
-      
+            ],
+            'quantity'=> 'required|integer'
+
         ];
     }
 
@@ -56,7 +56,7 @@ class ProductsFormRequest extends BaseFormRequest
      * @return array
      */
     public function messages()
-    {  
+    {
         return [
         'shop_id.exists'=>'The selected product shop id is invalid.',
         ];
