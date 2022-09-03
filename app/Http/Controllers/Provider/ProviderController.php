@@ -33,9 +33,11 @@ class ProviderController extends Controller
     {
         $details = $request->input();
         $user = Auth::user();
-        $this->ProviderRepository->updateShopDetails($details,$user->id);
+        $this->ProviderRepository->updateShopDetails($details, $user->id);
         $user->user_name = $details['user_name'];
         $user->save();
-        return $this->successResponse('updated successful',200);
+        $shop_name=$user->providerShopDetails()->value('shop_name');
+        $token = $request->bearerToken();
+        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop_name, 'token' => $token], 'success', 200);
     }
 }

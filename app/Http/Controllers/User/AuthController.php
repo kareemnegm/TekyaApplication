@@ -44,7 +44,7 @@ class AuthController extends Controller
 
             return $this->errorResponse('Credentials not match', 401);
         }
-
+        
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
         return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 200);
 

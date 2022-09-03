@@ -28,9 +28,9 @@ class AuthController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = Provider::create($data);
         $data['provider_id'] = $user->id;
-        ProviderShopDetails::create($data);
+        $shop=ProviderShopDetails::create($data);
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['provider' => $user, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['provider' => $user,'shop_name'=>$shop->shop_name, 'token' => $token], 'success', 200);
     }
 
 
@@ -44,14 +44,14 @@ class AuthController extends Controller
     {
 
         $provider = Provider::where('email', $request->email)->first();
+        $shop_name=$provider->providerShopDetails()->value('shop_name');
 
         if (!$provider || !Hash::check($request->password, $provider->password)) {
 
             return $this->errorResponse('Credentials not match', 401);
         }
-
         $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['provider' => $provider, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['provider' => $provider, 'shop_name'=>$shop_name,'token' => $token], 'success', 200);
 
     }
 
