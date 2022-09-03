@@ -40,4 +40,8 @@ interface BundelInterface{
      */
     public function updateShopBundel($bundelID, array $newDetails);
 
+
+
+    public function renameBundle($bundleDetails);
+
 }

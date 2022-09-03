@@ -137,20 +137,17 @@ class ProductController extends Controller
 
     public function remove_product_from_collection(ProductIdsFormRequest $request)
     {
-        $products = $request->input();
-        $data = $this->productInterface->remove_product_from_collection($products);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'removed Successfully', 200);
+        $products = $request->product_ids;
+        $this->productInterface->remove_product_from_collection($products);
+        return $this->successResponse('removed Successfully', 200);
     }
 
 
     public function move_product_from_collection(ProductIdsFormRequest $request)
     {
-        $products = $request->product_id;
+        $products = $request->product_ids;
         $collection_id = $request->collection_id;
-        $data = $this->productInterface->move_product_from_collection($products,$collection_id);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+        $this->productInterface->move_product_from_collection($products, $collection_id);
+        return $this->successResponse('moved Successfully', 200);
     }
-
-
-
 }

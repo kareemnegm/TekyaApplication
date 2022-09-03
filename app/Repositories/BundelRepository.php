@@ -121,7 +121,9 @@ class BundelRepository implements BundelInterface
 
     }
 
-
+    public function renameBundle($bundleDetails){
+        
+    }
 
 
 }
