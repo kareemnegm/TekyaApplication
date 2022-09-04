@@ -20,8 +20,11 @@ class CreateBranchAddressesTable extends Migration
             $table->string('address_details')->nullable();
             $table->string('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
-            $table->string('area');
-
+            $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('government_id');
+            $table->text('location')->nullable();
+            $table->foreign('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('government_id')->references('id')->on('governments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

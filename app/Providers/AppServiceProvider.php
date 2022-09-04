@@ -7,6 +7,7 @@ use App\Classes\ProviderClass;
 use App\Interfaces\BundelInterface;
 use App\Interfaces\CategoryInterface;
 use App\Interfaces\CollectionInterface;
+use App\Interfaces\DeliveryCoverageInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\ProductInterface;
 use App\Interfaces\ProviderInterface;
@@ -19,6 +20,7 @@ use App\Repositories\User\ShopRepository;
 use App\Interfaces\User\CategoryInterface as CategoryUserInterface;
 use App\Interfaces\User\OrderInterface;
 use App\Interfaces\User\UserInterface;
+use App\Repositories\DeliveryCoverageRepository;
 use App\Repositories\MessageRepository;
 use App\Repositories\User\CartRepository;
 use App\Repositories\User\CategoryRepository;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryInterface::class, CategoryClass::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(MessageInterface::class, MessageRepository::class);
+        $this->app->bind(DeliveryCoverageInterface::class, DeliveryCoverageRepository::class);
 
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 

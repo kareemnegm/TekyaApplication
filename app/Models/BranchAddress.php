@@ -14,10 +14,21 @@ class BranchAddress extends Model
         'address_details',
         'nearest_landmark',
         'notes',
-        'area',
+        'area_id',
+        'government_id',
     ];
     public function providerShopBranch()
     {
         return $this->hasOne(providerShopBranch::class);
+    }
+
+    public function government()
+    {
+        return $this->belongsTo(Government::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

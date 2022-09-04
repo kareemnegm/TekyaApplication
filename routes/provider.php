@@ -22,6 +22,14 @@ Route::put('changePassword', 'AuthController@ChangePassword');
 
  /**end of payment option  */
 
+
+
+ /**delivery coverage */
+
+ Route::apiResource('/deliveryCoverage', 'DeliveryCoverage');
+
+ /**end of delivery coverage */
+
 /**
  * shopDetails
  */
