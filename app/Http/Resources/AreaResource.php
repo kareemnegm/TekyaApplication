@@ -25,7 +25,7 @@ class AreaResource extends JsonResource
                 "name"=>$this->government->name,
 
             ],
-                                                                                                   
+
         ];
     }
 }

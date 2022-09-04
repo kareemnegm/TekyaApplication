@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         if (!$provider || !Hash::check($request->password, $provider->password)) {
 
-            return $this->errorResponse('Credentials not match', 401);
+            return $this->errorResponseWithMessage('Credentials not match', 401);
         }
         $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
         return $this->dataResponse(['provider' => $provider, 'shop_name'=>$shop_name,'token' => $token], 'success', 200);
@@ -61,7 +61,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return $this->errorResponse('Current password does not match!', 400);
+            return $this->errorResponseWithMessage('Current password does not match!', 400);
         }
         $user->password = bcrypt($request->password);
         $user->save();

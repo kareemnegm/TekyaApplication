@@ -27,7 +27,7 @@ class UserController extends Controller
         $this->UserRepository->addAddress($data);
         return $this->successResponse('created successfully', 200);
     }
-    
+
     public function updateAddress(Request $request, $id)
     {
         $user_id = Auth::user()->id;
@@ -38,7 +38,7 @@ class UserController extends Controller
             $this->UserRepository->updateAddress($data, $id);
             return $this->successResponse('updated successfully', 200);
         }
-        return $this->errorResponse('unauthorized', 401);
+        return $this->errorResponseWithMessage('unauthorized', 401);
     }
 
     public function deleteAddress($id)
@@ -49,7 +49,7 @@ class UserController extends Controller
             $this->UserRepository->deleteAddress($id);
             return $this->successResponse('deleted successfully', 200);
         }
-        return $this->errorResponse('unauthorized', 401);
+        return $this->errorResponseWithMessage('unauthorized', 401);
     }
 
     public function getAddresses(Request $request)
@@ -66,7 +66,7 @@ class UserController extends Controller
         if (isset($address)&&!empty($address)) {
                      return $this->dataResponse(['data'=>new UserAddressResource($address)],'ok',200);
         }
-        return $this->errorResponse('unauthorized', 401);
+        return $this->errorResponseWithMessage('unauthorized', 401);
     }
 
 

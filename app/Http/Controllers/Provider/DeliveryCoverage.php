@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\DeliveryCoverageFormRequest;
+use App\Http\Resources\Provider\DeliveryCoverageResource;
 use App\Interfaces\DeliveryCoverageInterface;
+use App\Models\deliveryCoverage as ModelsDeliveryCoverage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +26,8 @@ class DeliveryCoverage extends Controller
      */
     public function index()
     {
-        //
+        $shop_id = Auth::user()->providerShopDetails->id;
+        return $this->dataResponse(['delivery_coverage' => DeliveryCoverageResource::collection($this->deliveryCoverageRepository->getAllDeliveryCoverage($shop_id))], 'success', 200);
     }
 
     /**
@@ -38,7 +41,9 @@ class DeliveryCoverage extends Controller
         $details = $request->input();
         $shop_id = Auth::user()->providerShopDetails->id;
         $details['shop_id'] = $shop_id;
-        return $this->dataResponse(['delivery_coverage'=>$this->deliveryCoverageRepository->deliveryCoverage($details)],'created successful',200);
+        $details['delivery_date_time'] = json_encode($details['delivery_date_time']);
+
+        return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->deliveryCoverage($details))], 'created successful', 200);
     }
 
     /**
@@ -49,20 +54,16 @@ class DeliveryCoverage extends Controller
      */
     public function show($id)
     {
-        //
+        $shop_id = Auth::user()->providerShopDetails->id;
+        $coverageAreas = ModelsDeliveryCoverage::where('id', $id)->where('shop_id', $shop_id)->exists();
+        if($coverageAreas){
+            return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->getDeliveryCoverage($id))], 'success', 200);
+        }
+        return $this->errorResponseWithMessage('Unauthorized',401);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
+ 
     /**
      * Update the specified resource in storage.
      *

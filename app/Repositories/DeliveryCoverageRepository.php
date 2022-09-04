@@ -12,4 +12,16 @@ class DeliveryCoverageRepository implements DeliveryCoverageInterface
         $coverageArea = deliveryCoverage::create($details);
         return $coverageArea;
     }
+
+    public function getAllDeliveryCoverage($shop_id)
+    {
+        $coverageAreas = deliveryCoverage::where('shop_id', $shop_id)->get();
+        return $coverageAreas;
+    }
+
+
+    public function getDeliveryCoverage($id){
+        $coverageAreas = deliveryCoverage::find($id);
+               return $coverageAreas;
+    }
 }
