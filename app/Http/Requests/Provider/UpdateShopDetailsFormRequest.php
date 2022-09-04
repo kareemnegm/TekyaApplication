@@ -35,11 +35,11 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
 
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
             'pick_up.different' => ':attribute must choose :attribute or :other.',
-            'delivery.different'
+            'delivery.different'=>':attribute must choose :attribute or :other.'
         ];
     }
 
