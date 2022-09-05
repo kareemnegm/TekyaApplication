@@ -61,7 +61,7 @@ class ShopController extends Controller
     public function shopsProducts(Request $request)
     {
         $shopsProducts=$this->shopRepository->shopsProducts($request);
-        return $this->paginateCollection(ShopsProductsResoruce::collection($shopsProducts),$request->limit,'shops_products');
+        return $this->paginateCollection(ShopsProductsResoruce::collection($shopsProducts),$request->limit,'shops');
 
     }
 

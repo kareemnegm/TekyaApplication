@@ -70,3 +70,12 @@ class ShopController extends Controller
         return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id, $request), $request->limit, 'shop');
     }
 }
+
+
+
+
+
+
+
+
+
