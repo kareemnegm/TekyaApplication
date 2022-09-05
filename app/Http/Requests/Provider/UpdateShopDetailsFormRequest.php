@@ -28,7 +28,7 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
             'shop_name' => 'required',
             'whatsapp_number' => 'numeric|min:10',
             'email' => 'email',
-            'category_id' => 'required|exists:categories,id',
+            'category_id.*' => 'required|exists:categories,id',
             'delivery' => 'required_without:pick_up|in:1,0|different:pick_up',
             'pick_up' => 'required_without:delivery|in:1,0|different:delivery',
         ];

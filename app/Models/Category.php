@@ -20,7 +20,7 @@ class Category extends Model
 
     public function providerShopDetails()
     {
-        return $this->hasMany(ProviderShopDetails::class);
+        return $this->belongsToMany(ProviderShopDetails::class,'category_shops');
     }
     public function parent()
     {
@@ -37,7 +37,7 @@ class Category extends Model
 
     public function shops()
     {
-        return $this->hasMany(ProviderShopDetails::class, 'category_id');
+        return $this->belongsToMany(ProviderShopDetails::class, 'category_shops','category_id','shop_id');
     }
 
     public function products()

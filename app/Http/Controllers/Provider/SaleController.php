@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\SaleFormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
@@ -23,9 +25,10 @@ class SaleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaleFormRequest $request)
     {
-        
+        $shop_id = Auth::user()->providerShopDetails->id;
+        $data = $request->input();
     }
 
     /**

@@ -21,7 +21,6 @@ class ProviderShopDetails extends Model implements HasMedia
         'email',
         'web_site',
         'provider_id',
-        'category_id'
 
     ];
 
@@ -49,7 +48,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsToMany(Category::class, 'category_shops','shop_id')->withTimestamps();
     }
 
     public function products()

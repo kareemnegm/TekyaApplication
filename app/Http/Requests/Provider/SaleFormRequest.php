@@ -25,7 +25,13 @@ class SaleFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'start_date'=>'required|'
+            'start_date'=>'required|date_format:d/m/Y|after_or_equal:today',
+            'end_date'=>'required|date_format:d/m/Y|after:start_date',
+            'discount_cap'=>'required',
+            'discount'=>'required|numeric',
+            'price_range_start'=>'required|numeric',
+            'price_range_end'=>'required|numeric',
+            'category_id'=>'required|exists:categories',
         ];
     }
 }
