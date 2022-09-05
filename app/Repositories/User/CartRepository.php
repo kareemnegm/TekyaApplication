@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Repositories\User;
-
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CartProductResource;
 use App\Http\Resources\User\UserCartResource;
@@ -38,19 +36,23 @@ class CartRepository extends Controller implements CartInterface
         }
         elseif($availableStock >  $req['quantity'] & !$productInCart){
     
-        $quantity=$req['quantity'] > 1  ? 1 :$req['quantity'];
+        // $quantity=$req['quantity']   ?  :$req['quantity'];
     
             CartProduct::create([
             'cart_id'=> $cart_id, 
             'product_id'=> $req['product_id'], 
             'provider_shop_details_id'=> $req['shop_id'], 
-            'quantity'=> $quantity, 
+            'quantity'=> $req['quantity'], 
             ]);
             return $this->successResponse('Product added in cart successfully.');
 
         }
             elseif($productInCart){
-            return $this->errorResponseWithMessage('Product is in cart.',422);
+
+             $productInCart->updated(['quantity']);
+             return $this->successResponse('Product updated in cart successfully.');
+
+             
         }
 
     }
