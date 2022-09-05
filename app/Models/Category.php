@@ -13,6 +13,10 @@ class Category extends Model
         'category_id'
     ];
 
+    public function sale()
+    {
+        return $this->hasOne(Sale::class);
+    }
 
     public function providerShopDetails()
     {
@@ -40,5 +44,4 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'category_id');
     }
-
 }

@@ -31,29 +31,28 @@ class CartRepository extends Controller implements CartInterface
         $productInCart = CartProduct::where('cart_id',$cart_id)->where('product_id',$req['product_id'])->where('provider_shop_details_id',$req['shop_id'])->first();
 
 
-        if ($availableStock <  $req['quantity']) {
+        $quantity=isset($productInCart) ? $productInCart->quantity + $req['quantity'] :$req['quantity'];
+
+        if ($availableStock <  $quantity) {
             return $this->errorResponseWithMessage('Out Of Stock',422);
         }
         elseif($availableStock >  $req['quantity'] & !$productInCart){
-    
+
         // $quantity=$req['quantity']   ?  :$req['quantity'];
-    
+
             CartProduct::create([
-            'cart_id'=> $cart_id, 
-            'product_id'=> $req['product_id'], 
-            'provider_shop_details_id'=> $req['shop_id'], 
-            'quantity'=> $req['quantity'], 
+            'cart_id'=> $cart_id,
+            'product_id'=> $req['product_id'],
+            'provider_shop_details_id'=> $req['shop_id'],
+            'quantity'=> $req['quantity'],
             ]);
             return $this->successResponse('Product added in cart successfully.');
 
         }
-            elseif($productInCart){
-
-             $productInCart->updated(['quantity']);
-             return $this->successResponse('Product updated in cart successfully.');
-
-             
-        }
+        elseif($productInCart){
+            $productInCart->update(['quantity'=>$productInCart->quantity + $req['quantity']]);
+            return $this->successResponse('Product updated in cart successfully.');
+       }
 
     }
 
@@ -84,7 +83,7 @@ class CartRepository extends Controller implements CartInterface
             return $this->successResponse('Product removed from cart successfully.');
 
 
-        }elseif($availableStock >  $req['quantity'] && $productInCart){ 
+        }elseif($availableStock >  $req['quantity'] && $productInCart){
 
             $productInCart->update(['quantity' => $req['quantity']]);
             return $this->successResponse('Product quantity updated successfully.');
@@ -108,7 +107,7 @@ class CartRepository extends Controller implements CartInterface
                    ->distinct()
                     ->orderBy('created_at','DESC')->get();
 
-            
+
             $countShop=count($cartUser);
             $countProducts=$cart->products()->count();
             $toalPrice=$cart->products()->sum('price');

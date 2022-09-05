@@ -24,39 +24,45 @@ class ProviderShopDetails extends Model implements HasMedia
         'category_id'
 
     ];
-    public function message(){
+
+    public function sale()
+    {
+        return $this->hasMany(Sale::class);
+    }
+    public function message()
+    {
         return $this->hasMany(Message::class);
     }
     public function productsCarts()
     {
-        return $this->belongsToMany(Product::class,'cart_product')->withPivot(['quantity'])->select(['product_id','name','description','price','over_price','quantity']);
+        return $this->belongsToMany(Product::class, 'cart_product')->withPivot(['quantity'])->select(['product_id', 'name', 'description', 'price', 'over_price', 'quantity']);
     }
 
     public function cart()
     {
-        return $this->belongsToMany(Cart::class,'cart_product','provider_shop_details_id')->withPivot(['product_id','quantity'])->withTimestamps();
+        return $this->belongsToMany(Cart::class, 'cart_product', 'provider_shop_details_id')->withPivot(['product_id', 'quantity'])->withTimestamps();
     }
     public function provider()
     {
-        return $this->belongsTo(Provider::class,'provider_id');
+        return $this->belongsTo(Provider::class, 'provider_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class ,'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function products()
     {
-        return $this->hasMany(Product::class,'shop_id');
+        return $this->hasMany(Product::class, 'shop_id');
     }
 
 
     public function branches()
     {
-        return $this->hasMany(providerShopBranch::class,'shop_id');
+        return $this->hasMany(providerShopBranch::class, 'shop_id');
     }
-       /**
+    /**
      * Undocumented function
      *
      * @param Media $media
@@ -65,8 +71,8 @@ class ProviderShopDetails extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-              ->width(400)
-              ->height(600)
-              ->sharpen(0);
+            ->width(400)
+            ->height(600)
+            ->sharpen(0);
     }
 }
