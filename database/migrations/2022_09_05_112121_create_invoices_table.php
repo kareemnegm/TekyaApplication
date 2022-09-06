@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderItemsTable extends Migration
+class CreateInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,24 @@ class CreateOrderItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
             
             $table->unsignedBigInteger('shop_id');
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            
+            $table->unsignedBigInteger('coupon_id')->nullable();
+
+            $table->text('total_item');
+
+            $table->enum('state',['pending','paid','refund','canceled'])->default('pending');
+
+            $table->text('invoice_details');
+
+            $table->dateTime('invoice_date');
 
             $table->timestamps();
         });
@@ -35,6 +43,6 @@ class CreateOrderItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('invoices');
     }
 }

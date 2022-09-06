@@ -31,6 +31,6 @@ Route::group(['prefix' => 'cart'], function () {
 
 
 Route::group(['prefix' => 'order'], function () {
-    Route::get('/order_review', 'OrderController@orderReview');
-
+    Route::get('order_review', 'OrderController@orderReview');
+    Route::post('place_order', 'OrderController@placeOrder');
 });

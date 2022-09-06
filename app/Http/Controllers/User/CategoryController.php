@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    
     /**
      * Undocumented variable
      *
@@ -78,7 +79,6 @@ class CategoryController extends Controller
     {
         $categoryProducts=$this->CategoryRepository->categoryProducts($request);
         return $this->paginateCollection(ProductsResource::collection($categoryProducts),$request->limit,'category_products');
-
 
     }
 }

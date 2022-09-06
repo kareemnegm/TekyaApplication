@@ -15,13 +15,28 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('order_status',['pending','placed','canceled']);
-            $table->enum('payment_status',['pending','paid','refund','canceled']);
+            $table->uuid('order_number')->unique();
+            
+            $table->enum('order_status',['placed','canceled','delivered'])->default('placed');
+
+            $table->enum('delivery_option',['pickup','delivery']);
+
+            $table->unsignedBigInteger('payment_id')->nullable();
+            $table->foreign('payment_id')->references('id')->on('payment_options')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->enum('payment_status',['pending','paid','refund','canceled'])->default('pending');
+
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('user_addresses')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->double('total_price');
+
+            $table->dateTime('date_order_placed');
+
+            $table->text('order_details') ;
+
+            $table->text('invoices_total')->nullable();
 
             $table->timestamps();
         });

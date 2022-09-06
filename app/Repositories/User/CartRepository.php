@@ -48,8 +48,7 @@ class CartRepository extends Controller implements CartInterface
 
         }
             elseif($productInCart){
-
-             $productInCart->updated(['quantity']);
+             $productInCart->updated(['quantity'=>$productInCart->quantity + $req['quantity']]);
              return $this->successResponse('Product updated in cart successfully.');
 
              
@@ -119,5 +118,17 @@ class CartRepository extends Controller implements CartInterface
         'total_cart_products'=>$countProducts,
         'total_products_price'=>$toalPrice,
        ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $cart_id
+     * @return void
+     */
+    public function clearShopsFromCarts($req)
+    {
+        CartProduct::where('shop_id',$req['shop_id'])->delete();
+
     }
 }

@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'id',
-        'order_status',
+        'order_number',
         'user_id',
         'address_id',
-        'total_price',
+        'order_status',
         'payment_status',
-        'coupon_id',
-        'price_before_discount'
+        'payment_id',
+        'date_order_placed',
+        'order_details',
+        'invoices_total'
     ];
 
     public function product()

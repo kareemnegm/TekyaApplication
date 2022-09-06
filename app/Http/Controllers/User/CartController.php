@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\ProductsFormRequest;
+use App\Http\Requests\User\DeleteShopFromCartRequest;
 use App\Http\Requests\User\ProductQuantityFormRequest;
 use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
@@ -28,7 +29,7 @@ class CartController extends Controller
     {
         $this->CartRepository = $CartRepository;
     }
-
+    
     /**
      * Undocumented function
      *
@@ -37,8 +38,8 @@ class CartController extends Controller
      */
     public function addProductsToCart(ProductsFormRequest $request)
     {
+    
         return  $this->CartRepository->addProductsToCart($request->validated());
-
     }
     /**
      * Undocumented function
@@ -65,4 +66,17 @@ class CartController extends Controller
             'total_cart_products' => $cart['total_cart_products']
             ,'cart' => $cart['cart_itmes']], 'OK', 200);
     }
+
+     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function clearShopsFromCarts(DeleteShopFromCartRequest $request)
+    {
+        $cart=$this->CartRepository->clearShopsFromCarts($request->validated());
+        return $this->successResponse('Deleted Successful', 200);
+
+    }
+    
 }
