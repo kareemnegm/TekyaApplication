@@ -9,6 +9,11 @@ class SaleRepository implements SaleInterface
 {
     public function createSale($details)
     {
-        return Sale::create($details);
+        $categories = $details['category_id'];
+        foreach($categories as $category){
+        $details['category_id']=$category;
+        Sale::create($details);
+        }
+        return;
     }
 }

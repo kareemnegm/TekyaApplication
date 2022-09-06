@@ -30,8 +30,20 @@ class ProductRepository implements ProductInterface
             $q->where('is_publish', $is_publish);
         }
 
-
-        $collections = $q->orderBy('order', 'ASC')->get();
+        if (isset($request->sortBy) && !empty($request->sortBy)) {
+            if ($request->sortBy == 'alphabetical') {
+                $request->sortBy = 'name';
+            } elseif ($request->sortBy == 'date_of_creating') {
+                $request->sortBy = 'created_at';
+            }
+            if (isset($request->sort) && !empty($request->sort)) {
+                $collections = $q->orderBy($request->sortBy, $request->sort)->get();
+            } else {
+                $collections = $q->orderBy($request->sortBy, 'desc')->get();
+            }
+        } else {
+            $collections = $q->orderBy('order', 'ASC')->get();
+        }
 
 
         return $collections;
