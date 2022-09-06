@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\Product\ProductSortFormRequest;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
@@ -38,7 +39,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return array
      */
-    public function index(Request $request, $collection_id)
+    public function index(ProductSortFormRequest $request, $collection_id)
     {
         $products = $this->productInterface->getAllShopProduct($request, $collection_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'product');
