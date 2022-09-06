@@ -1,6 +1,23 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('shop/categories', 'CategoryController@shopProductsCategories');
+
+
+
+/**
+ *
+ * ! sale
+ */
+
+Route::apiResource('sale', 'SaleController');
+
+/**
+ *
+ * !end of sale
+ */
 
 /***
  *
@@ -10,26 +27,25 @@ Route::put('/myAccount', 'ProviderController@updateShopAndUserName');
 Route::put('changePassword', 'AuthController@ChangePassword');
 
 
-
 /**
  * !end of my account
  */
 
 
- /**payment option */
+/**payment option */
 
- Route::apiResource('/payment', 'PaymentController');
+Route::apiResource('/payment', 'PaymentController');
 
- /**end of payment option  */
+/**end of payment option  */
 
 
 
- /**delivery coverage */
+/**delivery coverage */
 
- Route::apiResource('/deliveryCoverage', 'DeliveryCoverage')->except(['update']);
- Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
+Route::apiResource('/deliveryCoverage', 'DeliveryCoverage')->except(['update']);
+Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
 
- /**end of delivery coverage */
+/**end of delivery coverage */
 
 /**
  * shopDetails
@@ -57,7 +73,7 @@ Route::put('collection_published', 'CollectionController@publish_unPublish');
 /**
  * Prodcut
  */
-Route::apiResource('/product', 'ProductController')->except(['index','destroy']);
+Route::apiResource('/product', 'ProductController')->except(['index', 'destroy']);
 Route::delete('/product', 'ProductController@destroy');
 Route::put('/product_publish', 'ProductController@publishOrUnPublishProduct');
 Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
