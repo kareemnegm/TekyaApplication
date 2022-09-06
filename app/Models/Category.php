@@ -13,10 +13,14 @@ class Category extends Model
         'category_id'
     ];
 
+    public function sale()
+    {
+        return $this->hasOne(Sale::class);
+    }
 
     public function providerShopDetails()
     {
-        return $this->hasMany(ProviderShopDetails::class);
+        return $this->belongsToMany(ProviderShopDetails::class,'category_shops');
     }
     public function parent()
     {
@@ -33,12 +37,11 @@ class Category extends Model
 
     public function shops()
     {
-        return $this->hasMany(ProviderShopDetails::class, 'category_id');
+        return $this->belongsToMany(ProviderShopDetails::class, 'category_shops','category_id','shop_id');
     }
 
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id');
     }
-
 }

@@ -20,8 +20,25 @@ class DeliveryCoverageRepository implements DeliveryCoverageInterface
     }
 
 
-    public function getDeliveryCoverage($id){
+    public function getDeliveryCoverage($id)
+    {
         $coverageAreas = deliveryCoverage::find($id);
-               return $coverageAreas;
+        return $coverageAreas;
+    }
+
+
+    public function deleteDeliveryCoverage($id)
+    {
+        $coverageAreas = deliveryCoverage::find($id);
+        $coverageAreas->delete();
+    }
+
+
+    public function updateDeliveryCoverage($id, $data)
+    {
+        $data['delivery_date_time'] = json_encode($data['delivery_date_time']);
+        $delivery = deliveryCoverage::findOrFail($id);
+        $delivery->update($data);
+        return $delivery;
     }
 }

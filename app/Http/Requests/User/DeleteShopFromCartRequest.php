@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\User;
 
+use App\Http\Requests\BaseFormRequest;
 use App\Models\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class DeleteShopFromCartRequest extends FormRequest
+class DeleteShopFromCartRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +18,7 @@ class DeleteShopFromCartRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,9 +33,9 @@ class DeleteShopFromCartRequest extends FormRequest
         return [
             'shop_id' => [
             'required',
-            
-            Rule::exists('cart_products', 'shop_id') ->                    
-              where('cart_id',$cart->id) ->where('shop_id',$request->shop_id)
+
+            Rule::exists('cart_product', 'provider_shop_details_id') ->                    
+              where('cart_id',$cart->id) ->where('provider_shop_details_id',$request->shop_id)
             ],
         ];
     }

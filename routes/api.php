@@ -77,6 +77,9 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::get('shop/branches', 'ShopController@getShopBranches');
 
 
+    Route::get('search','searchController@search');
+
+
 });
 
 

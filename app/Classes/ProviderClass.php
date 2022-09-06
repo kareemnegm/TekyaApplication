@@ -37,6 +37,8 @@ class ProviderClass implements ProviderInterface
             $shopDetails->clearMediaCollectionExcept('shop_cover');
         }
         $shopDetails->update($details);
+        $shopProvider = ProviderShopDetails::find($shopDetails->id);
+        $shopProvider->category()->sync($details['category_id']);
     }
 
 

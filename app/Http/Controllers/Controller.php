@@ -33,7 +33,8 @@ class Controller extends BaseController
     public function successResponse($message = null, $code = null){
         $success = [
             'status' => $code ? $code : 200,
-            'message' => $message ? $message : 'success'
+            'message' => $message ? $message : 'success',
+            'data'=>null
         ];
 
         return response()->json($success, 200);

@@ -53,7 +53,7 @@ class ShopController extends Controller
     {
         $provider_id = Auth::user()->id;
         $details = $request->input();
-        $this->ProviderRepository->updateShopDetails($details, $provider_id);
+    $this->ProviderRepository->updateShopDetails($details, $provider_id);
         return $this->successResponse('updated successful', 200);
     }
 
@@ -70,3 +70,12 @@ class ShopController extends Controller
         return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id, $request), $request->limit, 'shop');
     }
 }
+
+
+
+
+
+
+
+
+

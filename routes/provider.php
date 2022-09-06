@@ -26,7 +26,8 @@ Route::put('changePassword', 'AuthController@ChangePassword');
 
  /**delivery coverage */
 
- Route::apiResource('/deliveryCoverage', 'DeliveryCoverage');
+ Route::apiResource('/deliveryCoverage', 'DeliveryCoverage')->except(['update']);
+ Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
 
  /**end of delivery coverage */
 

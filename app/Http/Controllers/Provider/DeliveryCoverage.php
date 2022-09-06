@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\DeliveryCoverageFormRequest;
+use App\Http\Requests\Provider\UpdateDeliveryCoverageFormRequest;
 use App\Http\Resources\Provider\DeliveryCoverageResource;
 use App\Interfaces\DeliveryCoverageInterface;
 use App\Models\deliveryCoverage as ModelsDeliveryCoverage;
@@ -56,14 +57,14 @@ class DeliveryCoverage extends Controller
     {
         $shop_id = Auth::user()->providerShopDetails->id;
         $coverageAreas = ModelsDeliveryCoverage::where('id', $id)->where('shop_id', $shop_id)->exists();
-        if($coverageAreas){
+        if ($coverageAreas) {
             return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->getDeliveryCoverage($id))], 'success', 200);
         }
-        return $this->errorResponseWithMessage('Unauthorized',401);
+        return $this->errorResponseWithMessage('Unauthorized', 401);
     }
 
 
- 
+
     /**
      * Update the specified resource in storage.
      *
@@ -71,9 +72,11 @@ class DeliveryCoverage extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDeliveryCoverageFormRequest $request)
     {
-        //
+        $deliveryCoverageId = $request->delivery_coverage_id;
+        $data = $request->except('delivery_coverage_id');
+        return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->updateDeliveryCoverage($deliveryCoverageId,$data))], 'updated successful', 200);
     }
 
     /**
@@ -84,6 +87,12 @@ class DeliveryCoverage extends Controller
      */
     public function destroy($id)
     {
-        //
+        $shop_id = Auth::user()->providerShopDetails->id;
+        $coverageAreas = ModelsDeliveryCoverage::where('id', $id)->where('shop_id', $shop_id)->exists();
+        if ($coverageAreas) {
+            $this->deliveryCoverageRepository->deleteDeliveryCoverage($id);
+            return $this->successResponse('deleted successful', 200);
+        }
+        return $this->errorResponseWithMessage('Unauthorized', 401);
     }
 }

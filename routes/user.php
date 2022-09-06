@@ -27,6 +27,10 @@ Route::group(['prefix' => 'cart'], function () {
     Route::post('/product', 'CartController@addProductsToCart');
     Route::put('product/quantity', 'CartController@IncreaseOrDecreaseProductQuantity');
     Route::get('/', 'CartController@getCartProducts');
+    Route::delete('/clear_shops ', 'CartController@clearShopsFromCarts');
+    Route::post('/multi_products ', 'CartController@addMultiProductsToCarts');
+
+    
 });
 
 
