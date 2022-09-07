@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'name'=>$this->name,
             'description'=>$this->description,
             'price'=>$this->price,
-            'over_price'=>$this->over_price,
+            'offer_price'=>$this->offer_price,
             'start_date'=>$this->start_date,
             'end_date'=>$this->end_date,
             'stock_quantity'=>$this->stock_quantity,
@@ -41,7 +41,7 @@ class ProductResource extends JsonResource
             ],
             'tags'=>$this->when(isset($this->tags),  TagsResource::collection($this->tags)),
 
-        
+
             'product_images'=> ImageResource::collection($this->getMedia('product_images'))?? null,
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
             'updated_at'=>$this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A'):null,

@@ -22,7 +22,7 @@ class Bundel extends Model implements HasMedia
         'name',
         'description',
         'price',
-        'over_price',
+        'offer_price',
         'start_date',
         'end_date',
         'stock_quantity',

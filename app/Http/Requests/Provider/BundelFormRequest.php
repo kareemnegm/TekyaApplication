@@ -28,7 +28,7 @@ class BundelFormRequest extends BaseFormRequest
             'name'=>'required',
             'description'=>'required',
             'price'=>'required',
-            'over_price'=>'required',
+            'offer_price'=>'required',
             'start_date' => 'nullable|date_format:Y-m-d|before_or_equal:end_date',
             'end_date' => 'nullable|date_format:Y-m-d|after_or_equal:start_date',
             'stock_quantity'=>'required',

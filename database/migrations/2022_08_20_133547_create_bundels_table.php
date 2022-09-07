@@ -18,7 +18,7 @@ class CreateBundelsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->double('price');
-            $table->double('over_price');
+            $table->double('offer_price');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('stock_quantity');
