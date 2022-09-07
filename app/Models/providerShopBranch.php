@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class providerShopBranch extends Model
 {
     use HasFactory;
+
+    protected $table = 'provider_shop_branches';
+
     protected $fillable = [
         'name',
         'phone',
@@ -26,7 +29,7 @@ class providerShopBranch extends Model
      */
     public function shop()
     {
-        return $this->belongsTo(ProviderShopDetails::class,'id');
+        return $this->belongsTo(ProviderShopDetails::class,'shop');
     }
 
     /**
@@ -56,5 +59,34 @@ class providerShopBranch extends Model
     public function BranchAddress()
     {
         return $this->belongsTo(BranchAddress::class);
+    }
+
+
+    public function scopeByDistance($query,$latitude, $longitude, $shopIDs=null,$distance = null, $unit = "km")
+    {
+        $distance= 30;
+        $constant = $unit == "km" ? 6371 : 3959;
+
+        $haversine = "(
+            6371 * acos(
+                cos(radians(" .$latitude. "))
+                * cos(radians(`latitude`))
+                * cos(radians(`longitude`) - radians(" .$longitude. "))
+                + sin(radians(" .$latitude. ")) * sin(radians(`latitude`))
+            )
+        )";
+
+        if(!empty($shopIDs)){
+
+        return  providerShopBranch::with('shop')->whereIn('shop_id',$shopIDs)->selectRaw("$haversine AS distance, id as id , name as name")
+            ->having("distance", "<=", $distance)
+            ->orderby("distance", "asc")->get();
+        }else{
+            return  providerShopBranch::with('shop')->selectRaw("$haversine AS distance, id as id , name as name")
+            ->having("distance", "<=", $distance)
+            ->orderby("distance", "asc")->get();
+        }
+
+
     }
 }

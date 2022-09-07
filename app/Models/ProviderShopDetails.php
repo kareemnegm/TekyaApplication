@@ -14,6 +14,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ProviderShopDetails extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, FileTrait;
+
+    protected $table = 'provider_shop_details';
+
     protected $fillable = [
         'shop_name',
         'whatsapp_number',
@@ -60,7 +63,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     public function branches()
     {
-        return $this->hasMany(providerShopBranch::class, 'shop_id');
+        return $this->hasMany(providerShopBranch::class);
     }
     /**
      * Undocumented function
@@ -76,25 +79,7 @@ class ProviderShopDetails extends Model implements HasMedia
             ->sharpen(0);
     }
 
-    public function scopeByDistance($query,$latitude, $longitude, $distance = null, $unit = "km")
-    {
-        $distance= 30;
-        $constant = $unit == "km" ? 6371 : 3959;
-
-        $haversine = "(
-            6371 * acos(
-                cos(radians(" .$latitude. "))
-                * cos(radians(`latitude`))
-                * cos(radians(`longitude`) - radians(" .$longitude. "))
-                + sin(radians(" .$latitude. ")) * sin(radians(`latitude`))
-            )
-        )";
-
-
-        return  providerShopBranch::selectRaw("$haversine AS distance, id as id , name as name")
-            ->having("distance", "<=", $distance)
-            ->orderby("distance", "asc")->get();
-    }
+    
 
  
 }
