@@ -1,6 +1,6 @@
 <?php
 
-namespace App\User\Interfaces;
+namespace App\Interfaces\User;
 
 interface ProductInterface {
 
@@ -17,5 +17,5 @@ interface ProductInterface {
      * @return void
      */
     public function productJustForYou();
-    
+
 }

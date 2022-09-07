@@ -38,10 +38,12 @@ class ShopController extends Controller
      */
     public function nearestShops(Request $request)
     {
-         $nearestShops = $this->shopRepository->nearestShops($request);
+        $nearestShops = $this->shopRepository->nearestShops($request);
 
         return $this->paginateCollection(ShopsResource::collection($nearestShops), $request->limit, 'shops');
     }
+
+
     /**
      * Display a listing of the resource.
      *

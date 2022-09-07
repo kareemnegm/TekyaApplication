@@ -19,7 +19,8 @@ Route::put('address/{id}', 'UserController@updateAddress');
 Route::delete('address/{id}', 'UserController@deleteAddress');
 /** end of user  addresses */
 
-
+Route::post('location', 'UserController@createUserLocation');
+Route::get('location', 'UserController@getUserLocation');
 
 
 
@@ -29,8 +30,6 @@ Route::group(['prefix' => 'cart'], function () {
     Route::get('/', 'CartController@getCartProducts');
     Route::delete('/clear_shops ', 'CartController@clearShopsFromCarts');
     Route::post('/multi_products ', 'CartController@addMultiProductsToCarts');
-
-    
 });
 
 

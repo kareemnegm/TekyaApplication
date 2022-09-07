@@ -55,7 +55,6 @@ class SaleRepository implements SaleInterface
 
     public function singleSale($sale_id)
     {
-        $sales = Sale::findOrFail($sale_id);
-        return $sales;
+        return Sale::findOrFail($sale_id);
     }
 }

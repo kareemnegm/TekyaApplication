@@ -9,7 +9,6 @@ use App\Models\ProviderShopDetails;
 
 class ShopRepository extends Controller implements ShopInrerface
 {
-
     /**
      * Listet Nearts Shop function
      *

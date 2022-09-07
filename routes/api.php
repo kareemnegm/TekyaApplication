@@ -67,6 +67,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     /**
      * Shops Apis
      */
+
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
 
@@ -75,6 +76,11 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
 
     Route::get('shop', 'ShopController@getShopDetails');
     Route::get('shop/branches', 'ShopController@getShopBranches');
+
+
+    Route::get('products_for_you', 'ProductController@productsForYou');
+    Route::get('most_popular_products', 'ProductController@mostPopularProduct');
+
 
 
     Route::get('search','searchController@search');

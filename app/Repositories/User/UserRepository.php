@@ -5,6 +5,7 @@ namespace App\Repositories\User;
 use App\Http\Resources\User\MyAddressesResource;
 use App\Interfaces\User\UserInterface;
 use App\Models\UserAddress;
+use App\Models\UserLocation;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserInterface
@@ -32,4 +33,15 @@ class UserRepository implements UserInterface
         return MyAddressesResource::collection($address);
     }
 
+
+    public function createUserLocation($data)
+    {
+        return UserLocation::updateOrCreate(['user_id' => $data['user_id']], $data);
+    }
+
+
+    public function gerUserLocation($user_id)
+    {
+        return UserLocation::where('user_id', $user_id)->first();
+    }
 }

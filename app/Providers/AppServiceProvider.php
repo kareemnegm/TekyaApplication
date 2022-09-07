@@ -27,7 +27,9 @@ use App\Repositories\SaleRepository;
 use App\Repositories\User\CartRepository;
 use App\Repositories\User\CategoryRepository;
 use App\Repositories\User\OrderRepository;
+use App\Repositories\User\ProductRepository as UserProductRepository;
 use App\Repositories\User\UserRepository;
+use App\Interfaces\User\ProductInterface as InterfacesProductInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MessageInterface::class, MessageRepository::class);
         $this->app->bind(DeliveryCoverageInterface::class, DeliveryCoverageRepository::class);
         $this->app->bind(SaleInterface::class, SaleRepository::class);
+        $this->app->bind(InterfacesProductInterface::class, UserProductRepository::class);
 
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 
