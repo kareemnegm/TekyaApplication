@@ -29,7 +29,7 @@ use App\Repositories\User\CategoryRepository;
 use App\Repositories\User\OrderRepository;
 use App\Repositories\User\ProductRepository as UserProductRepository;
 use App\Repositories\User\UserRepository;
-use App\User\Interfaces\ProductInterface as InterfacesProductInterface;
+use App\Interfaces\User\ProductInterface as InterfacesProductInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

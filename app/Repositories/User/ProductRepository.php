@@ -2,8 +2,7 @@
 namespace App\Repositories\User;
 
 use App\Models\Product;
-use App\User\Interfaces\ProductInterface;
-
+use App\Interfaces\User\ProductInterface;
 
 class ProductRepository implements ProductInterface
 {
@@ -18,7 +17,6 @@ class ProductRepository implements ProductInterface
     public function productJustForYou(){
         $q = Product::query();
         $products = $q->orderBy('id','ASC')->get();
-
         return $products ;
     }
 

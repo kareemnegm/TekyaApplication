@@ -14,7 +14,7 @@ Route::get('shop/categories', 'CategoryController@shopProductsCategories');
 
 Route::apiResource('sale', 'SaleController')->except(['update','show']);
 Route::put('sale', 'SaleController@update');
-Route::get('sale/single', 'SaleController@show');
+Route::get('show_sale', 'SaleController@show');
 
 /**
  *
