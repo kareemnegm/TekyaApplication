@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 use App\Http\Controllers\Controller;
 use App\Interfaces\User\ShopInrerface;
 use App\Models\Category;
+use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 
 class ShopRepository extends Controller implements ShopInrerface
@@ -17,11 +18,14 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function nearestShops($request){
 
-        $q = ProviderShopDetails::query();
-        $shops = $q->orderBy('id','ASC')->get();
 
-        return $shops;
+        $latitude = 30.012537910528884;
+        $longitude = 31.290307442198323;
+        
+        $q = ProviderShopDetails::ByDistance($latitude,$longitude);
+        return $q;
     }
+
     /**
      * New Shop Liste function
      *
@@ -29,10 +33,10 @@ class ShopRepository extends Controller implements ShopInrerface
      * @return void
      */
     public function newShops($request){
-
-        $q = ProviderShopDetails::query();
-        $shops = $q->orderBy('id','DESC')->get();
-        return $shops;
+        $latitude = 30.012537910528884;
+        $longitude = 31.290307442198323;
+        $q = ProviderShopDetails::ByDistance($latitude,$longitude);
+        return $q;
     }
 
     /**
@@ -43,15 +47,19 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function shopsProducts($request){
 
+        $latitude = 30.012537910528884;
+        $longitude = 31.290307442198323;
+
             if ($request->category_id) {
                 $category = Category::findOrFail($request->category_id);
+                $q = $category->shops()->ByDistance($latitude,$longitude);
+
                 $q=$category->shops();
             }else{
-                $q = ProviderShopDetails::query();
+                $q = ProviderShopDetails::ByDistance($latitude,$longitude);
             }
 
-         $shops = $q->orderBy('id','DESC')->get();
-        return $shops;
+        return $q;
     }
 
 
@@ -67,10 +75,10 @@ class ShopRepository extends Controller implements ShopInrerface
             $shop = ProviderShopDetails::findOrFail($request->shop_id);
             $q=$shop->products();
 
-                $shops = $q->orderBy('order','ASC')->get();
+                $products = $q->orderBy('order','ASC')->get();
 
 
-        return $shops;
+        return $products;
     }
 
      /**

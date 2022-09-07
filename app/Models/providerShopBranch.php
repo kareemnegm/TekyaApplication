@@ -17,15 +17,42 @@ class providerShopBranch extends Model
         'is_active',
         'branch_address_id'
     ];
+
+
+     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function shop()
+    {
+        return $this->belongsTo(ProviderShopDetails::class,'id');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function provider_shop_details()
     {
-        return $this->belongsTo(ProviderShopDetails::class,'shop_id');
+        return $this->belongsTo(ProviderShopDetails::class,'id');
     }
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function paymentOption()
     {
         return $this->belongsToMany(PaymentOption::class, 'shop_branch_payments');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function BranchAddress()
     {
         return $this->belongsTo(BranchAddress::class);

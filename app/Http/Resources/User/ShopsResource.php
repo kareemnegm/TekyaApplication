@@ -15,11 +15,18 @@ class ShopsResource extends JsonResource
      */
     public function toArray($request)
     {
+        
         return [
-            'id' => $this->id,
-            'shop_name' => $this->shop_name,
-            'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
-            'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
+            'id' => $this->shop->id,
+            'shop_name' => $this->shop->shop_name,
+
+            'distance' => $this->distance > 1 ? round($this->distance,1) ." K": round($this->distance *1000)." M",
+            'delivery_time' => $this->distance > 1 ? round($this->distance,1) ." K": round($this->distance *1000)." M",
+            'brnach_name' => $this->name ,
+
+
+            'shop_logo'=>new ImageResource($this->shop->getFirstMedia('shop_logo'))?? null,
+            'shop_cover'=>new ImageResource($this->shop->getFirstMedia('shop_cover'))?? null,
     
            ];
     }

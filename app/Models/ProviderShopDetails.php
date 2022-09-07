@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\FileTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -74,4 +75,26 @@ class ProviderShopDetails extends Model implements HasMedia
             ->height(600)
             ->sharpen(0);
     }
+
+    public function scopeByDistance($query,$latitude, $longitude, $distance = null, $unit = "km")
+    {
+        $distance= 30;
+        $constant = $unit == "km" ? 6371 : 3959;
+
+        $haversine = "(
+            6371 * acos(
+                cos(radians(" .$latitude. "))
+                * cos(radians(`latitude`))
+                * cos(radians(`longitude`) - radians(" .$longitude. "))
+                + sin(radians(" .$latitude. ")) * sin(radians(`latitude`))
+            )
+        )";
+
+
+        return  providerShopBranch::selectRaw("$haversine AS distance, id as id , name as name")
+            ->having("distance", "<=", $distance)
+            ->orderby("distance", "asc")->get();
+    }
+
+ 
 }
