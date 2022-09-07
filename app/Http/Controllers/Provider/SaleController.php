@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\SaleFormRequest;
+use App\Http\Requests\Provider\UpdateSaleFormRequest;
+use App\Http\Requests\Provider\UpdateSaleFormRequest as saleIdFormRequest;
+use App\Http\Resources\Provider\SaleResource;
 use App\Interfaces\SaleInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +35,9 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $shop_id = Auth::user()->providerShopDetails->id;
+        $data = $this->SaleRepository->shopSales($shop_id);
+        return $this->dataResponse(['sale' => SaleResource::collection($data)], 'success', 200);
     }
 
     /**
@@ -58,21 +63,14 @@ class SaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(saleIdFormRequest $request)
     {
-        //
+        $id = $request->input();
+        $data = $this->SaleRepository->singleSale($id);
+        return $this->dataResponse(['sale' => new SaleResource($data)], 'success', 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -81,9 +79,11 @@ class SaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSaleFormRequest $request)
     {
-        //
+        $details = $request->input();
+        $data = $this->SaleRepository->updateSale($details);
+        return $this->dataResponse(['sale' => new SaleResource($data)], 'updated successful', 200);
     }
 
     /**
@@ -94,6 +94,11 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = $this->SaleRepository->deleteSales($id);
+        if ($data) {
+            return $this->successResponse('deleted successful', 200);
+        } else {
+            return $this->errorResponseWithMessage('Unauthorized', 401);
+        }
     }
 }

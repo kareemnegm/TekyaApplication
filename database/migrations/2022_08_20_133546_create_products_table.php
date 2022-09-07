@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->double('price');
-            $table->double('over_price');
+            $table->double('offer_price')->default(0);
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->integer('stock_quantity');
@@ -27,7 +27,7 @@ class CreateProductsTable extends Migration
             $table->integer('order')->default(1);
             $table->boolean('is_published');
             $table->boolean('to_donation');
-            
+
             $table->unsignedBigInteger('collection_id');
             $table->foreign('collection_id')->references('id')->on('collections')->cascadeOnDelete()->cascadeOnUpdate();
 

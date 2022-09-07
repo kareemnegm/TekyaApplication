@@ -12,7 +12,9 @@ Route::get('shop/categories', 'CategoryController@shopProductsCategories');
  * ! sale
  */
 
-Route::apiResource('sale', 'SaleController');
+Route::apiResource('sale', 'SaleController')->except(['update','show']);
+Route::put('sale', 'SaleController@update');
+Route::get('sale/single', 'SaleController@show');
 
 /**
  *
