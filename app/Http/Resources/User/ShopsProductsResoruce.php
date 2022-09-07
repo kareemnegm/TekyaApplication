@@ -16,11 +16,11 @@ class ShopsProductsResoruce extends JsonResource
     public function toArray($request)
     {
        return [
-        'id' => $this->id,
-        'shop_name' => $this->shop_name,
-        'shop_logo'=>new ImageResource($this->getFirstMedia('shop_logo'))?? null,
-        'shop_cover'=>new ImageResource($this->getFirstMedia('shop_cover'))?? null,
-        'shop_products'=>ProductsResource::collection($this->products()->orderBy('order','ASC')->take(5)->get())?? null
+        'id' => $this->shop->id,
+        'shop_name' => $this->shop->shop_name,
+        'shop_logo'=>new ImageResource($this->shop->getFirstMedia('shop_logo'))?? null,
+        'shop_cover'=>new ImageResource($this->shop->getFirstMedia('shop_cover'))?? null,
+        'shop_products'=>ProductsResource::collection($this->shop->products()->orderBy('order','ASC')->take(5)->get())?? null
 
        ];
     }
