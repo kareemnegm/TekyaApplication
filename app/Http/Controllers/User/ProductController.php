@@ -3,35 +3,30 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\User\Interfaces\ProductInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-     /**
+    /**
      * Undocumented variable
      *
      * @var ProviderInterface
      */
-    private ShopInrerface $shopRepository;
+    private ProductInterface $ProductRepository;
     /**
      * Undocumented function
      *
      * @param ProviderInterface $ProviderRepository
      */
-    public function __construct(ShopInrerface $shopRepository)
+    public function __construct(ProductInterface $ProductRepository)
     {
-        $this->shopRepository = $shopRepository;
+        $this->ProductRepository = $ProductRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function nearestShops(Request $request)
-    {
-        $nearestShops = $this->shopRepository->nearestShops($request);
 
-        return $this->paginateCollection(ShopsResource::collection($nearestShops), $request->limit, 'shops');
+    public function productsForYou()
+    {
+        $products =    $this->ProductRepository->productJustForYou();
     }
 }

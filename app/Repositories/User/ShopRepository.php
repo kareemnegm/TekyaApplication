@@ -9,7 +9,6 @@ use App\Models\ProviderShopDetails;
 
 class ShopRepository extends Controller implements ShopInrerface
 {
-
     /**
      * Listet Nearts Shop function
      *
@@ -21,7 +20,7 @@ class ShopRepository extends Controller implements ShopInrerface
 
         $latitude = 30.012537910528884;
         $longitude = 31.290307442198323;
-        
+
         $q = ProviderShopDetails::ByDistance($latitude,$longitude);
         return $q;
     }

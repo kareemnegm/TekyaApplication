@@ -67,6 +67,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     /**
      * Shops Apis
      */
+ 
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
 

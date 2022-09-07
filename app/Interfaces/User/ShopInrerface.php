@@ -2,7 +2,8 @@
 
 namespace App\Interfaces\User;
 
-interface ShopInrerface {
+interface ShopInrerface
+{
 
     /**
      * Undocumented function
@@ -34,7 +35,7 @@ interface ShopInrerface {
      */
     public function getProductsShop($request);
 
-      /**
+    /**
      * Undocumented function
      *
      * @param [type] $request
@@ -42,17 +43,13 @@ interface ShopInrerface {
      */
     public function getShopDetails($request);
 
-         /**
+    /**
      * Undocumented function
      *
      * @param [type] $request
      * @return void
      */
     public function getShopBranches($request);
-
-
-
-
 
 
 }
