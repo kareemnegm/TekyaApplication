@@ -15,14 +15,13 @@ class ShopsResource extends JsonResource
      */
     public function toArray($request)
     {
-        dd($this);
         return [
             'id' => $this->shop->id,
             'shop_name' => $this->shop->shop_name,
 
             'distance' => $this->distance > 1 ? round($this->distance,1) ." K": round($this->distance *1000)." M",
             'delivery_time' => 30,
-            'brnach' =>[
+            'nearest_brnach' =>[
                 'id' =>$this->id,
                 'name' =>$this->name,
             ],

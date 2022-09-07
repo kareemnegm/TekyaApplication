@@ -19,7 +19,6 @@ class ShopBracnhesResource extends JsonResource
             'name' => $this->name,
             'is_head' => $this->is_head,
             'is_active' => $this->is_active,
-            // 'address' => $address,
             'working_days' => json_decode($this->working_hours_day),
         ];
     }

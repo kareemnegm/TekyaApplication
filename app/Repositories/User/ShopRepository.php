@@ -55,7 +55,7 @@ class ShopRepository extends Controller implements ShopInrerface
                 $q = providerShopBranch::ByDistance($latitude,$longitude,$category->shops->pluck('id'));
 
             }else{
-                $q = ProviderShopDetails::ByDistance($latitude,$longitude);
+                $q = providerShopBranch::ByDistance($latitude,$longitude);
             }
 
         return $q;
@@ -70,11 +70,11 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function getProductsShop($request){
 
+        
+     $shop = ProviderShopDetails::findOrFail($request->shop_id);
+     $q=$shop->products();
 
-            $shop = ProviderShopDetails::findOrFail($request->shop_id);
-            $q=$shop->products();
-
-                $products = $q->orderBy('order','ASC')->get();
+     $products = $q->orderBy('order','ASC')->get();
 
 
         return $products;
@@ -87,8 +87,11 @@ class ShopRepository extends Controller implements ShopInrerface
      * @return void
      */
     public function getShopDetails($request){
-        $shop = ProviderShopDetails::findOrFail($request->shop_id);
-        return $shop;
+
+        $latitude = 30.012537910528884;
+        $longitude = 31.290307442198323;
+        $q = providerShopBranch::ByDistance($latitude,$longitude,array($request->shop_id))->first();
+        return $q;
     }
 
 

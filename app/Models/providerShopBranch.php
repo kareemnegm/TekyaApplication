@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class providerShopBranch extends Model
 {
@@ -29,7 +30,7 @@ class providerShopBranch extends Model
      */
     public function shop()
     {
-        return $this->belongsTo(ProviderShopDetails::class,'shop');
+        return $this->belongsTo(ProviderShopDetails::class,'shop_id');
     }
 
     /**
@@ -77,14 +78,14 @@ class providerShopBranch extends Model
         )";
 
         if(!empty($shopIDs)){
-
-        return  providerShopBranch::with('shop')->whereIn('shop_id',$shopIDs)->selectRaw("$haversine AS distance, id as id , name as name")
+        return providerShopBranch::with('shop')->whereIn('shop_id',$shopIDs)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"))
             ->having("distance", "<=", $distance)
-            ->orderby("distance", "asc")->get();
+            ->orderby("distance", "asc")->get()->unique('shop_id');
         }else{
-            return  providerShopBranch::with('shop')->selectRaw("$haversine AS distance, id as id , name as name")
+            return  providerShopBranch::with('shop')->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"))
             ->having("distance", "<=", $distance)
-            ->orderby("distance", "asc")->get();
+            ->orderby("distance", "asc")->get()->unique('shop_id');
+            
         }
 
 
