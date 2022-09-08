@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ProductsResource;
 use App\Interfaces\User\ProductInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
      */
     public function __construct(ProductInterface $ProductRepository)
     {
-       $this->ProductRepository = $ProductRepository;
+        $this->ProductRepository = $ProductRepository;
     }
 
 
@@ -30,22 +31,22 @@ class ProductController extends Controller
     {
 
         //! in teh if conndition should handle the nearest and the products for the user when he is logged in
-        if (\Request::header('Authorization')) {
+        if (Auth::check()) {
             $user_id = auth('user')->user->id;
+            dd($user_id);
             $products = $this->ProductRepository->productJustForYou();
             return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'products');
         }
 
         $products = $this->ProductRepository->productJustForYou();
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'products');
-
     }
 
 
 
-    public function mostPopularProduct(Request $request){
+    public function mostPopularProduct(Request $request)
+    {
         $products = $this->ProductRepository->mostPopularProduct();
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'products');
-
     }
 }
