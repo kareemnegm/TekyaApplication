@@ -24,6 +24,9 @@ class CreateProviderShopBranchesTable extends Migration
             $table->unsignedBigInteger('shop_id');
             $table->foreign('branch_address_id')->references('id')->on('branch_addresses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->float('latitude',10,6);
+            $table->float('longitude',10,6);
+
             $table->timestamps();
         });
     }
