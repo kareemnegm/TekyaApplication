@@ -25,7 +25,7 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_name' => 'required',
+            'shop_name' => 'unique:provider_shop_details,shop_name',
             'whatsapp_number' => 'numeric|min:10',
             'email' => 'email',
             'category_id.*' => 'required|exists:categories,id',

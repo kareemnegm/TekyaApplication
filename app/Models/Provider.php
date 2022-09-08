@@ -17,9 +17,15 @@ class Provider extends Authenticatable
         'email',
         'password',
         'type', //shop or charity
-        'mobile'
+        'mobile',
+        'admin_id'
 
     ];
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 
     public function providerShopDetails()
     {

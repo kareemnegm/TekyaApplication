@@ -49,6 +49,11 @@ return [
         'user'=>[
             'driver'=>'sanctum',
             'provider'=>'users'
+        ],
+
+        'admin'=>[
+            'driver'=>'sanctum',
+            'provider'=>'admins'
         ]
     ],
 
@@ -79,6 +84,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Provider::class,
         ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
     ],
 
     /*
@@ -105,6 +115,13 @@ return [
         ],
         'providers' => [
             'provider' => 'providers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
