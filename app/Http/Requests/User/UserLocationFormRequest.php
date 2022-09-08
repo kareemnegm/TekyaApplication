@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Provider;
+namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateSaleFormRequest extends BaseFormRequest
+class UserLocationFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +25,8 @@ class UpdateSaleFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'sale_id','exists:sales,id'
+            'longitude' => 'required',
+            'latitude' => 'required',
         ];
     }
 }

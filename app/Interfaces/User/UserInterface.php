@@ -9,5 +9,6 @@ interface UserInterface
     public function updateAddress($data, $id);
     public function deleteAddress($id);
     public function getAddresses($data);
-
+    public function createUserLocation($data);
+    public function gerUserLocation($user_id);
 }

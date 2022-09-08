@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\FileTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ProviderShopDetails extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, FileTrait;
+
+    protected $table = 'provider_shop_details';
+
     protected $fillable = [
         'shop_name',
         'whatsapp_number',
@@ -66,7 +70,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     public function branches()
     {
-        return $this->hasMany(providerShopBranch::class, 'shop_id');
+        return $this->hasMany(providerShopBranch::class,'shop_id');
     }
     /**
      * Undocumented function
@@ -81,4 +85,8 @@ class ProviderShopDetails extends Model implements HasMedia
             ->height(600)
             ->sharpen(0);
     }
+
+    
+
+ 
 }

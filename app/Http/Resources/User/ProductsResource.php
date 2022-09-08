@@ -5,6 +5,7 @@ namespace App\Http\Resources\User;
 use App\Http\Resources\ImageResource;
 use App\Models\CartProduct;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsResource extends JsonResource
 {
@@ -16,9 +17,9 @@ class ProductsResource extends JsonResource
      */
     public function toArray($request)
     {
-        $inCart=null;
-        $cartProductQuantity=null;
-        if (\Request::header('Authorization')) {
+        $inCart = null;
+        $cartProductQuantity = null;
+        if (Auth::check()) {
             $cart_id = auth('user')->user()->cart->id;
             $inCart = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop_id)->exists();
             if ($inCart) {
@@ -43,9 +44,8 @@ class ProductsResource extends JsonResource
                 'name' => $this->shop->shop_name,
 
             ],
-            'in_cart' => $inCart?$inCart:false,
+            'in_cart' => $inCart ? $inCart : false,
             'quantity' => isset($cartProductQuantity) ? $cartProductQuantity : null,
-
             'product_image' => new ImageResource($this->getFirstMedia('product_images')) ?? null,
         ];
     }

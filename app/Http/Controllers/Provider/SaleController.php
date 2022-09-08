@@ -33,11 +33,11 @@ class SaleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $shop_id = Auth::user()->providerShopDetails->id;
         $data = $this->SaleRepository->shopSales($shop_id);
-        return $this->dataResponse(['sale' => SaleResource::collection($data)], 'success', 200);
+        return $this->paginateCollection(SaleResource::collection($data), $request->limit, 'success');
     }
 
     /**
@@ -65,7 +65,7 @@ class SaleController extends Controller
      */
     public function show(saleIdFormRequest $request)
     {
-        $id = $request->input();
+        $id = $request->sale_id;
         $data = $this->SaleRepository->singleSale($id);
         return $this->dataResponse(['sale' => new SaleResource($data)], 'success', 200);
     }

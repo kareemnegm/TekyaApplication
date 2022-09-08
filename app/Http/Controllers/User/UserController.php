@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserAddressFormRequest;
+use App\Http\Requests\User\UserLocationFormRequest;
 use App\Http\Resources\User\UserAddressResource;
 use App\Interfaces\User\UserInterface;
 use App\Models\UserAddress;
@@ -60,15 +61,30 @@ class UserController extends Controller
         return $this->UserRepository->getAddresses($data);
     }
 
-    public function getAddress($id){
+    public function getAddress($id)
+    {
         $user_id = Auth::user()->id;
         $address = UserAddress::where('id', $id)->where('user_id', $user_id)->first();
-        if (isset($address)&&!empty($address)) {
-                     return $this->dataResponse(['data'=>new UserAddressResource($address)],'ok',200);
+        if (isset($address) && !empty($address)) {
+            return $this->dataResponse(['data' => new UserAddressResource($address)], 'ok', 200);
         }
         return $this->errorResponseWithMessage('unauthorized', 401);
     }
 
 
+    public function createUserLocation(UserLocationFormRequest $request)
+    {
+        $data = $request->input();
+        $data['user_id'] = Auth::user()->id;
+        $this->UserRepository->createUserLocation($data);
+        return $this->successResponse();
+    }
 
+
+    public function getUserLocation()
+    {
+        $user_id = Auth::user()->location()->first();
+
+        return $user_id;
+    }
 }

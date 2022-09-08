@@ -15,7 +15,6 @@ class SaleResource extends JsonResource
      */
     public function toArray($request)
     {
-        dd($this->id);
         $category = Category::where('id', $this->category_id)->value('name');
         return [
             'id' => $this->id,

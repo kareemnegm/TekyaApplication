@@ -30,8 +30,6 @@ class MultiAddProductsCartForRequest extends BaseFormRequest
     {
 
             return [
-
-
                 '*.shop_id' => [
                     'required',
                     Rule::exists('products', 'shop_id')     
@@ -44,9 +42,7 @@ class MultiAddProductsCartForRequest extends BaseFormRequest
             ],
     
                 
-                '*.quantity'=> 'required|integer'
-    
-            
+                '*.quantity'=> 'required|integer'            
         ];
     }
 }
