@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::put('changePassword', 'AuthController@ChangePassword');
+Route::put('/profile', 'AuthController@updateProfile');
 
 
 /**user  addresses */

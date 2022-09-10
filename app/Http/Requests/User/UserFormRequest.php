@@ -28,7 +28,7 @@ class UserFormRequest extends BaseFormRequest
         return [
             // 'first_name'=>'required',
             // 'last_name'=>'required',
-            // 'email'=>'required|email|unique:users',
+            // 'email'=>'email|unique:users,email',
             // 'password'=>'required|min:8',
             'mobile' => ['required', new PhoneNumber,'max:11','unique:users,mobile'],
             'country_code' => ['nullable','in:+20'],

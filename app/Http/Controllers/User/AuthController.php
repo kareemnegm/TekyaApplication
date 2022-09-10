@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordFormRequest;
+use App\Http\Requests\User\UpdateUserFormRequest;
 use App\Http\Requests\User\UserFormRequest;
 use App\Http\Requests\User\UserLoginFormRequest;
 use App\Models\Cart;
@@ -27,7 +28,7 @@ class AuthController extends Controller
         }
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
         Cart::create(['user_id' => $user->id]);
-        
+
         return $this->dataResponse(['user' => $user,'complete_profile'=>false, 'token' => $token ], 'success', 200);
     }
 
@@ -64,5 +65,13 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
         return $this->successResponse();
+    }
+
+
+    public function updateProfile(UpdateUserFormRequest $request)
+    {
+        $user = Auth::user();
+        $user->update($request->input());
+        return $this->successResponse('updated successful', 200);
     }
 }

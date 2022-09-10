@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordFormRequest;
 use App\Http\Requests\ProvderSignUpFormRequest;
 use App\Http\Requests\ProviderLoginFormRequest;
+use App\Http\Requests\User\UpdateUserFormRequest;
 use App\Models\Provider;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
@@ -28,9 +29,9 @@ class AuthController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = Provider::create($data);
         $data['provider_id'] = $user->id;
-        $shop=ProviderShopDetails::create($data);
+        $shop = ProviderShopDetails::create($data);
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['provider' => $user,'shop_name'=>$shop->shop_name, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name, 'token' => $token], 'success', 200);
     }
 
 
@@ -44,15 +45,14 @@ class AuthController extends Controller
     {
 
         $provider = Provider::where('email', $request->email)->first();
-        $shop_name=$provider->providerShopDetails()->value('shop_name');
+        $shop_name = $provider->providerShopDetails()->value('shop_name');
 
         if (!$provider || !Hash::check($request->password, $provider->password)) {
 
             return $this->errorResponseWithMessage('Credentials not match', 401);
         }
         $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['provider' => $provider, 'shop_name'=>$shop_name,'token' => $token], 'success', 200);
-
+        return $this->dataResponse(['provider' => $provider, 'shop_name' => $shop_name, 'token' => $token], 'success', 200);
     }
 
 
@@ -65,7 +65,9 @@ class AuthController extends Controller
         }
         $user->password = bcrypt($request->password);
         $user->save();
-        return $this->successResponse('updated successful',200);
+        return $this->successResponse('updated successful', 200);
     }
 
+
+   
 }
