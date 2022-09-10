@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordFormRequest;
+use App\Http\Requests\User\UserAreaFormRequest;
 use App\Http\Requests\User\UserFormRequest;
 use App\Http\Requests\User\UserLoginFormRequest;
 use App\Models\Cart;
@@ -63,6 +64,19 @@ class AuthController extends Controller
         }
         $user->password = bcrypt($request->password);
         $user->save();
+        return $this->successResponse();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param UserAreaFormRequest $request
+     * @return void
+     */
+    public function userArea(UserAreaFormRequest $request)
+    {
+        $user = Auth::user();
+        $user->update($request->validated());
         return $this->successResponse();
     }
 }
