@@ -23,6 +23,7 @@ Route::delete('address/{id}', 'UserController@deleteAddress');
 Route::post('location', 'UserController@createUserLocation');
 Route::get('location', 'UserController@getUserLocation');
 
+Route::put('user_area', 'AuthController@userArea');
 
 
 Route::group(['prefix' => 'cart'], function () {
