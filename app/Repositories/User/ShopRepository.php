@@ -44,18 +44,16 @@ class ShopRepository extends Controller implements ShopInrerface
      * @return void
      */
     public function shopsProducts($request){
-
-
+        
         $latitude = 30.012537910528884;
         $longitude = 31.290307442198323;
 
-            if ($request->category_id) {
-                $category = Category::findOrFail($request->category_id);
-                $q = providerShopBranch::ByDistance($latitude,$longitude,$category->shops->pluck('id'));
-
-            }else{
-                $q = providerShopBranch::ByDistance($latitude,$longitude);
-            }
+        if ($request->category_id) {
+            $category = Category::findOrFail($request->category_id);
+            $q = providerShopBranch::ByDistance($latitude,$longitude,$category->shops->pluck('id'));
+        }else{
+            $q = providerShopBranch::ByDistance($latitude,$longitude);
+        }
 
         return $q;
     }

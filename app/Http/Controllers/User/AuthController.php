@@ -20,14 +20,15 @@ class AuthController extends Controller
     {
 
         $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
+        // $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         if (isset($data['user_image'])) {
             $user->saveFiles($data['user_image'], 'user_image');
         }
         $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
         Cart::create(['user_id' => $user->id]);
-        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 200);
+        
+        return $this->dataResponse(['user' => $user,'complete_profile'=>false, 'token' => $token ], 'success', 200);
     }
 
 
@@ -36,17 +37,20 @@ class AuthController extends Controller
     {
         if (isset($request->email) && !empty($request->email)) {
             $user = User::where('email', $request->email)->first();
+
         } elseif (isset($request->mobile) && !empty($request->mobile)) {
             $user = User::where('mobile', $request->mobile)->first();
         }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
 
-            return $this->errorResponseWithMessage('Credentials not match', 401);
+        if(isset($user->email)&&isset($user->first_name) && isset($user->last_name)){
+             $complete_profile=true;
+        }else{
+            $complete_profile=false;
         }
 
-        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
-        return $this->dataResponse(['user' => $user, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['user' => $user, 'complete_profile'=>$complete_profile,'token' => $token], 'success', 200);
 
     }
 

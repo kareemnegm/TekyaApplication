@@ -34,7 +34,7 @@ class User extends Authenticatable  implements HasMedia
         'area_id',
         'location',
         'mobile_code',
-
+        'country_code'
     ];
 
     public function message()
