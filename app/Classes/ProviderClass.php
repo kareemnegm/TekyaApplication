@@ -73,6 +73,7 @@ class ProviderClass implements ProviderInterface
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
         $data = providerShopBranch::create($details);
         $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
+        return $data;
     }
 
 
@@ -106,6 +107,7 @@ class ProviderClass implements ProviderInterface
             $details['working_hours_day'] = json_encode($details['working_hours_day']);
         }
         $branch->update($details);
+        return $branch;
     }
 
     public function deleteBranch($id)

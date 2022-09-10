@@ -10,6 +10,8 @@ interface ProviderInterface
     // public function createShopDetails($details);
     public function updateShopDetails($details, $id);
     public function getShopDetails($id);
+    public function getShops();
+    public function suspendShop($id);
     // public function getShopByCategoryId($id, $details);
     /**
      * !branch section
@@ -19,7 +21,7 @@ interface ProviderInterface
     public function getBranches($id, $details);
     public function deleteBranch($id);
     public function BranchAddress($branchDetails);
-    public function  getBranch($details);
+    public function  getBranch($id);
     /**
      * ! end of branch section
      */

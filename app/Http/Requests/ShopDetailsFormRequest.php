@@ -24,8 +24,7 @@ class ShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_name'=>'required'
-            
+            'shop_name'=>'required|unique:provider_shop_details,shop_name'
         ];
     }
 }

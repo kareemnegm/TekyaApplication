@@ -31,8 +31,10 @@ class ShopBranchFormRequest extends BaseFormRequest
             "working_hours_day.*.startTimeStandard"=>"in:AM,PM",
             "address"=>"required",
             "street"=>"required",
-            "area"=>"required",
-            "nearest_landmark"=>"required"
+            "area_id"=>"required|exists:areas,id",
+            "government_id"=>"required|exists:governments,id",
+            "nearest_landmark"=>"required",
+            "payment_option_id.*"=>'required|exists:payment_options,id'
 
         ];
     }

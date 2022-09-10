@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Repositories\Admin;
 
 use App\Http\Resources\Provider\ShopDetailsResource;
 use App\Interfaces\Admin\ProviderInterface;
 use App\Models\BranchAddress;
+use App\Models\Provider;
 use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 
@@ -37,15 +39,29 @@ class ProviderRepository  implements ProviderInterface
 
 
 
+
+    public function getShops()
+    {
+        $shops = ProviderShopDetails::get();
+        return $shops;
+    }
+
+
+    public function suspendShop($id){
+        $shop=ProviderShopDetails::where('id',$id)->update(['status'=>'suspended']);
+    }
+
+
     public function createBranch($details)
     {
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
         $data = providerShopBranch::create($details);
         $data->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
+        return $data;
     }
 
 
- public function BranchAddress($branchDetails)
+    public function BranchAddress($branchDetails)
     {
         return  BranchAddress::create($branchDetails);
     }
@@ -59,9 +75,9 @@ class ProviderRepository  implements ProviderInterface
     }
 
 
-    public function getBranch($details)
+    public function getBranch($id)
     {
-        $branches = providerShopBranch::findOrFail($details['branch_id']);
+        $branches = providerShopBranch::findOrFail($id);
         return $branches;
     }
 
@@ -76,6 +92,7 @@ class ProviderRepository  implements ProviderInterface
             $details['working_hours_day'] = json_encode($details['working_hours_day']);
         }
         $branch->update($details);
+        return $branch;
     }
 
 
@@ -85,6 +102,4 @@ class ProviderRepository  implements ProviderInterface
         $branch = providerShopBranch::findOrFail($id);
         $branch->delete();
     }
-
-
 }

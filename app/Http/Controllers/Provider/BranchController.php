@@ -7,6 +7,8 @@ use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Resources\Provider\ShopBranchResource;
 use App\Interfaces\ProviderInterface;
+use App\Models\BranchAddress;
+use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +42,20 @@ class BranchController extends Controller
         $details['branch_address_id'] = $address->id;
         $branch =   $this->ProviderRepository->createBranch($details);
         return $this->dataResponse(['branch' => new ShopBranchResource($branch)], 'created successful', 200);
+    }
+
+
+    public function removePaymentOptionFromBranch(Request $request, $id)
+    {
+        $provider_id = Auth::user()->id;
+        $shopDetails = ProviderShopDetails::where('provider_id', $provider_id)->first();
+        $branch = providerShopBranch::findOrFail($id);
+        if ($branch->shop_id == $shopDetails['id']) {
+            $branch->paymentOption()->detach($request->payment_option_id);
+            return $this->successResponse('removed successful', 200);
+        }
+        return $this->errorResponseWithMessage('Unauthorized', 401);
+
     }
 
     public function getBranches(Request $request)

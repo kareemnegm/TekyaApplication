@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Classes\CategoryClass;
 use App\Classes\ProviderClass;
+use App\Interfaces\Admin\ProviderInterface as AdminProviderInterface;
 use App\Interfaces\BundelInterface;
 use App\Interfaces\CategoryInterface;
 use App\Interfaces\CollectionInterface;
@@ -30,6 +31,7 @@ use App\Repositories\User\OrderRepository;
 use App\Repositories\User\ProductRepository as UserProductRepository;
 use App\Repositories\User\UserRepository;
 use App\Interfaces\User\ProductInterface as InterfacesProductInterface;
+use App\Repositories\Admin\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 
         $this->app->bind(ShopInrerface::class, ShopRepository::class);
+        $this->app->bind(AdminProviderInterface::class, ProviderRepository::class);
 
         $this->app->bind(OrderInterface::class, OrderRepository::class);
 

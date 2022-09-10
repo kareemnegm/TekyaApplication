@@ -7,6 +7,7 @@ use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Resources\Provider\ShopBranchResource;
+use App\Http\Resources\Provider\ShopDetailsResource;
 use App\Interfaces\Admin\ProviderInterface;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
@@ -21,6 +22,14 @@ class ShopController extends Controller
         $this->ProviderRepository = $ProviderRepository;
     }
 
+
+
+    public function approverPendingStores($id)
+    {
+        $shop = ProviderShopDetails::find($id);
+        $shop->update(['status' => 'approved']);
+        return $this->successResponse('approved success', 200);
+    }
 
     /***
      * @param $request , $id
@@ -46,6 +55,21 @@ class ShopController extends Controller
     }
 
 
+
+    public function getShops(Request $request)
+    {
+        return $this->paginateCollection(ShopDetailsResource::collection($this->ProviderRepository->getShops()), $request->limit, 'shops');
+    }
+
+
+    public function suspendShop($id)
+    {
+        $this->ProviderRepository->suspendShop($id);
+        return $this->successResponse('shop suspended', 200);
+    }
+
+
+
     /***
      * @param $request
      * create branch and branch address
@@ -53,8 +77,8 @@ class ShopController extends Controller
 
     public function createBranch(ShopBranchFormRequest $request)
     {
-        $details = $request->all();
-        $shopDetails = ProviderShopDetails::where('provider_id', $details['provider_id'])->first();
+        $details = $request->input();
+        $shopDetails = ProviderShopDetails::where('id', $details['shop_id'])->first();
         $details['shop_id'] = $shopDetails['id'];
         $address = $this->ProviderRepository->BranchAddress($details);
         $details['branch_address_id'] = $address->id;
@@ -63,16 +87,16 @@ class ShopController extends Controller
     }
 
 
-    public function getBranches(Request $request)
+    public function getBranches(Request $request, $id)
     {
-        $shop_id = $request->shop_id;
-        return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request)), $request->limit, 'branch');
+        // $shop_id = $request->shop_id;
+        return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($id, $request)), $request->limit, 'branch');
     }
 
 
-    public function getBranch(BranchIdFormRequest $request)
+    public function getBranch($id)
     {
-        return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranch($request)), $request->limit, 'branch');
+        return $this->dataResponse(['branch' => new ShopBranchResource($this->ProviderRepository->getBranch($id))], 'success', 200);
     }
 
 
@@ -81,7 +105,7 @@ class ShopController extends Controller
     {
         $details = $request->input();
         $data = $this->ProviderRepository->updateBranch($details, $id);
-        return $this->dataResponse(['branch' => $data], 'update successful', 200);
+        return $this->dataResponse(['branch' => new ShopBranchResource($data)], 'update successful', 200);
     }
 
 
