@@ -4,6 +4,7 @@ namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UserLoginFormRequest extends BaseFormRequest
 {
@@ -22,13 +23,13 @@ class UserLoginFormRequest extends BaseFormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
+    
 
         return [
             'email' => 'required_without:mobile|string|exists:users,email',
             'mobile'=>'required_without:email|exists:users,mobile',
-            'password' => 'required'
 
         ];
     }
