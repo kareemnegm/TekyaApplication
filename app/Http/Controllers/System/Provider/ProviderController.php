@@ -28,6 +28,6 @@ class ProviderController extends Controller
         $data['status'] = 'approved';
         $shop = ProviderShopDetails::create($data);
         $shop_categories=$shop->category()->sync($data['category_id']);
-        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name], 'success', 200);
+        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop], 'success', 200);
     }
 }

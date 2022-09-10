@@ -36,8 +36,8 @@ class ProviderController extends Controller
         $this->ProviderRepository->updateShopDetails($details, $user->id);
         $user->user_name = $details['user_name'];
         $user->save();
-        $shop_name=$user->providerShopDetails()->value('shop_name');
+        $shop_name = $user->providerShopDetails()->value('shop_name');
         $token = $request->bearerToken();
-        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop_name, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['provider' => $user, 'shop' => $shop_name, 'token' => $token], 'success', 200);
     }
 }
