@@ -16,5 +16,23 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', 'AuthController@login')->withoutMiddleware('auth:admin');
 
     Route::put('changePassword', 'AuthController@ChangePassword');
+});
 
+
+
+Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
+    Route::post('/', 'ProviderController@createProvider');
+});
+
+Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
+    Route::post('/approve/{id}', 'ShopController@approverPendingStores');
+    Route::get('/', 'ShopController@getShops');
+    Route::put('/suspend/{id}', 'ShopController@suspendShop');
+    Route::get('/{id}', 'ShopController@getShopDetails');
+    Route::put('/{id}', 'ShopController@updateShopDetails');
+    Route::post('/branch', 'ShopController@createBranch');
+    Route::get('/branch/{id}', 'ShopController@getBranch');
+    Route::get('/{id}/branches', 'ShopController@getBranches');
+    Route::put('/branch/{id}', 'ShopController@updateBranch');
+    Route::delete('/branch/{id}', 'ShopController@deleteBranch');
 });

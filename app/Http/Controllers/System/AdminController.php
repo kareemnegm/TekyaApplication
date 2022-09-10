@@ -34,11 +34,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function approverPendingStores($id)
-    {
-        $shop = ProviderShopDetails::find($id);
-        $shop->update(['status' => 'approved']);
-    }
+   
 
     /**
      * Display the specified resource.
