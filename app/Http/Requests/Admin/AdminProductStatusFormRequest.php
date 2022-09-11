@@ -26,7 +26,7 @@ class AdminProductStatusFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required|exists:products,id,shop_id',
+            'product_id' => 'required|exists:products,id',
             'is_published' => 'required|in:0,1'
         ];
 

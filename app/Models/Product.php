@@ -33,6 +33,7 @@ class Product extends Model implements HasMedia
         'category_id',
         'shop_id',
         'order',
+        'admin_id'
 
     ];
 

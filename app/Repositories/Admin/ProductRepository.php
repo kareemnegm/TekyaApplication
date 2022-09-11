@@ -25,7 +25,7 @@ class ProductRepository  implements ProductInterface
 
         if ($request->is_publish) {
             $is_publish = $request->is_publish === 'true' ? 1 : 0;
-            $q->where('is_publish', $is_publish);
+            $q->where('is_published', $is_publish);
         }
 
         if (isset($request->sortBy) && !empty($request->sortBy)) {
@@ -77,7 +77,7 @@ class ProductRepository  implements ProductInterface
     public function createAdminShopProduct(array $productDetails)
     {
 
-        $productDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
+        $productDetails['admin_id'] = auth('admin')->user()->id;
 
         $product = Product::create($productDetails);
         $product->attachTags($productDetails['tags']);
@@ -99,7 +99,7 @@ class ProductRepository  implements ProductInterface
 
         $product = Product::findOrFail($collectionID);
 
-        $newDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
+        $newDetails['admin'] = auth('admin')->user()->id;
 
         $product->update($newDetails);
 
@@ -122,9 +122,9 @@ class ProductRepository  implements ProductInterface
      * @param [type] $products
      * @return void
      */
-    public function adminRemoveProductCollection($products)
+    public function adminRemoveProductCollection($collectionId,$products)
     {
-        $products = Product::whereIn('id', $products)->delete();
+        $products = Product::where('collection_id',$collectionId)->whereIn('id', $products)->update(['collection_id' => null]);
     }
 
     /**

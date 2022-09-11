@@ -83,7 +83,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Delete Single Product function
+     * Delete Single Product funicton
      *
      * @param [type] $projectId
      * @return Object
@@ -147,7 +147,7 @@ class ProductController extends Controller
     {
         $products = $request->input();
         $data = $this->productInterface->adminRemoveProductCollection($products);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'removed Successfully', 200);
+        $this->successResponse('removed Successfully', 200);
     }
 
 
@@ -172,12 +172,13 @@ class ProductController extends Controller
      * @return void
      */
     public function publishAdminProduct(AdminProductStatusFormRequest $request)
-    {
+    {       
+
         $productDetails = $request->input();
         $this->productInterface->publishAdminProduct($productDetails);
         
         if($productDetails['is_published'] == 0){
-
+            
             return $this->successResponse('product unpublished', 200);
 
            }elseif ($productDetails['is_published'] == 1){

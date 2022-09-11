@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminProductIdsFormRequest extends BaseFormRequest
+class GetProductFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class AdminProductIdsFormRequest extends BaseFormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,8 +24,7 @@ class AdminProductIdsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'product_id.*' => 'required|exists:products,id',
-            'collection_id' => 'required|exists:collections,id',
+            //
         ];
     }
 }

@@ -120,7 +120,7 @@ class ProductRepository implements ProductInterface
 
     public function remove_product_from_collection($products)
     {
-        $products = Product::whereIn('id', $products)->delete();
+        $products = Product::whereIn('id', $products)->update(['collection_id' => null]);
     }
 
 

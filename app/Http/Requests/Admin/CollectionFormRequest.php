@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Provider\Product;
+namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductSortFormRequest extends BaseFormRequest
+class CollectionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,11 @@ class ProductSortFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'sortBy'=>'in:alphabetical,price,date_of_creating,order',
-            'is_publish'=>'in:true,false'
+            'name'=>'required',
+            'is_published'=>'required|in:1,0',
+            'collection_image'=>'nullable',
+            'shop_id' => 'required|exists:provider_shop_details,id',
 
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'sortBy.in'=>' :attribute is used in alphabetical , price , date_of_creating , order'
         ];
     }
 }

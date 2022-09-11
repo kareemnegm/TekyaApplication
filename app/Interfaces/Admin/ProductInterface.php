@@ -49,7 +49,7 @@ interface ProductInterface
      * @param [type] $products
      * @return void
      */
-    public function adminRemoveProductCollection($products);
+    public function adminRemoveProductCollection($collectionId,$products);
     /**
      * Move Porduct To Aother Collection function
      *

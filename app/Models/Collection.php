@@ -17,7 +17,8 @@ class Collection extends Model implements HasMedia
     protected $fillable=[
         'name',
         'shop_id',
-        'is_published'
+        'is_published',
+        'admin_id'
     ];
 
     /**

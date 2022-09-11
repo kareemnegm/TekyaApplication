@@ -22,15 +22,15 @@ class CollectionRepository  implements CollectionInterface
 
         $q = Collection::query();
 
-        $shopId = auth('provider')->user()->providerShopDetails->id;
-        $q->where('shop_id', $shopId);
 
+        if ($request->shop_id) {
+            $q->where('shop_id', $request->shop_id);
+        }
 
         if ($request->is_publish) {
             $is_publish = $request->is_publish === 'true' ? 1 : 0;
-            $q->where('is_publish', $is_publish);
+            $q->where('is_published', $is_publish);
         }
-
 
         if ($request->page) {
             $collections = $q->paginate($limit);
@@ -49,7 +49,6 @@ class CollectionRepository  implements CollectionInterface
      */
     public function getAdminCollectionById($collectionID)
     {
-
         return Collection::findOrFail($collectionID);
     }
     /**
@@ -72,7 +71,7 @@ class CollectionRepository  implements CollectionInterface
     public function createAdminShopCollection(array $collectionDetails)
     {
 
-        $collectionDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
+        $collectionDetails['admin_id'] = auth('admin')->user()->id;
 
         $collection = Collection::create($collectionDetails);
 

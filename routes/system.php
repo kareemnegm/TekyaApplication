@@ -36,3 +36,37 @@ Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
     Route::put('/branch/{id}', 'ShopController@updateBranch');
     Route::delete('/branch/{id}', 'ShopController@deleteBranch');
 });
+
+
+
+
+/**
+ * Prodcut
+ */
+Route::group(['namespace' => 'Provider'], function () {
+    Route::apiResource('/product', 'ProductController')->except(['index']);
+
+
+    Route::delete('/product', 'ProductController@destroy');
+    Route::put('/product_publish', 'ProductController@publishAdminProduct');
+    Route::put('/move_product_collection', 'ProductController@move_product_from_collection');
+    Route::get('collection/{id}/products', 'ProductController@index');
+    Route::put('order_product', 'ProductController@orderProduct');
+    //  Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
+});
+
+
+    /**
+     * collections
+     */
+    Route::group(['namespace' => 'Provider'], function () {
+        Route::apiResource('collection', 'CollectionController');
+        Route::put('collection_rename', 'CollectionController@renameCollection');
+        Route::put('collection_status', 'CollectionController@changeStatusCollection');
+
+     }); 
+
+    //     Route::put('status', 'CollectionController@changeStatusCollection');
+
+    // });
+
