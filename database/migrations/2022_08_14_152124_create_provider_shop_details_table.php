@@ -24,9 +24,9 @@ class CreateProviderShopDetailsTable extends Migration
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')->references('id')->on('providers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('admin_id')->nullable();
-            $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnUpdate();
             $table->integer('delivery')->default(1);
-            $table->enum('status',['pending','approved','suspended'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'suspended'])->default('pending');
             $table->integer('pick_up')->default(1);
             $table->timestamps();
         });

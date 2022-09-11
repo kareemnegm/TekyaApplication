@@ -21,7 +21,7 @@ class CreateProvidersTable extends Migration
             $table->enum('type', ['shop', 'charity']);
             $table->string('mobile');
             $table->unsignedBigInteger('admin_id')->nullable();
-            $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnUpdate();
             $table->timestamps();
         });
     }
