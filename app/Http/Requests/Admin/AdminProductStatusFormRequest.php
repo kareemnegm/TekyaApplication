@@ -4,8 +4,9 @@ namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class AdminFormRequest extends BaseFormRequest
+class AdminProductStatusFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +26,20 @@ class AdminFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required',
-            'type' => 'nullable|in:super_admin,admin',
-            'mobile_no' => 'numeric'
+            'product_id' => 'required|exists:products,id,shop_id',
+            'is_published' => 'required|in:0,1'
+        ];
+
+    }
+       /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+        'product_id.exists'=>'The selected product id is invalid.',
         ];
     }
 }

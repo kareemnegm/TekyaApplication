@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminFormRequest extends BaseFormRequest
+class AdminProductFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class AdminFormRequest extends BaseFormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,10 +24,7 @@ class AdminFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required',
-            'type' => 'nullable|in:super_admin,admin',
-            'mobile_no' => 'numeric'
+            //
         ];
     }
 }

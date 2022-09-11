@@ -22,7 +22,7 @@ class AuthController extends Controller
         $data['password'] = bcrypt($data['password']);
         $admin = Admin::create($data);
 
-        $token = $admin->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $admin->createToken('AdminToken')->plainTextToken;
 
         return $this->dataResponse(['admin' => $admin, 'token' => $token], 'success', 200);
     }
@@ -39,7 +39,7 @@ class AuthController extends Controller
             return $this->errorResponseWithMessage('Credentials not match', 401);
         }
 
-        $token = $admin->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $admin->createToken('AdminToken')->plainTextToken;
         return $this->dataResponse(['admin' => $admin, 'token' => $token], 'success', 200);
     }
 

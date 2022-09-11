@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Admin;
 
-use App\Interfaces\CollectionInterface;
-use App\Interfaces\ProductInterface;
-use App\Models\Collection;
+use App\Interfaces\Admin\ProductInterface;
+use App\Interfaces\Admin\ProviderInterface;
 use App\Models\Product;
-use GuzzleHttp\Psr7\Request;
 
-class ProductRepository implements ProductInterface
+class ProductRepository  implements ProductInterface
 {
 
     /**
@@ -17,7 +15,7 @@ class ProductRepository implements ProductInterface
      * @param [type] $projectId
      * @return void
      */
-    public function getAllShopProduct($request, $collectionId)
+    public function getAllAdminShopProduct($request, $collectionId)
     {
 
 
@@ -50,23 +48,23 @@ class ProductRepository implements ProductInterface
     }
 
     /**
-     * Undocumented function
+     * getAdminProductById function
      *
      * @param [type] $projectId
      * @return void
      */
-    public function getProductById($collectionID)
+    public function getAdminProductById($collectionID)
     {
 
         return Product::findOrFail($collectionID);
     }
     /**
-     * Undocumented function
+     * deleteAdminShopProduct function
      *
      * @param [type] $projectId
      * @return void
      */
-    public function deleteShopProduct($projectIDs)
+    public function deleteAdminShopProduct($projectIDs)
     {
         Product::destroy($projectIDs);
     }
@@ -76,7 +74,7 @@ class ProductRepository implements ProductInterface
      * @param [type] $projectId
      * @return void
      */
-    public function createShopProduct(array $productDetails)
+    public function createAdminShopProduct(array $productDetails)
     {
 
         $productDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
@@ -91,12 +89,12 @@ class ProductRepository implements ProductInterface
         return $product;
     }
     /**
-     * Product Update function
+     * updateAdminShopProduct function
      *
      * @param [type] $projectId
      * @return void
      */
-    public function updateShopProduct($collectionID, array $newDetails)
+    public function updateAdminShopProduct($collectionID, array $newDetails)
     {
 
         $product = Product::findOrFail($collectionID);
@@ -118,21 +116,39 @@ class ProductRepository implements ProductInterface
     }
 
 
-    public function remove_product_from_collection($products)
+    /**
+     * removeAdminProductCollection function
+     *
+     * @param [type] $products
+     * @return void
+     */
+    public function adminRemoveProductCollection($products)
     {
         $products = Product::whereIn('id', $products)->delete();
     }
 
-
-
-    public function move_product_from_collection($products, $collection_id)
+    /**
+     * moveAdminProductFromCollection function
+     *
+     * @param [type] $products
+     * @param [type] $collection_id
+     * @return void
+     */
+    public function moveAdminProductFromCollection($products, $collection_id)
     {
         $products = Product::whereIn('id', $products)->update(['collection_id' => $collection_id]);
         return $products;
     }
 
-    public function publishOrUnPublishProduct($productDetails)
+    /**
+     * publishAdminProduct function
+     *
+     * @param [type] $productDetails
+     * @return void
+     */
+    public function publishAdminProduct($productDetails)
     {
         $products = Product::where('id', $productDetails['product_id'])->update(['is_published' => $productDetails['is_published']]);
     }
+    
 }

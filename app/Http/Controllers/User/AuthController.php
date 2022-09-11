@@ -27,7 +27,7 @@ class AuthController extends Controller
         if (isset($data['user_image'])) {
             $user->saveFiles($data['user_image'], 'user_image');
         }
-        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $user->createToken('UserToken')->plainTextToken;
         Cart::create(['user_id' => $user->id]);
 
         return $this->dataResponse(['user' => $user,'complete_profile'=>false, 'token' => $token ], 'success', 200);
@@ -44,7 +44,7 @@ class AuthController extends Controller
             $user = User::where('mobile', $request->mobile)->first();
         }
 
-        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $user->createToken('UserToken')->plainTextToken;
 
         if(isset($user->email)&&isset($user->first_name) && isset($user->last_name)){
              $complete_profile=true;

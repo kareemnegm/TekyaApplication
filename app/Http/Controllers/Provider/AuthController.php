@@ -30,7 +30,7 @@ class AuthController extends Controller
         $user = Provider::create($data);
         $data['provider_id'] = $user->id;
         $shop = ProviderShopDetails::create($data);
-        $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $user->createToken('ProviderToken')->plainTextToken;
         return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name, 'token' => $token], 'success', 200);
     }
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
             return $this->errorResponseWithMessage('Credentials not match', 401);
         }
-        $token = $provider->createToken('LaravelSanctumAuth')->plainTextToken;
+        $token = $provider->createToken('ProviderToken')->plainTextToken;
         return $this->dataResponse(['provider' => $provider, 'shop_name' => $shop_name, 'token' => $token], 'success', 200);
     }
 
