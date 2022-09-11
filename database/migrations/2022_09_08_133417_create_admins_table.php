@@ -19,6 +19,7 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('type',['admin','super_admin'])->default('admin');
+            $table->enum('status',['active','deactivated'])->default('active');
             $table->string('mobile_no')->nullable();
             $table->timestamps();
         });

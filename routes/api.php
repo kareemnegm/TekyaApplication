@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/payment', 'Provider\PaymentController@index');
-Route::apiResource('/category', 'Category\CategoryController');
+Route::apiResource('/category', 'Category\CategoryController')->except(['store','update','destroy']);
 
 
 Route::group(['namespace' => 'Provider\GovernmentArea'], function () {

@@ -10,13 +10,14 @@ class CategoryClass implements CategoryInterface
 {
     public function createCategory($details)
     {
-        Category::create($details);
+        return Category::create($details);
     }
 
     public function UpdateCategory($details, $id)
     {
         $category = Category::findOrFail($id);
         $category->update($details);
+        return $category;
     }
 
     public function getCategories($details)

@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 
+Route::group(['namespace' => 'GovernmentArea'], function () {
+    Route::apiResource('government', 'GovernmentController');
+    Route::apiResource('area', 'AreaController');
+    Route::get('government_area/{id}', 'AreaController@getAllGovernmentAreas');
+
+});
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -15,7 +21,15 @@ Route::group(['prefix' => 'admin'], function () {
      */
     Route::post('/login', 'AuthController@login')->withoutMiddleware('auth:admin');
 
+    Route::apiResource('/','AdminController')->except(['update','delete','show']);
+    Route::get('/{id}','AdminController@show');
     Route::put('changePassword', 'AuthController@ChangePassword');
+    Route::put('profile', 'AdminController@editMyAccount');
+    Route::put('deactivate/{id}', 'AdminController@deactivateAdminAccount');
+    Route::put('activate/{id}', 'AdminController@activateAdminAccount');
+
+
+
 });
 
 
