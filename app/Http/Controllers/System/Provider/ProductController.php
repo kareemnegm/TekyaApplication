@@ -39,9 +39,9 @@ class ProductController extends Controller
      * @param Request $request
      * @return array
      */
-    public function index(ProductSortFormRequest $request, $collection_id)
+    public function index(ProductSortFormRequest $request, $shopID)
     {
-        $products = $this->productInterface->getAllAdminShopProduct($request, $collection_id);
+        $products = $this->productInterface->getAllAdminShopProduct($request, $shopID);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'product');
     }
 

@@ -105,11 +105,12 @@ class CartRepository extends Controller implements CartInterface
         $cart  = Cart::findOrFail($cart_id);
 
         $cartUser = ProviderShopDetails::whereHas('cart',
-                    function ($query) use($cart){$query->where('cart_id', $cart->id);})
+                    function ($query) use($cart){   $query->where('cart_id', $cart->id);})
                    ->distinct()
                     ->orderBy('created_at','DESC')->get();
 
 
+                    // dd($cartUser);
             $countShop=count($cartUser);
             $countProducts=$cart->products()->count();
             $toalPrice=$cart->products()->sum('price');

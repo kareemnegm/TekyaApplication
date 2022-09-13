@@ -64,7 +64,7 @@ Route::group(['namespace' => 'Provider'], function () {
     Route::delete('/product', 'ProductController@destroy');
     Route::put('/product_publish', 'ProductController@publishAdminProduct');
     Route::put('/move_product_collection', 'ProductController@move_product_from_collection');
-    Route::get('collection/{id}/products', 'ProductController@index');
+    Route::get('shop/{id}/products', 'ProductController@index');
     Route::put('order_product', 'ProductController@orderProduct');
     //  Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
 });

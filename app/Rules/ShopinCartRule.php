@@ -29,7 +29,7 @@ class ShopinCartRule implements Rule
     {
         $shopCount=CartProduct::where('cart_id',$this->request->cart_id)
         ->where('provider_shop_details_id','!=',$this->request->shop_id)
-        ->distinct('provider_shop_details_id')->count() >= 2;
+        ->distinct('provider_shop_details_id')->count() >= 4;
         
         if($shopCount){
             return false;
