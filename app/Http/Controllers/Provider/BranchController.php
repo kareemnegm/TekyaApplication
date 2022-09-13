@@ -73,7 +73,7 @@ class BranchController extends Controller
     {
         $details = $request->input();
         $data = $this->ProviderRepository->updateBranch($details, $id);
-        return $this->dataResponse(['branch' => $data], 'update successful', 200);
+        return $this->dataResponse(['branch' => new ShopBranchResource($data)], 'update successful', 200);
     }
 
     public function deleteBranch($id)
