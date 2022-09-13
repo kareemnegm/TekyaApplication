@@ -25,12 +25,12 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_name' => 'unique:provider_shop_details,shop_name',
+            'shop_name' => 'unique:provider_shop_details,shop_name,'.Auth('provider')->user()->providerShopDetails->id,
             'whatsapp_number' => 'numeric|min:10',
             'email' => 'email',
             'category_id.*' => 'required|exists:categories,id',
-            'delivery' => 'required|in:1,0',
-            'pick_up' => 'required|in:1,0',
+            'delivery' => 'in:1,0',
+            'pick_up' => 'in:1,0',
         ];
     }
 }
