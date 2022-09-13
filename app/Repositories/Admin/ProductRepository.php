@@ -15,13 +15,13 @@ class ProductRepository  implements ProductInterface
      * @param [type] $projectId
      * @return void
      */
-    public function getAllAdminShopProduct($request, $collectionId)
+    public function getAllAdminShopProduct($request, $shopID)
     {
 
 
         $q = Product::query();
 
-        $q->where('collection_id', $collectionId);
+        $q->where('shop_id', $shopID);
 
         if ($request->is_publish) {
             $is_publish = $request->is_publish === 'true' ? 1 : 0;

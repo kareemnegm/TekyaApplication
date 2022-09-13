@@ -10,7 +10,7 @@ interface ProductInterface
      *
      * @return void
      */
-    public function getAllAdminShopProduct($request, $collectionId);
+    public function getAllAdminShopProduct($request, $shopID);
     /**
      * Single Product Shop function
      *
