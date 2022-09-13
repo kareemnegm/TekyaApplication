@@ -29,7 +29,7 @@ class ProductInCartRule implements Rule
     public function passes($attribute, $value)
     {
         $shopCount=CartProduct::where('cart_id',$this->request->cart_id)
-        ->where('provider_shop_details_id',$this->request->shop_id)->count() >= 2;
+        ->where('provider_shop_details_id',$this->request->shop_id)->count() >= 6;
 
         if($shopCount){
             return false;
