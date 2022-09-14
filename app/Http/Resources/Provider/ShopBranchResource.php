@@ -24,7 +24,7 @@ class ShopBranchResource extends JsonResource
             'is_active' => $this->is_active,
             'address' => $address,
             'working_days' => json_decode($this->working_hours_day),
-
+            
 
         ];
     }
