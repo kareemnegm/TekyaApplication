@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\SearchController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -85,7 +83,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
 
 
 
-    Route::get('search',[SearchController::class,'search']);
+    Route::get('search','searchController@search');
 
 
 });
