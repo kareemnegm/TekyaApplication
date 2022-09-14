@@ -29,9 +29,9 @@ class ShopDetailsResource extends JsonResource
             'web_site' => $this->web_site ? $this->web_site : null,
             'shop_logo' => new ImageResource($this->getFirstMedia('shop_logo')) ?? null,
             'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
-            'category'=>  CategoryResource::collection($this->category),
-            'delivery'=> $this->delivery,
-            'pick_up'=> $this->pick_up
+            'category' =>  CategoryResource::collection($this->category),
+            'delivery' => $this->delivery,
+            'pick_up' => $this->pick_up
 
         ];
     }

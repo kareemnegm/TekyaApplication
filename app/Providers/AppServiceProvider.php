@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Classes\CategoryClass;
 use App\Classes\ProviderClass;
+use App\Classes\SearchClass;
+use App\Http\Controllers\User\SearchController;
 use App\Interfaces\Admin\CollectionInterface as AdminCollectionInterface;
 use App\Interfaces\Admin\ProductInterface as AdminProductInterface;
 use App\Interfaces\Admin\ProviderInterface as AdminProviderInterface;
@@ -60,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DeliveryCoverageInterface::class, DeliveryCoverageRepository::class);
         $this->app->bind(SaleInterface::class, SaleRepository::class);
         $this->app->bind(InterfacesProductInterface::class, UserProductRepository::class);
+        $this->app->bind(SearchController::class,SearchClass::class);
 
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 
