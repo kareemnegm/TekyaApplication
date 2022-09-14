@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DeliveryCoverageInterface::class, DeliveryCoverageRepository::class);
         $this->app->bind(SaleInterface::class, SaleRepository::class);
         $this->app->bind(InterfacesProductInterface::class, UserProductRepository::class);
-        $this->app->bind(SearchController::class,SearchClass::class);
+        // $this->app->bind(SearchController::class,SearchClass::class);
 
         $this->app->bind(CategoryUserInterface::class, CategoryRepository::class);
 
