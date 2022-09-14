@@ -83,7 +83,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
 
 
 
-    Route::get('search','User\searchController@search');
+    Route::get('search','searchController@search');
 
 
 });
