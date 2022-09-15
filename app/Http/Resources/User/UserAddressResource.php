@@ -23,7 +23,10 @@ class UserAddressResource extends JsonResource
             'street'=>$this->street,
             'nearest_landmark'=>$this->nearest_landmark,
             'notes'=>$this->notes,
-            'area'=>$this->area,
+            'area_id'=>$this->area_id,
+            'government_id'=>$this->government_id,
+            'latitude'=>$this->latitude,
+            'longitude'=>$this->longitude,
             'is_default'=>$this->is_default,
         ];
     }

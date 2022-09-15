@@ -15,10 +15,13 @@ class UserAddress extends Model
         're_mobile',
         'street',
         'address_details',
-        'nearest_landMark',
+        'nearest_landmark',
         'notes',
         'is_default',
-        'area'
+        'area_id',
+        'government_id',
+        'latitude',
+        'longitude',
     ];
     public function user()
     {

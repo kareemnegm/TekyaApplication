@@ -11,7 +11,10 @@ class Area extends Model
     protected $fillable=[
         'name',
         'description',
-        'government_id'
+        'government_id',
+        'latitude',
+        'longitude',
+
     ];
     public function government(){
         return $this->belongsTo(Government::class);

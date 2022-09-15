@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Sale;
+use App\Models\UserAddress;
 use App\Observers\SaleObserver;
+use App\Observers\UserAddressObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,6 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Sale::observe(SaleObserver::class);
-
+        UserAddress::observe(UserAddressObserver::class);
     }
 }

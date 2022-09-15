@@ -55,7 +55,7 @@ class UserController extends Controller
 
     public function getAddresses(Request $request)
     {
-        $data = $request->input();
+        $data = $request;
         $user_id = Auth::user()->id;
         $data['user_id'] = $user_id;
         return $this->UserRepository->getAddresses($data);

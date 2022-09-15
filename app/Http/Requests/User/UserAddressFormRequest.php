@@ -28,6 +28,9 @@ class UserAddressFormRequest extends BaseFormRequest
             'address'=>'required',
             'street'=>'required',
             'address_details'=>'required',
+            'area_id'=>'exists:areas,id',
+            'latitude'=>'required_without:area_id',
+            'longitude'=>'required_without:area_id',
         ];
     }
 }

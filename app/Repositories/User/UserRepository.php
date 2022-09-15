@@ -12,6 +12,7 @@ class UserRepository implements UserInterface
 {
     public function addAddress($data)
     {
+
         UserAddress::create($data);
     }
     public function updateAddress($data, $id)
@@ -28,7 +29,7 @@ class UserRepository implements UserInterface
 
     public function getAddresses($data)
     {
-        $limit = $data['limit'] ? $data['limit'] : 10;
+        $limit = $data->limit?$data->limit:10;
         $address = UserAddress::where('user_id', $data['user_id'])->paginate($limit);
         return MyAddressesResource::collection($address);
     }

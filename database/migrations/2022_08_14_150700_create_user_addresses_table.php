@@ -24,7 +24,6 @@ class CreateUserAddressesTable extends Migration
             $table->text('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_default')->default(1);
-            $table->text('area');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
