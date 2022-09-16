@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProviderShopFormRequest extends BaseFormRequest
+class ProviderCreateFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,10 @@ class ProviderShopFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'provider_id' => 'required|exists:providers,id',
-            'shop_name' => 'required|unique:provider_shop_details,shop_name',
-            'whatsapp_number' => 'numeric|min:10',
-            'email' => 'email',
-            'category_id.*' => 'required|exists:categories,id',
+            'user_name' => 'required|unique:providers,user_name',
+            'email' => 'required|unique:providers,email',
+            'mobile' => 'required|unique:providers,mobile|numeric',
+            'password' => 'required'
         ];
     }
 }

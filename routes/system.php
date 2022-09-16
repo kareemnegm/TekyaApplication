@@ -7,7 +7,6 @@ Route::group(['namespace' => 'GovernmentArea'], function () {
     Route::apiResource('government', 'GovernmentController');
     Route::apiResource('area', 'AreaController');
     Route::get('government_area/{id}', 'AreaController@getAllGovernmentAreas');
-
 });
 
 
@@ -21,24 +20,24 @@ Route::group(['prefix' => 'admin'], function () {
      */
     Route::post('/login', 'AuthController@login')->withoutMiddleware('auth:admin');
 
-    Route::apiResource('/','AdminController')->except(['update','delete','show']);
-    Route::get('/{id}','AdminController@show');
+    Route::apiResource('/', 'AdminController')->except(['update', 'delete', 'show']);
+    Route::get('/{id}', 'AdminController@show');
     Route::put('changePassword', 'AuthController@ChangePassword');
     Route::put('profile', 'AdminController@editMyAccount');
     Route::put('deactivate/{id}', 'AdminController@deactivateAdminAccount');
     Route::put('activate/{id}', 'AdminController@activateAdminAccount');
-
-
-
 });
 
 
 
 Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::post('/', 'ProviderController@createProvider');
+    Route::get('/', 'ProviderController@getAllProviders');
+
 });
 
 Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
+    Route::post('/', 'ShopController@createShop');
     Route::post('/approve/{id}', 'ShopController@approverPendingStores');
     Route::get('/', 'ShopController@getShops');
     Route::put('/suspend/{id}', 'ShopController@suspendShop');
@@ -70,17 +69,15 @@ Route::group(['namespace' => 'Provider'], function () {
 });
 
 
-    /**
-     * collections
-     */
-    Route::group(['namespace' => 'Provider'], function () {
-        Route::apiResource('collection', 'CollectionController');
-        Route::put('collection_rename', 'CollectionController@renameCollection');
-        Route::put('collection_status', 'CollectionController@changeStatusCollection');
-
-     }); 
+/**
+ * collections
+ */
+Route::group(['namespace' => 'Provider'], function () {
+    Route::apiResource('collection', 'CollectionController');
+    Route::put('collection_rename', 'CollectionController@renameCollection');
+    Route::put('collection_status', 'CollectionController@changeStatusCollection');
+});
 
     //     Route::put('status', 'CollectionController@changeStatusCollection');
 
     // });
-

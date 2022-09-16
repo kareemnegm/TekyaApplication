@@ -2,10 +2,11 @@
 
 namespace App\Classes;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\SearchResource;
 
 
-class SearchClass
+class SearchClass extends Controller
 {
 
     /**

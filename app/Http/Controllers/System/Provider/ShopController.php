@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\System\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProviderCreateFormRequest;
+use App\Http\Requests\Admin\ProviderShopFormRequest;
 use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
@@ -22,6 +24,15 @@ class ShopController extends Controller
         $this->ProviderRepository = $ProviderRepository;
     }
 
+
+    public function createShop(ProviderShopFormRequest $request)
+    {
+        $data = $request->input();
+        $data['status'] = 'approved';
+        $shop = ProviderShopDetails::create($data);
+        $shop_categories = $shop->category()->sync($data['category_id']);
+        return $this->dataResponse(['shop' => $shop], 'success', 200);
+    }
 
 
     public function approverPendingStores($id)

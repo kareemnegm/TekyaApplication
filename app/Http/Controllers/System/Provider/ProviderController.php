@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\System\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProviderCreateFormRequest;
 use App\Http\Requests\Admin\ProviderShopFormRequest;
 use App\Http\Requests\ProvderSignUpFormRequest;
 use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
+use App\Http\Resources\Admin\ProviderResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\Provider;
 use App\Models\ProviderShopDetails;
@@ -17,17 +19,21 @@ class ProviderController extends Controller
 
 
 
-    public function createProvider(ProviderShopFormRequest $request)
+    public function createProvider(ProviderCreateFormRequest $request)
     {
         $data = $request->input();
         $data['admin_id'] = Auth::user()->id;
         $data['type'] = 'shop';
-        $data['password'] = bcrypt('123456789');
+        $data['password'] = bcrypt($data['password']);
         $user = Provider::create($data);
-        $data['provider_id'] = $user->id;
-        $data['status'] = 'approved';
-        $shop = ProviderShopDetails::create($data);
-        $shop_categories=$shop->category()->sync($data['category_id']);
-        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop], 'success', 200);
+        return $this->dataResponse(['provider' => $user], 'success', 200);
     }
+
+
+    public function getAllProviders(Request $request){
+        return $this->paginateCollection(ProviderResource::collection(Provider::get()), $request->limit, 'providers');
+
+    }
+
+
 }
