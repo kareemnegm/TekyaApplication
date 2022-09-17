@@ -47,6 +47,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
      * login
      */
     Route::post('/login', 'AuthController@login');
+    
 });
 
     Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
@@ -59,6 +60,12 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
      */
     Route::post('login', 'AuthController@login');
 
+    /**
+     * login & Reigster
+     */
+    Route::post('authentication', 'AuthController@authentication');
+
+    
     Route::get('main_categories', 'CategoryController@getCategories');
     Route::get('sub_categories', 'CategoryController@getSubCategories');
     Route::get('category_shops', 'CategoryController@categoryShops');

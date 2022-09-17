@@ -83,12 +83,31 @@ class CartRepository extends Controller implements CartInterface
         }elseif ($req['quantity'] == 0) {
 
             $productInCart->delete();
-            return $this->successResponse('Product removed from cart successfully.');
+
+
+            $getCartItmes= $this->getCartProducts();
+
+            return $this->dataResponse([
+                'total_products_price' => $getCartItmes['total_products_price'],
+                'total_cart_shops' => $getCartItmes['total_cart_shops'],
+                'total_cart_products' => $getCartItmes['total_cart_products']
+                ,'cart' => $getCartItmes['cart_itmes']], 'Product removed from cart successfully', 200);
+
+         
 
         }elseif($availableStock >=  $req['quantity'] && $productInCart){
 
             $productInCart->update(['quantity' => $req['quantity']]);
-            return $this->successResponse('Product quantity updated successfully.');
+
+
+            $getCartItmes= $this->getCartProducts();
+
+            return $this->dataResponse([
+                'total_products_price' => $getCartItmes['total_products_price'],
+                'total_cart_shops' => $getCartItmes['total_cart_shops'],
+                'total_cart_products' => $getCartItmes['total_cart_products']
+                ,'cart' => $getCartItmes['cart_itmes']], 'Product quantity updated successfully', 200);
+
         }
     }
 
