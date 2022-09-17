@@ -68,10 +68,14 @@ Route::group(['namespace' => 'Provider'], function () {
     //  Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
 });
 
+Route::apiResource('/category', 'CategoryController');
+
 
 /**
  * collections
  */
+
+
 Route::group(['namespace' => 'Provider'], function () {
     Route::apiResource('collection', 'CollectionController');
     Route::put('collection_rename', 'CollectionController@renameCollection');
