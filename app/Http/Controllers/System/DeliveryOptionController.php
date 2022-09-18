@@ -40,7 +40,7 @@ class DeliveryOptionController extends Controller
      */
     public function show($id)
     {
-        return $this->dataResponse(['deliveryOptions' => DeliveryOptionResource::collection(DeliveryOption::findOrFail($id))], 'success', 200);
+        return $this->dataResponse(['deliveryOptions' => new DeliveryOptionResource(DeliveryOption::findOrFail($id))], 'success', 200);
     }
 
     /**
