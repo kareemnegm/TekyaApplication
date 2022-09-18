@@ -88,7 +88,7 @@ class ProductController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function destroy(AdminProductIdsFormRequest $request,$id)
+    public function destroy(AdminProductIdsFormRequest $request)
     {
         // dd();
         $this->productInterface->deleteAdminShopProduct($request->product_id);
