@@ -66,6 +66,9 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::post('authentication', 'AuthController@authentication');
 
     
+    /**
+     * Category Apis
+     */
     Route::get('main_categories', 'CategoryController@getCategories');
     Route::get('sub_categories', 'CategoryController@getSubCategories');
     Route::get('category_shops', 'CategoryController@categoryShops');
@@ -77,19 +80,25 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
 
     Route::get('nearest_shops', 'ShopController@nearestShops');
     Route::get('new_shops', 'ShopController@newShops');
-
     Route::get('shops_products', 'ShopController@shopsProducts');
     Route::get('shop/products', 'ShopController@getProductsShop');
-
     Route::get('shop', 'ShopController@getShopDetails');
     Route::get('shop/branches', 'ShopController@getShopBranches');
 
 
-    Route::get('products_for_you', 'ProductController@productsForYou');
-    Route::get('most_popular_products', 'ProductController@mostPopularProduct');
+    /**
+     * Prdocuts Modules
+     */
+    Route::get('products_for_you','ProductController@productsForYou');
+    Route::get('most_popular_products','ProductController@mostPopularProduct');
+    Route::get('related_products','ProductController@relatedProducts');
+    Route::get('similar_products','ProductController@similarProducts');
 
 
 
+    /**
+     * SearchKeyWords
+     */
     Route::get('search','SearchController@search');
 
 

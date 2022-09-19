@@ -49,4 +49,30 @@ class ProductController extends Controller
         $products = $this->ProductRepository->mostPopularProduct();
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'products');
     }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function relatedProducts(Request $request)
+    {
+        $products = $this->ProductRepository->relatedProducts();
+        return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'related_products');
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function similarProducts(Request $request)
+    {
+        $products = $this->ProductRepository->similarProducts();
+        return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'similar_products');
+    }
 }
