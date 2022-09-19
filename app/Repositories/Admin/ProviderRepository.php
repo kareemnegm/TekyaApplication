@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Admin;
 
-use App\Http\Resources\Provider\ShopDetailsResource;
+use App\Http\Resources\Admin\ShopDetailsResource;
 use App\Interfaces\Admin\ProviderInterface;
 use App\Models\BranchAddress;
 use App\Models\Provider;
@@ -33,7 +33,7 @@ class ProviderRepository  implements ProviderInterface
 
     public function getShopDetails($id)
     {
-        $shopDetails = ProviderShopDetails::where('id', $id)->first();
+        $shopDetails = ProviderShopDetails::findOrFail($id);
         return new  ShopDetailsResource($shopDetails);
     }
 
@@ -47,8 +47,9 @@ class ProviderRepository  implements ProviderInterface
     }
 
 
-    public function suspendShop($id){
-        $shop=ProviderShopDetails::where('id',$id)->update(['status'=>'suspended']);
+    public function suspendShop($id)
+    {
+        $shop = ProviderShopDetails::where('id', $id)->update(['status' => 'suspended']);
     }
 
 

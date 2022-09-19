@@ -5,6 +5,7 @@ namespace App\Repositories\Admin;
 use App\Interfaces\Admin\ProductInterface;
 use App\Interfaces\Admin\ProviderInterface;
 use App\Models\Product;
+use League\Glide\Manipulators\Encode;
 
 class ProductRepository  implements ProductInterface
 {
@@ -76,7 +77,6 @@ class ProductRepository  implements ProductInterface
      */
     public function createAdminShopProduct(array $productDetails)
     {
-
         $productDetails['admin_id'] = auth('admin')->user()->id;
 
         $product = Product::create($productDetails);
@@ -122,9 +122,9 @@ class ProductRepository  implements ProductInterface
      * @param [type] $products
      * @return void
      */
-    public function adminRemoveProductCollection($collectionId,$products)
+    public function adminRemoveProductCollection($collectionId, $products)
     {
-        $products = Product::where('collection_id',$collectionId)->whereIn('id', $products)->update(['collection_id' => null]);
+        $products = Product::where('collection_id', $collectionId)->whereIn('id', $products)->update(['collection_id' => null]);
     }
 
     /**
@@ -150,5 +150,4 @@ class ProductRepository  implements ProductInterface
     {
         $products = Product::where('id', $productDetails['product_id'])->update(['is_published' => $productDetails['is_published']]);
     }
-    
 }

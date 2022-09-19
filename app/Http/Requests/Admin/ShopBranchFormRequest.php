@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShopBranchFormRequest extends BaseFormRequest
@@ -24,6 +25,7 @@ class ShopBranchFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
+            'shop_id'=>'required|exists:provider_shop_details,id',
             "name"=>"required",
             "phone"=>"required|numeric",
             "is_head"=>'required',
@@ -31,11 +33,9 @@ class ShopBranchFormRequest extends BaseFormRequest
             "working_hours_day.*.startTimeStandard"=>"in:AM,PM",
             "address"=>"required",
             "street"=>"required",
-            "area_id"=>"required_without:latitude,longitude|exists:areas,id",
-            "government_id"=>"required_without:latitude,longitude|exists:governments,id",
+            "area_id"=>"required|exists:areas,id",
+            "government_id"=>"required|exists:governments,id",
             "nearest_landmark"=>"required",
-            "latitude"=>"required_without:area_id,government_id|numeric",
-            "longitude"=>"required_without:area_id,government_id|numeric",
             "payment_option_id.*"=>'required|exists:payment_options,id'
 
         ];
