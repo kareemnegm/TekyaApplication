@@ -28,13 +28,17 @@ class Product extends Model implements HasMedia
         'total_weight',
         'is_published',
         'to_donation',
-        'variant_id',
         'collection_id',
         'category_id',
         'shop_id',
         'order',
+        'variants',
         'admin_id'
 
+    ];
+
+    protected $casts = [
+        'variants' => 'array'
     ];
 
     public function order()
@@ -48,10 +52,10 @@ class Product extends Model implements HasMedia
     }
 
 
-    public function variant()
-    {
-        return $this->belongsTo(static::class, 'variant_id');
-    }
+    // public function variant()
+    // {
+    //     return $this->belongsTo(static::class, 'variant_id');
+    // }
 
     public function category()
     {

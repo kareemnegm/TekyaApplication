@@ -5,11 +5,11 @@ namespace App\Http\Controllers\System\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProviderCreateFormRequest;
 use App\Http\Requests\Admin\ProviderShopFormRequest;
+use App\Http\Requests\Admin\ShopBranchFormRequest as AdminShopBranchFormRequest;
+use App\Http\Requests\Admin\UpdateShopDetailsFormRequest as AdminUpdateShopDetailsFormRequest;
 use App\Http\Requests\Provider\BranchIdFormRequest;
-use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
-use App\Http\Requests\ShopBranchFormRequest;
+use App\Http\Resources\Admin\ShopDetailsResource;
 use App\Http\Resources\Provider\ShopBranchResource;
-use App\Http\Resources\Provider\ShopDetailsResource;
 use App\Interfaces\Admin\ProviderInterface;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
@@ -27,11 +27,22 @@ class ShopController extends Controller
 
     public function createShop(ProviderShopFormRequest $request)
     {
-        $data = $request->input();
+        $data = $request->all();
+
         $data['status'] = 'approved';
         $shop = ProviderShopDetails::create($data);
+        if (isset($data['shop_logo'])) {
+            $shop->saveFiles($data['shop_logo'], 'shop_logo');
+        } else {
+            $shop->clearMediaCollectionExcept('shop_logo');
+        }
+        if (isset($data['shop_cover'])) {
+            $shop->saveFiles($data['shop_cover'], 'shop_cover');
+        } else {
+            $shop->clearMediaCollectionExcept('shop_cover');
+        }
         $shop_categories = $shop->category()->sync($data['category_id']);
-        return $this->dataResponse(['shop' => $shop], 'success', 200);
+        return $this->dataResponse(['shop' => new ShopDetailsResource($shop)], 'success', 200);
     }
 
 
@@ -46,8 +57,9 @@ class ShopController extends Controller
      * @param $request , $id
      * update shop details
      */
-    public function updateShopDetails(UpdateShopDetailsFormRequest $request, $id)
+    public function updateShopDetails(AdminUpdateShopDetailsFormRequest $request, $id)
     {
+        $shopExists = ProviderShopDetails::findOrFail($id);
         $details = $request->input();
         $details['admin_id'] = Auth::user()->id;
         $this->ProviderRepository->updateShopDetails($details, $id);
@@ -86,7 +98,7 @@ class ShopController extends Controller
      * create branch and branch address
      */
 
-    public function createBranch(ShopBranchFormRequest $request)
+    public function createBranch(AdminShopBranchFormRequest $request)
     {
         $details = $request->input();
         $shopDetails = ProviderShopDetails::where('id', $details['shop_id'])->first();

@@ -29,7 +29,7 @@ class ProductResource extends JsonResource
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
 
-            'variant'=>$this->when(!is_null($this->variant_id), new VariantProductResource($this->variant)),
+            'variants' => json_decode($this->variants),
 
             'category'=>[
                 'id'=>$this->category->id,
