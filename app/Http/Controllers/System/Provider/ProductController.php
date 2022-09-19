@@ -66,7 +66,8 @@ class ProductController extends Controller
      */
     public function store(AdminProductFormRequest $bundel)
     {
-        $shopCollection = $this->productInterface->createAdminShopProduct($bundel->input());
+        $shopCollection = $this->productInterface->createAdminShopProduct($bundel->validated());
+
         return $this->dataResponse(['product' => new ProductResource($shopCollection)], 'created successful', 200);
     }
 
@@ -78,7 +79,7 @@ class ProductController extends Controller
      */
     public function update(AdminProductFormRequest $product, $productId)
     {
-        $shopProduct = $this->productInterface->updateAdminShopProduct($productId, $product->input());
+        $shopProduct = $this->productInterface->updateAdminShopProduct($productId, $product->validated());
         return $this->dataResponse(['product' => new ProductResource($shopProduct)], 'Updated Successfully', 200);
     }
 
@@ -177,11 +178,10 @@ class ProductController extends Controller
         $productDetails = $request->input();
         $this->productInterface->publishAdminProduct($productDetails);
 
-        if($productDetails['is_published'] == 0){
+        if ($productDetails['is_published'] == 0) {
 
             return $this->successResponse('product unpublished', 200);
-
-           }elseif ($productDetails['is_published'] == 1){
+        } elseif ($productDetails['is_published'] == 1) {
 
             return $this->successResponse('product published', 200);
         }

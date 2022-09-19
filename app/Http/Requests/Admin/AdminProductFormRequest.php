@@ -40,6 +40,7 @@ class AdminProductFormRequest extends BaseFormRequest
             'category_id'=>'required|exists:categories,id',
             'tags'=>'nullable|array',
             'product_images'=>'nullable',
+            'variants'=>'nullable',
             'shop_id' => 'required|exists:provider_shop_details,id',
 
          ];
