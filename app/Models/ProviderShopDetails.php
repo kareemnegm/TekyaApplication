@@ -30,6 +30,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     ];
 
+
     public function admin()
     {
         return $this->belongsTo(Admin::class);
@@ -70,7 +71,7 @@ class ProviderShopDetails extends Model implements HasMedia
 
     public function branches()
     {
-        return $this->hasMany(providerShopBranch::class,'shop_id');
+        return $this->hasMany(providerShopBranch::class, 'shop_id');
     }
     /**
      * Undocumented function
@@ -85,8 +86,4 @@ class ProviderShopDetails extends Model implements HasMedia
             ->height(600)
             ->sharpen(0);
     }
-
-    
-
- 
 }

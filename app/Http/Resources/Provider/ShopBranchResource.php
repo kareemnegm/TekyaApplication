@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\Provider;
 
+use App\Http\Resources\Admin\ProviderShop\ShopDetailsSimple;
 use App\Http\Resources\GovernmentResource;
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\PaymentResource;
 use App\Http\Resources\SingleAreaResource;
 use App\Models\Area;
 use App\Models\Government;
@@ -33,10 +35,12 @@ class ShopBranchResource extends JsonResource
             'notes' => $this->notes,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'area' => new SingleAreaResource($area)?new SingleAreaResource($area):null,
-            'government' => new GovernmentResource($government)?new GovernmentResource($government):null,
+            'area' => new SingleAreaResource($area) ? new SingleAreaResource($area) : null,
+            'government' => new GovernmentResource($government) ? new GovernmentResource($government) : null,
             'longitude' => $this->longitude,
             'working_days' => json_decode($this->working_hours_day),
+            'payment' => PaymentResource::collection($this->paymentOption),
+            'shop'=>new ShopDetailsSimple($this->shop)
 
 
         ];

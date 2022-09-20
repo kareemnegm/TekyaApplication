@@ -17,6 +17,7 @@ class ShopDetailsResource extends JsonResource
     public function toArray($request)
     {
 
+
         return [
             'id' => $this->id,
             'shop_name' => $this->shop_name,
@@ -31,7 +32,7 @@ class ShopDetailsResource extends JsonResource
             'category' =>  CategoryResource::collection($this->category),
             'delivery' => $this->delivery,
             'pick_up' => $this->pick_up,
-            'provider'=>new ProviderResource($this->provider)
+            'provider' => new ProviderResource($this->provider),
         ];
     }
 }
