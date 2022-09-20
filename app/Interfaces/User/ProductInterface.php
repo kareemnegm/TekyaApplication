@@ -18,4 +18,18 @@ interface ProductInterface {
      */
     public function productJustForYou();
 
+        /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function relatedProducts($productId);
+
+        /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function similarProducts($productId);
+
 }
