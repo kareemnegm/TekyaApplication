@@ -34,7 +34,7 @@ class ProductFormRequest extends BaseFormRequest
             'total_weight'=>'required',
             'is_published'=>'required|in:1,0',
             'to_donation'=>'required|in:1,0',
-            'variant_id'=>'nullable|exists:products,id',
+            'variant_id'=>'nullable',
             'collection_id'=>'required|exists:collections,id',
             'category_id'=>'required|exists:categories,id',
             'tags'=>'nullable|array',

@@ -27,7 +27,9 @@ class providerShopBranch extends Model
         'area_id',
         'government_id',
         'latitude',
-        'longitude'
+        'longitude',
+        'pick_up',
+        'delivery',
     ];
 
 
@@ -70,7 +72,7 @@ class providerShopBranch extends Model
         return $this->belongsToMany(PaymentOption::class, 'shop_branch_payments');
     }
 
-    
+
 
     public function scopeByDistance($query, $latitude, $longitude, $shopIDs = null, $distance = null, $unit = "km")
     {

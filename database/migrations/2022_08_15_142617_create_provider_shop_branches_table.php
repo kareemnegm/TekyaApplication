@@ -26,13 +26,15 @@ class CreateProviderShopBranchesTable extends Migration
             $table->string('address_details')->nullable();
             $table->string('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
+            $table->integer('delivery')->default(1);
+            $table->integer('pick_up')->default(1);
             $table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('government_id');
             $table->foreign('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('government_id')->references('id')->on('governments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->float('latitude',10,6);
-            $table->float('longitude',10,6);
+            $table->float('latitude', 10, 6);
+            $table->float('longitude', 10, 6);
 
             $table->timestamps();
         });
