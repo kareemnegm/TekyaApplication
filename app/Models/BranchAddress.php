@@ -22,13 +22,6 @@ class BranchAddress extends Model
         return $this->hasOne(providerShopBranch::class);
     }
 
-    public function government()
-    {
-        return $this->belongsTo(Government::class);
-    }
 
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
-    }
+
 }

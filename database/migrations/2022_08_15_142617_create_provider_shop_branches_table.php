@@ -20,12 +20,21 @@ class CreateProviderShopBranchesTable extends Migration
             $table->boolean('is_head')->default(1);
             $table->boolean('is_active')->default(0);
             $table->string('working_hours_day');
-            $table->unsignedBigInteger('branch_address_id');
             $table->unsignedBigInteger('shop_id');
-            $table->foreign('branch_address_id')->references('id')->on('branch_addresses')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('address');
+            $table->string('street');
+            $table->string('address_details')->nullable();
+            $table->string('nearest_landmark')->nullable();
+            $table->text('notes')->nullable();
+            $table->integer('delivery')->default(1);
+            $table->integer('pick_up')->default(1);
+            $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('government_id');
+            $table->foreign('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('government_id')->references('id')->on('governments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->float('latitude',10,6);
-            $table->float('longitude',10,6);
+            $table->float('latitude', 10, 6);
+            $table->float('longitude', 10, 6);
 
             $table->timestamps();
         });

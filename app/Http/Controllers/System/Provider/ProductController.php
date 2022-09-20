@@ -67,6 +67,7 @@ class ProductController extends Controller
     public function store(AdminProductFormRequest $bundel)
     {
         $shopCollection = $this->productInterface->createAdminShopProduct($bundel->validated());
+
         return $this->dataResponse(['product' => new ProductResource($shopCollection)], 'created successful', 200);
     }
 
@@ -172,16 +173,15 @@ class ProductController extends Controller
      * @return void
      */
     public function publishAdminProduct(AdminProductStatusFormRequest $request)
-    {       
+    {
 
         $productDetails = $request->input();
         $this->productInterface->publishAdminProduct($productDetails);
-        
-        if($productDetails['is_published'] == 0){
-            
-            return $this->successResponse('product unpublished', 200);
 
-           }elseif ($productDetails['is_published'] == 1){
+        if ($productDetails['is_published'] == 0) {
+
+            return $this->successResponse('product unpublished', 200);
+        } elseif ($productDetails['is_published'] == 1) {
 
             return $this->successResponse('product published', 200);
         }

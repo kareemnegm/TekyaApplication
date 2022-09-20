@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
+use App\Http\Requests\UpdateShopBranchFormRequest;
 use App\Http\Resources\Provider\ShopBranchResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\BranchAddress;
@@ -38,8 +39,6 @@ class BranchController extends Controller
         $shopDetails = ProviderShopDetails::where('provider_id', $provider_id)->first();
         $details = $request->input();
         $details['shop_id'] = $shopDetails['id'];
-        $address = $this->ProviderRepository->BranchAddress($details);
-        $details['branch_address_id'] = $address->id;
         $branch =   $this->ProviderRepository->createBranch($details);
         return $this->dataResponse(['branch' => new ShopBranchResource($branch)], 'created successful', 200);
     }
@@ -66,10 +65,10 @@ class BranchController extends Controller
 
     public function getBranch(BranchIdFormRequest $request)
     {
-        return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranch($request)), $request->limit, 'branch');
+        return $this->dataResponse(['branch'=>new ShopBranchResource($this->ProviderRepository->getBranch($request))],'success',200);
     }
 
-    public function updateBranch(Request $request, $id)
+    public function updateBranch(UpdateShopBranchFormRequest $request, $id)
     {
         $details = $request->input();
         $data = $this->ProviderRepository->updateBranch($details, $id);
