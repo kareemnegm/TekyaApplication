@@ -38,7 +38,9 @@ class UpdateShopBranchFormRequest extends BaseFormRequest
             "nearest_landmark" => "required",
             "latitude" => "required|numeric",
             "longitude" => "required|numeric",
-            "payment_option_id.*" => 'required|exists:payment_options,id'
+            "payment_option_id.*" => 'required|exists:payment_options,id',
+            'delivery' => 'in:1,0',
+            'pick_up' => 'in:1,0',
         ];
     }
 }
