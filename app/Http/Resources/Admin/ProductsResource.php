@@ -28,6 +28,14 @@ class ProductsResource extends JsonResource
             'stock_quantity' => $this->stock_quantity,
             'is_published' => $this->is_published,
             'to_donation' => $this->to_donation,
+            'collection' => [
+                'id' => $this->collection->id,
+                'name' => $this->collection->name
+            ],
+            'category' => [
+                'id' => $this->category->id,
+                'name' => $this->category->name
+            ],
             'product_image' => new ImageResource($this->getFirstMedia('product_images')) ?? null,
             'order' => $this->order,
             'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
