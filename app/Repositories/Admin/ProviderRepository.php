@@ -85,10 +85,6 @@ class ProviderRepository  implements ProviderInterface
     public function updateBranch($details, $id)
     {
         $branch = providerShopBranch::findOrFail($id);
-        if (isset($details['address']) && !empty($details['address'])) {
-            $address = BranchAddress::where('id', $branch->branch_address_id)->first();
-            $address->update($details);
-        }
         if (isset($details['working_hours_day'])) {
             $details['working_hours_day'] = json_encode($details['working_hours_day']);
         }

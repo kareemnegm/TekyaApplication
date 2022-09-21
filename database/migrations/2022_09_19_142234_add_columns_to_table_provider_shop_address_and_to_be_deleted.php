@@ -19,6 +19,8 @@ class AddColumnsToTableProviderShopAddressAndToBeDeleted extends Migration
             $table->string('address_details')->nullable();
             $table->string('nearest_landmark')->nullable();
             $table->text('notes')->nullable();
+            $table->integer('delivery')->default(1);
+            $table->integer('pick_up')->default(1);
             $table->dropConstrainedForeignId('branch_address_id');
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('government_id')->nullable();
@@ -40,6 +42,8 @@ class AddColumnsToTableProviderShopAddressAndToBeDeleted extends Migration
             $table->dropColumn('address_details');
             $table->dropColumn('nearest_landmark');
             $table->dropColumn('notes');
+            $table->integer('delivery');
+            $table->integer('pick_up');
             $table->dropConstrainedForeignId('area_id');
             $table->dropConstrainedForeignId('government_id');
 

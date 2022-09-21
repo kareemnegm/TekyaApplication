@@ -30,8 +30,7 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
             'email' => 'email',
             'category_id' => 'required',
             'category_id.*' => 'required|exists:categories,id',
-            'delivery' => 'in:1,0',
-            'pick_up' => 'in:1,0',
+         
         ];
     }
 

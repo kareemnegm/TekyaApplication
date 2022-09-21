@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Admin\ProviderShop;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShopBracnhesResource extends JsonResource
+class ShopDetailsSimple extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,7 @@ class ShopBracnhesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'is_head' => $this->is_head,
-            'is_active' => $this->is_active,
-            'working_days' => json_decode($this->working_hours_day),
-            'delivery' => $this->delivery,
-            'pick_up' => $this->pick_up
+            'shop_name' => $this->shop_name,
         ];
     }
 }
