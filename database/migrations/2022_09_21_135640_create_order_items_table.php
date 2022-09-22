@@ -20,19 +20,16 @@ class CreateOrderItemsTable extends Migration
             $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnDelete()->cascadeOnUpdate();
 
 
+            $table->unsignedBigInteger('oder_shipment_id');
+            $table->foreign('oder_shipment_id')->references('id')->on('oder_shipments')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->integer('quantity');
 
             $table->integer('unit_price');
-
+            
             $table->integer('unit_total');
 
             $table->timestamps();

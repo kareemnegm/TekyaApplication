@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInvoicesTable extends Migration
+class CreateOderShipmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('oder_shipments', function (Blueprint $table){
             $table->id();
 
             $table->unsignedBigInteger('order_id');
@@ -21,16 +21,17 @@ class CreateInvoicesTable extends Migration
             
             $table->unsignedBigInteger('shop_id');
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
-            
-            $table->unsignedBigInteger('coupon_id')->nullable();
 
-            $table->text('total_item');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->enum('state',['pending','paid','refund','canceled'])->default('pending');
+            $table->enum('delivery_option',['pickup','delivery']);
 
-            $table->text('invoice_details');
+            $table->integer('total_items');
 
-            $table->dateTime('invoice_date');
+            $table->enum('order_user_status',['placed','canceled','delivered','picked'])->default('placed');
+
+            $table->enum('order_shop_status',['pending','process','picked','onway','arrived','ready','cancelled'])->default('process');
 
             $table->timestamps();
         });
@@ -43,6 +44,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('oder_shipments');
     }
 }
