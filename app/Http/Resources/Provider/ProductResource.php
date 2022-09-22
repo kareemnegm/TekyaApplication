@@ -19,6 +19,7 @@ class ProductResource extends JsonResource
         // dd($this->tags);
 
         return [
+            'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
             'price'=>$this->price,
