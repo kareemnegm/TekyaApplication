@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
                 'stock_quantity' => $this->stock_quantity,
                 'is_published' => $this->is_published,
                 'to_donation' => $this->to_donation,
+                'total_weight' => $this->total_weight,
 
                 'variants' => json_decode($this->variants),
 
@@ -44,7 +45,7 @@ class ProductResource extends JsonResource
                 'tags' => $this->when(isset($this->tags),  TagsResource::collection($this->tags)),
 
 
-                'product_images' => ImageResource::collection($this->getMedia('product_images')) ?? null,
+                'product_images' => ImageResourceAdmin::collection($this->getMedia('product_images')) ?? null,
                 'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
                 'updated_at' => $this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A') : null,
             ];

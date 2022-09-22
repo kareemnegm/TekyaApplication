@@ -42,7 +42,7 @@ class ProviderRepository  implements ProviderInterface
 
     public function getShops()
     {
-        $shops = ProviderShopDetails::get();
+        $shops = ProviderShopDetails::orderBy('id','desc')->get();
         return $shops;
     }
 
