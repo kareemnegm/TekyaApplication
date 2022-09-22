@@ -33,6 +33,8 @@ class ShopDetailsResource extends JsonResource
             'delivery' => $this->delivery,
             'pick_up' => $this->pick_up,
             'provider' => new ProviderResource($this->provider),
+            'number_branches' => $this->branches->count(),
+            'status' => $this->status
         ];
     }
 }
