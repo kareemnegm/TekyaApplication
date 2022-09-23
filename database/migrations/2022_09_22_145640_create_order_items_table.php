@@ -16,23 +16,16 @@ class CreateOrderItemsTable extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('invoice_id');
-            $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnDelete()->cascadeOnUpdate();
-
+            $table->unsignedBigInteger('order_shop_id');
+            $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate();
 
             $table->integer('quantity');
 
             $table->integer('unit_price');
-
+            
             $table->integer('unit_total');
 
             $table->timestamps();

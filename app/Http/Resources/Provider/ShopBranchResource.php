@@ -33,6 +33,8 @@ class ShopBranchResource extends JsonResource
             'address_details' => $this->address_details,
             'nearest_landmark' => $this->nearest_landmark,
             'notes' => $this->notes,
+            'delivery' => $this->delivery,
+            'pick_up' => $this->pick_up,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'area' => new SingleAreaResource($area) ? new SingleAreaResource($area) : null,

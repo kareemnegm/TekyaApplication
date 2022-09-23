@@ -16,19 +16,18 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
-            
+            $table->unsignedBigInteger('order_shop_id');
+            $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
+
             $table->unsignedBigInteger('coupon_id')->nullable();
+            $table->foreign('coupon_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
-            $table->text('total_item');
+            $table->enum('status',['pending','paid','refund','canceled'])->default('pending');
 
-            $table->enum('state',['pending','paid','refund','canceled'])->default('pending');
-
-            $table->text('invoice_details');
+            $table->double('discount')->default(0);
+            $table->double('shipment_fees');
+            $table->double('total_product_price');
+            $table->double('total_invoice');
 
             $table->dateTime('invoice_date');
 

@@ -26,12 +26,12 @@ class ProductFormRequest extends BaseFormRequest
     {
         return [
             'name'=>'required',
-            'description'=>'required',
+            'description'=>'nullable',
             'price'=>'required',
             'start_date' => 'nullable|date_format:Y-m-d|before_or_equal:end_date',
             'end_date' => 'nullable|date_format:Y-m-d|after_or_equal:start_date',
             'stock_quantity'=>'required',
-            'total_weight'=>'required',
+            'total_weight'=>'nullable',
             'is_published'=>'required|in:1,0',
             'to_donation'=>'required|in:1,0',
             'variant_id'=>'nullable',

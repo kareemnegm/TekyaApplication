@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeliveryOptionsTable extends Migration
+class RemovePickUpColumnFromShop extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDeliveryOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('delivery_options', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('provider_shop_details', function (Blueprint $table) {
+            $table->dropColumn('delivery');
+            $table->dropColumn('pick_up');
+
         });
     }
 
@@ -27,6 +27,8 @@ class CreateDeliveryOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delivery_options');
+        Schema::table('provider_shop_details', function (Blueprint $table) {
+            //
+        });
     }
 }
