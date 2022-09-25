@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategorySearchFormRequest;
 use App\Http\Requests\CategoryFormRequest;
+use App\Http\Resources\Admin\CategorySearchResource;
 use App\Interfaces\CategoryInterface;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -43,5 +46,14 @@ class CategoryController extends Controller
     public function show($id)
     {
         return $this->dataResponse(['category' => $this->CategoryRepository->getCategory($id)], 'OK', 200);
+    }
+
+
+    public function CategorySearch(CategorySearchFormRequest $request)
+    {
+        $search = $request->validated();
+        $categorySearch = Category::where('name', 'LIKE', '%' . $search['keyWord'] . '%')->get();
+
+        return $this->paginateCollection(CategorySearchResource::collection($categorySearch), $request->limit, 'collection');
     }
 }

@@ -5,10 +5,13 @@ namespace App\Http\Controllers\System\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CollectionUpdatedFormRequest;
 use App\Http\Requests\Admin\CollectionFormRequest;
+use App\Http\Requests\Admin\CollectionSearchFormRequest;
 use App\Http\Requests\Admin\CollectionShopIdFormRequest;
 use App\Http\Resources\Admin\CollectionResource;
+use App\Http\Resources\Admin\CollectionSearchResource;
 use App\Http\Resources\Admin\CollectionsResource;
 use App\Interfaces\Admin\CollectionInterface;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 
 class CollectionController extends Controller
@@ -81,7 +84,7 @@ class CollectionController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function destroy(Request $request,$collectionID)
+    public function destroy(Request $request, $collectionID)
     {
         $this->collectionInterface->deleteAdminShopCollection($collectionID);
         return $this->successResponse('Deleted Successfuly', 200);
@@ -96,9 +99,8 @@ class CollectionController extends Controller
     public function renameCollection(CollectionUpdatedFormRequest $request)
     {
         $details = $request->validated();
-       $data= $this->collectionInterface->renameAdminCollection($details);
+        $data = $this->collectionInterface->renameAdminCollection($details);
         return $this->dataResponse(['collection' => new CollectionResource($data)], 'Updated Successfully', 200);
-
     }
     /**
      * CollectionUpdatedFormRequest function
@@ -109,8 +111,20 @@ class CollectionController extends Controller
     public function changeStatusCollection(CollectionUpdatedFormRequest $request)
     {
         $details = $request->validated();
-        $data= $this->collectionInterface->publishAdminCollection($details);
+        $data = $this->collectionInterface->publishAdminCollection($details);
         return $this->dataResponse(['collection' => new CollectionResource($data)], 'Updated Successfully', 200);
+    }
 
+
+    public function collectionSearch(CollectionSearchFormRequest $request)
+    {
+        $search = $request->validated();
+        $collectionSearch = Collection::where('shop_id', $search['shop_id']);
+        if (isset($search['keyWord']) && !empty($search['keyWord'])) {
+            $collectionSearch = $collectionSearch->where('name', 'LIKE', '%' . $search['keyWord'] . '%');
+        }
+        $collectionSearch = $collectionSearch->get();
+
+        return $this->paginateCollection(CollectionSearchResource::collection($collectionSearch), $request->limit, 'collection');
     }
 }
