@@ -16,8 +16,8 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('order_shop_id');
-            $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
+            // $table->unsignedBigInteger('order_shop_id');
+            // $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->foreign('coupon_id')->references('id')->on('order_shops')->cascadeOnUpdate();

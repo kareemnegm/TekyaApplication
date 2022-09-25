@@ -19,7 +19,6 @@ class CreateOrderInvoicesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate();
 
-            $table->double('shipment_fees');
             $table->double('total_product_price');
 
             $table->double('tekya_wallet')->comment('decrease from total incovce');
@@ -30,6 +29,7 @@ class CreateOrderInvoicesTable extends Migration
             $table->double('taxes');
             
             $table->double('grand_total_price');
+
 
             $table->timestamps();
         });

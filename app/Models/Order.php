@@ -18,8 +18,9 @@ class Order extends Model
         'order_status',
         'payment_id',
         'date_order_placed',
-        'order_details',
-        'invoices_total'
+        'order_invoice_id',
+        'total_items',
+        'total_shop'
     ];
 
     public function product()
