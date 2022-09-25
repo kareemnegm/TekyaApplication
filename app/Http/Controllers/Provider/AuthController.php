@@ -68,6 +68,10 @@ class AuthController extends Controller
         return $this->successResponse('updated successful', 200);
     }
 
+    public function logout()
+    {
+        Auth::user()->tokens()->delete();
+        return $this->successResponse(' success logged out', 200);
+    }
 
-   
 }
