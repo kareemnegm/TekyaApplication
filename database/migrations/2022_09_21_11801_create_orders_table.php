@@ -17,25 +17,21 @@ class CreateOrdersTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate();
 
-            
-            $table->uuid('order_number')->unique();
+            $table->bigInteger('order_number')->unique();
 
             $table->unsignedBigInteger('payment_id')->nullable();
-            $table->foreign('payment_id')->references('id')->on('payment_options')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('payment_id')->references('id')->on('payment_options')->cascadeOnUpdate();
 
             $table->unsignedBigInteger('order_invoice_id')->nullable();
-            $table->foreign('order_invoice_id')->references('id')->on('order_invoices')->cascadeOnDelete()->cascadeOnUpdate();
-
-
+            $table->foreign('order_invoice_id')->references('id')->on('order_invoices')->cascadeOnUpdate();
 
             $table->dateTime('date_order_placed');
 
             $table->integer('total_items');
+            
             $table->integer('total_shop');
-
-            $table->integer('shipping_total')->nullable();
 
             $table->text('note')->nullable();
 

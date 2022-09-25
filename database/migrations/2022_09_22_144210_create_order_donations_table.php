@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeliveryOptionsTable extends Migration
+class CreateOrderDonationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateDeliveryOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('delivery_options', function (Blueprint $table) {
+        Schema::create('order_donations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('shipment_type',['address','branch','charity']);
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateDeliveryOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delivery_options');
+        Schema::dropIfExists('order_donations');
     }
 }

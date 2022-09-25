@@ -37,6 +37,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->json('variants')->nullable();
+            
             $table->timestamps();
         });
     }

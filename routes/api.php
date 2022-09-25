@@ -1,6 +1,8 @@
 <?php
 
+use App\Mail\MyTestMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +72,18 @@ Route::group([ 'namespace' => 'Provider'], function () {
      * login
      */
     Route::post('login', 'AuthController@login');
+
+    Route::get('send-mail', function () {
+
+        $details = [
+            'title' => 'Tekya.com',
+            'body' => 'This is for testing email using smtp'
+        ];
+       
+        Mail::to('anwarsaeed1@yahoo.com')->send(new MyTestMail($details));
+       
+        dd("Email is Sent.");
+    });
 
     /**
      * login & Reigster

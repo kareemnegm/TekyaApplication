@@ -124,4 +124,14 @@ class AuthController extends Controller
         $user->update($request->input());
         return $this->successResponse('updated successful', 200);
     }
+
+
+    public function testEmail(Request $request)
+    {
+        Mail::send(['html' => 'view_name'], $data, function ($m) use ($email) {
+            $m->from('anwarsaeed1@yahoo.com', 'name');
+            $m->to($email, $email)->subject('email subject');
+        });
+    }
+  
 }

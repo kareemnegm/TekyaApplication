@@ -8,6 +8,7 @@ use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\OrderInterface;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderInvoice;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -51,12 +52,41 @@ class OrderRepository implements OrderInterface
      */
     public function placeOrder($req){
 
-        $req['user_id']=auth('user')->user()->id;
-        $req['date_order_placed']=Carbon::now();
 
-        $req['order_details']=json_encode($req['order_details']);
+        $totalProducts=0;
+        $totalPriceProduct=0;
+        $totalShipments=0;
 
-        $req['invoices_total']=json_encode($req['invoices_total']);
+        foreach ($req['shops'] as $arr) {
+            $totalProducts+= count($arr['products']);
+            $totalShipments+= $arr['shipping_fees'];
+            $totalPriceProduct+= $arr['total_price'];
+        }
+
+
+        $user_id=auth('user')->user()->id;
+        $orderInvoice['user_id']=$user_id;
+        $orderInvoice['shipping_fees']=$totalShipments;
+        $orderInvoice['total_product_price']=$totalProducts;
+        $orderInvoice['tekya_wallet']=$req['tekya_wallet'];
+        $orderInvoice['tekya_points']=$req['tekya_points'];
+        $orderInvoice['taxes']=$req['taxes'];
+
+        dd($totalPriceProduct+$totalShipments-$req['tekya_wallet']-$req['tekya_points']);
+        if($req['tekya_points'] == $totalPriceProduct+$totalShipments-$req['tekya_wallet']-$req['tekya_points'])
+        $orderInvoice['taxes']=
+
+        
+
+        OrderInvoice::create([
+
+
+        ]);
+       
+
+        $order['date_order_placed']=Carbon::now();
+
+
 
         $latestOrder = Order::orderBy('created_at','DESC')->first();
 

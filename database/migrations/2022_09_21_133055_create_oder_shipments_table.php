@@ -16,18 +16,11 @@ class CreateOderShipmentsTable extends Migration
         Schema::create('oder_shipments', function (Blueprint $table){
             $table->id();
 
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('order_shop_id');
+            $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->enum('delivery_option',['pickup','delivery']);
-
-            $table->integer('total_items');
+            $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('user_addresses')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->enum('order_user_status',['placed','canceled','delivered','picked'])->default('placed');
 

@@ -25,11 +25,21 @@ class PlaceOrderFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'delivery_option'=>'required|in:pickup,delivery',
-            'payment_id'=>'required|exists:payment_options,id',
-            'address_id'=>'required|exists:user_addresses,id',
-            'order_details'=>'required',
-            'invoices_total'=>'required',
+            'shops.*'=>'required|array|min:1',
+            'shops.*.id'=>'required',
+            'shops.*.total_price'=>'required',
+            'shops.*.coupon_id'=>'nullable',
+            'shops.*.delivery_option_id'=>'required',
+            'shops.*.shipping_fees'=>'required',
+            'shops.*.products'=>'required|array|min:1',
+            'shops.*.products.*.id'=>'required',
+            'shops.*.products.*.quantity'=>'required',
+
+            'tekya_wallet'=>'nullable',
+            'tekya_points'=>'nullable',
+            'taxes'=>'nullable',
+
+            
         ];
     }
 }
