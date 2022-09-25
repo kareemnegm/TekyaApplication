@@ -33,7 +33,6 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::post('/', 'ProviderController@createProvider');
     Route::get('/', 'ProviderController@getAllProviders');
-
 });
 
 Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
@@ -81,7 +80,9 @@ Route::group(['namespace' => 'Provider'], function () {
     Route::apiResource('collection', 'CollectionController');
     Route::put('collection_rename', 'CollectionController@renameCollection');
     Route::put('collection_status', 'CollectionController@changeStatusCollection');
+    Route::post('search/collection', 'CollectionController@collectionSearch');
 });
+Route::post('search/category', 'CategoryController@CategorySearch');
 
     //     Route::put('status', 'CollectionController@changeStatusCollection');
 
