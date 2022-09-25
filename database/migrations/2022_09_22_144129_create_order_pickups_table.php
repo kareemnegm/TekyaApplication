@@ -19,8 +19,8 @@ class CreateOrderPickupsTable extends Migration
             $table->unsignedBigInteger('order_shop_id');
             $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
-            $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('user_addresses')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('branch_id');
+            $table->foreign('branch_id')->references('id')->on('provider_shop_branches')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->enum('order_user_status',['placed','canceled','delivered','picked'])->default('placed');
 

@@ -39,10 +39,10 @@ class CreateCouponsTable extends Migration
             $table->integer('max_uses_user')->unsigned( )->nullable( );
 
             // When the coupons begins
-            $table->timestamp('starts_at');
+            $table->dateTime('starts_at');
 
             // When the coupons ends
-            $table->timestamp( 'expires_at' );
+            $table->dateTime('expires_at');
 
             $table->timestamps();
         });

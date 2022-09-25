@@ -32,9 +32,7 @@ class CreateOrderShopsTable extends Migration
 
             $table->integer('total_items');
 
-            // $table->enum('order_user_status',['placed','canceled','delivered','picked'])->default('placed');
 
-            // $table->enum('order_shop_status',['pending','process','picked','onway','arrived','ready','cancelled'])->default('process');
             $table->text('note')->nullable();
 
             $table->timestamps();
