@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    
+
 
     public function signUp(UserFormRequest $request)
     {
@@ -28,12 +28,12 @@ class AuthController extends Controller
         $data['mobile'] = ltrim($data['mobile'], "0");
 
         $user = User::create($data);
-    
+
         $token = $user->createToken('UserToken')->plainTextToken;
 
         Cart::create(['user_id' => $user->id]);
 
-        return $this->dataResponse(['user' => $user,'complete_profile'=>false, 'token' => $token ], 'success', 200);
+        return $this->dataResponse(['user' => $user, 'complete_profile' => false, 'token' => $token], 'success', 200);
     }
 
 
@@ -42,55 +42,59 @@ class AuthController extends Controller
     {
         if (isset($request->email) && !empty($request->email)) {
             $user = User::where('email', $request->email)->first();
-
         } elseif (isset($request->mobile) && !empty($request->mobile)) {
             $user = User::where('mobile', $request->mobile)->first();
         }
 
         $token = $user->createToken('UserToken')->plainTextToken;
 
-        if(isset($user->email)&&isset($user->first_name) && isset($user->last_name)){
-             $complete_profile=true;
-        }else{
-            $complete_profile=false;
+        if (isset($user->email) && isset($user->first_name) && isset($user->last_name)) {
+            $complete_profile = true;
+        } else {
+            $complete_profile = false;
         }
 
-        return $this->dataResponse(['user' => $user, 'complete_profile'=>$complete_profile,'token' => $token], 'success', 200);
-
+        return $this->dataResponse(['user' => $user, 'complete_profile' => $complete_profile, 'token' => $token], 'success', 200);
     }
 
+    public function logout()
+    {
+        Auth::user()->tokens()->delete();
+        return $this->successResponse(' success logged out', 200);
+    }
 
     /**
      * auth
      */
     public function authentication(AuthFormRequest $request)
     {
-       
+
         $data = $request->validated();
-        $user=User::where('mobile',$data['mobile'])->first();
+        $user = User::where('mobile', $data['mobile'])->first();
 
-        if(!$user){
+        if (!$user) {
 
-        $data['mobile'] = ltrim($data['mobile'], "0");
+            $data['mobile'] = ltrim($data['mobile'], "0");
 
-        $user = User::create($data);
-        $token = $user->createToken('UserToken')->plainTextToken;
-        Cart::create(['user_id' => $user->id]);
-
-        $message='Register Successfuly';
-        }else{
+            $user = User::create($data);
             $token = $user->createToken('UserToken')->plainTextToken;
-            $message='Login Successfuly';
+            Cart::create(['user_id' => $user->id]);
+
+            $message = 'Register Successfuly';
+        } else {
+            $token = $user->createToken('UserToken')->plainTextToken;
+            $message = 'Login Successfuly';
         }
 
-        if(isset($user->email)&&isset($user->first_name) && isset($user->last_name)){
-             $complete_profile=true;
-           }else{
-             $complete_profile=false;
+        if (isset($user->email) && isset($user->first_name) && isset($user->last_name)) {
+            $complete_profile = true;
+        } else {
+            $complete_profile = false;
         }
-        return $this->dataResponse(['user' => $user,'complete_profile'=>$complete_profile, 
-        'token' => $token ], $message, 200);
-
+        return $this->dataResponse([
+            'user' => $user, 'complete_profile' => $complete_profile,
+            'token' => $token
+        ], $message, 200);
     }
     public function ChangePassword(ChangePasswordFormRequest $request)
     {
@@ -133,5 +137,4 @@ class AuthController extends Controller
             $m->to($email, $email)->subject('email subject');
         });
     }
-  
 }

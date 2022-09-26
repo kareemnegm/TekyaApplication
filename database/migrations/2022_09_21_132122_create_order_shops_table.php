@@ -18,7 +18,7 @@ class CreateOrderShopsTable extends Migration
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate();
-            
+
             $table->unsignedBigInteger('shop_id');
             $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnUpdate();
 
@@ -28,7 +28,7 @@ class CreateOrderShopsTable extends Migration
 
 
             $table->unsignedBigInteger('delivery_option_id');
-            $table->foreign('delivery_option_id')->references('delivery_option_id')->on('delivery_options')->cascadeOnUpdate();
+            $table->foreign('delivery_option_id')->references('id')->on('delivery_options')->cascadeOnUpdate();
 
             $table->integer('total_items');
 

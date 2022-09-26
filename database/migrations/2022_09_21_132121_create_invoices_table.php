@@ -20,7 +20,7 @@ class CreateInvoicesTable extends Migration
             // $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
             $table->unsignedBigInteger('coupon_id')->nullable();
-            $table->foreign('coupon_id')->references('id')->on('order_shops')->cascadeOnUpdate();
+            $table->foreign('coupon_id')->references('id')->on('coupons')->cascadeOnUpdate();
 
             $table->enum('status',['pending','paid','refund','canceled'])->default('pending');
 
