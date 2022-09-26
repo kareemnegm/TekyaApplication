@@ -3,7 +3,9 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
+use App\Rules\UnitPricePoructRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class PlaceOrderFormRequest extends BaseFormRequest
 {
@@ -22,18 +24,21 @@ class PlaceOrderFormRequest extends BaseFormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
             'shops.*'=>'required|array|min:1',
             'shops.*.id'=>'required',
-            'shops.*.total_price'=>'required',
+            // 'shops.*.total_price'=>'required',
             'shops.*.coupon_id'=>'nullable',
             'shops.*.delivery_option_id'=>'required',
             'shops.*.shipping_fees'=>'required',
             'shops.*.products'=>'required|array|min:1',
             'shops.*.products.*.id'=>'required',
             'shops.*.products.*.quantity'=>'required',
+            'shops.*.products.*.unit_price'=>'required',
+            'shops.*.products'=>['required',new UnitPricePoructRule($request)],
+
             'tekya_wallet'=>'nullable',
             'tekya_points'=>'nullable',
             'taxes'=>'nullable',

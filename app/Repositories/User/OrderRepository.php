@@ -91,14 +91,22 @@ class OrderRepository extends Controller implements OrderInterface
 
         }else{
     
-            return $this->errorResponse('grand_total not equl the subtotal price with shiipment and taxes',422);
+            return $this->errorResponse('grand_total not equl the subtotal price with shiipment and taxes Must Be'
+            .$totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']
+            ,422);
         }
 
 
         $orderDetails=$this->mainOrderDetails($user_id,$req['payment_id'],$totalProducts,$totalShop,$grandInvoice->id);
-        $this->shopsOrderInvoice($orderDetails->id,);
+   
+   
+   
+        foreach ($req['shops'] as $arr) {
+           $this->shopsOrderInvoice($orderDetails->id,$arr);
+        }
+        // $this->shopsOrderInvoice($orderDetails->id,);
 
-        $this->shopsOrderDetails($orderDetails->id,);
+        // $this->shopsOrderDetails($orderDetails->id,);
 
         
         return $this->successResponse('sussfely Order');
@@ -131,12 +139,12 @@ class OrderRepository extends Controller implements OrderInterface
      * @param [type] $orderId
      * @return void
      */
-    private function shopsOrderInvoice($orderId){
-        $order['coupon_id']=$orderId;
-        $order['status']=$payment_id;
-        $order['discount']=$totalProducts;
-        $order['shipment_fees']=$totalShop;
-        $order['total_product_price']=$invoiceId;
+    private function shopsOrderInvoice($orderID,$shopDetails){
+        $order['coupon_id']=$shopDetails->coupon_id;
+        $order['discount']=0;
+        $order['shipment_fees']=30;
+        
+        // $order['total_product_price']=$invoiceId;
         $order['invoice_date']=Carbon::now();
 
      
