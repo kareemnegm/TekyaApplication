@@ -64,11 +64,49 @@ class OrderRepository extends Controller implements OrderInterface
         foreach ($req['shops'] as $arr) {
             $totalProducts+= count($arr['products']);
             $totalShipments+= $arr['shipping_fees'];
-            $totalPriceProduct+= $arr['total_price'];
             $totalShop+= 1;
 
-        }
 
+          
+            $totalShopItemPrice=0;
+            $totalShopItem=0;
+
+            $orderShopInvoice=[
+                'coupon_id'=>$arr['id'],
+                'shipment_fees'=>30,
+                'discount'=>0,
+                'total_product_price'=>$totalShopItemPrice,
+                'total_invoice'=>$totalShopItemPrice + 30 - 0,
+                'invoice_date'=>Carbon::now(),
+            ];
+
+            $orderShop=[
+                'shop_id'=>$arr['id'],
+                'delivery_option_id'=>$arr['delivery_option_id'],
+                'total_items'=>$totalShopItem,
+
+            ];
+
+            $orderShopItems=[];
+
+
+
+            foreach($arr['products'] as $product){
+
+
+         
+                $product=Product::where('is_published',1)->where('id',$product['id'])->firstOrFail();
+
+                $price=$product->offer_price != 0 ? $product->offer_price : $product->price;
+
+
+                $totalShopItem+=1;
+
+                $totalShopItemPrice+=$price;
+                $totalPriceProduct+= $price;
+
+            }
+        }
 
         $user_id=auth('user')->user()->id;
         $orderInvoice['user_id']=$user_id;
@@ -78,7 +116,6 @@ class OrderRepository extends Controller implements OrderInterface
         $orderInvoice['tekya_points']=$req['tekya_points'];
         $orderInvoice['taxes']=30;
 
-        // dd($totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']);
         if($req['grand_total_price'] == $totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']){
 
             $orderInvoice['grand_total_price']=$req['grand_total_price'];

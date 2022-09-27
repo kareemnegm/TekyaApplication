@@ -36,8 +36,8 @@ class PlaceOrderFormRequest extends BaseFormRequest
             'shops.*.products'=>'required|array|min:1',
             'shops.*.products.*.id'=>'required',
             'shops.*.products.*.quantity'=>'required',
-            'shops.*.products.*.unit_price'=>'required',
-            'shops.*.products'=>['required',new UnitPricePoructRule($request)],
+            // 'shops.*.products.*.unit_price'=>'required',
+            // 'shops.*.products'=>['required',new UnitPricePoructRule($request)],
 
             'tekya_wallet'=>'nullable',
             'tekya_points'=>'nullable',
