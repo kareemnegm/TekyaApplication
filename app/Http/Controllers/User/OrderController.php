@@ -50,6 +50,8 @@ class OrderController extends Controller
     public function placeOrder(PlaceOrderFormRequest $request)
     {
         $orderProdcuts=$this->orderRepository->placeOrder($request->validated());
+
+        // dd($orderProdcuts);
          return $orderProdcuts;
 
     }

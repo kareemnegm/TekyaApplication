@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::put('changePassword', 'AuthController@ChangePassword');
 Route::put('/profile', 'AuthController@updateProfile');
-
+Route::post('logout', 'AuthController@logout');
 
 /**user  addresses */
 Route::post('address', 'UserController@createAddress');

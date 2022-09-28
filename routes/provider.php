@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('shop/categories', 'CategoryController@shopProductsCategories');
 
+Route::post('logout','AuthController@logout');
 
 
 /**
