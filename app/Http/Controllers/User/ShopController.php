@@ -85,7 +85,7 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopDetails(Request $request)
+    public function getShopDetails(ShopIdFormRequest $request)
     {
         $products = $this->shopRepository->getShopDetails($request);
 

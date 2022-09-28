@@ -57,8 +57,6 @@ Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
  */
 Route::group(['namespace' => 'Provider'], function () {
     Route::apiResource('/product', 'ProductController')->except(['index']);
-
-
     Route::delete('/product', 'ProductController@destroy');
     Route::put('/product_publish', 'ProductController@publishAdminProduct');
     Route::put('/move_product_collection', 'ProductController@move_product_from_collection');
