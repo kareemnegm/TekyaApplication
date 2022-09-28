@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CartProductResource;
+use App\Http\Resources\User\OrderReviewResource;
 use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\OrderInterface;
@@ -11,7 +12,9 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderInvoice;
 use App\Models\Product;
+use App\Models\ProviderShopDetails;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -28,20 +31,47 @@ class OrderRepository extends Controller implements OrderInterface
      */
     public function orderReview($request){
 
-        $limit=$request->limit ?$request->limit:10;
+        $shops=[];
 
-        $user=auth()->user();
-        $q=$user->cart->product();
+        foreach($request['order_review']  as $review) {
+            $cart_id = Auth::user()->cart->id;
 
-        if ($request->page) {
-            $reviewOrder = $q->select(['provider_shop_details.id,provider_shop_details.shop_name'])->distinct()->paginate($limit);
-        } else {
-            $reviewOrder = $q->with('shop')->get()->groupBy('shop.id');
+            $shop= ProviderShopDetails::whereHas(
+                'cart',
+                function ($query) use ($cart_id,$review) {
+                    $query->where('cart_id', $cart_id)->where('provider_shop_details_id', $review['shop_id']);
+                }
+            )->first();
+            
+            $shop['delivery_option_id']=$review['delivery_option_id'];
 
-            // $reviewOrder = $q->select(['provider_shop_details_id'])->distinct()->get();
+            if (isset($review['branch_id'])) {
+                $shop['branch_id']=$review['branch_id'];
+            } elseif (isset($review['address_id'])) {
+                $shop['address_id']=$review['address_id'];
+            }
+            array_push($shops,$shop);
         }
 
-        return $reviewOrder;
+        $orderResource=OrderReviewResource::collection($shops);
+        $orderReview=collect($orderResource);
+
+        return [
+            'total_products_price'=>$orderReview->sum('total_price'),
+            'total_taxes'=>$orderReview->sum('shop_taxes'),
+            'total_shipping_fees'=>$orderReview->sum('shop_shipping_fees'),
+            'total_shops'=>$orderReview->count(),
+            'total_products'=>$orderReview->sum(function($value) {
+                return count($value['products']);
+            }),
+
+            'order_review'=>$orderResource,
+    
+        ];
+
+        
+       return $shops;
+
     }
 
 

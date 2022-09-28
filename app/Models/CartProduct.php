@@ -19,6 +19,8 @@ class CartProduct extends Model
 
     ];
 
+
+  
     /**
      * Undocumented function
      *

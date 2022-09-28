@@ -15,7 +15,8 @@ class Product extends Model implements HasMedia
     use HasFactory, HasTags, InteractsWithMedia, FileTrait;
 
     protected $mediaCollection = 'product_images';
-    protected $appends = ['Tags'];
+    protected $appends = ['Tags','order_price'];
+
 
     protected $fillable = [
         'name',
@@ -36,6 +37,12 @@ class Product extends Model implements HasMedia
         'admin_id'
 
     ];
+
+
+    public function getOrderPriceAttribute()
+    {
+        return $this->offer_price  != 0 ? $this->offer_price :$this->price;
+    }
 
     protected $casts = [
         'variants' => 'array'
