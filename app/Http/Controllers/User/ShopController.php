@@ -87,6 +87,12 @@ class ShopController extends Controller
      */
     public function getShopDetails(ShopIdFormRequest $request)
     {
+        if (auth('user')->check()) {
+            $userLocation = auth('user')->user()->userLocation;
+            $request['latitude'] = $userLocation->latitude;
+            $request['longitude'] = $userLocation->longitude;
+        }
+
         $products = $this->shopRepository->getShopDetails($request);
 
         if ($products == null) {

@@ -90,8 +90,8 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function getShopDetails($request)
     {
-        $latitude = 30.012537910528884;
-        $longitude = 31.290307442198323;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
         $q = providerShopBranch::ByDistance($latitude, $longitude, array($request->shop_id))->first();
         return $q;
 
