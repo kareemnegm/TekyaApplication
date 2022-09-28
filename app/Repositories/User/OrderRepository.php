@@ -59,7 +59,8 @@ class OrderRepository extends Controller implements OrderInterface
         $orderReview=collect($orderResource);
 
 
-        $payment=PaymentOption::FindOrFail($request->paymnet_id);
+        dd($request);
+        // $payment=PaymentOption::FindOrFail($request->paymnet_id);
         
 
         return [
@@ -75,7 +76,7 @@ class OrderRepository extends Controller implements OrderInterface
                 return count($value['products']);
             }),
 
-            'payment_option'=> New PaymentOptionResource($payment)
+            // 'payment_option'=> New PaymentOptionResource($payment)
     
         ];
 
