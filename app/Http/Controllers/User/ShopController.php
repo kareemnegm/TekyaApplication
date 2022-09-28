@@ -10,6 +10,7 @@ use App\Http\Resources\User\ShopResource;
 use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Http\Resources\User\ShopsResource;
 use App\Interfaces\User\ShopInrerface;
+use App\Models\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -91,7 +92,12 @@ class ShopController extends Controller
             $userLocation = auth('user')->user()->userLocation;
             $request['latitude'] = $userLocation->latitude;
             $request['longitude'] = $userLocation->longitude;
+        } elseif (isset($request->area_id) && !empty($request->area_id)) {
+            $area = Area::findOrFail($request->area_id);
+            $request['latitude'] = $area->latitude;
+            $request['longitude'] = $area->longitude;
         }
+
 
         $products = $this->shopRepository->getShopDetails($request);
 

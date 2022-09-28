@@ -26,6 +26,7 @@ class ShopIdFormRequest extends BaseFormRequest
     {
         return [
             'shop_id' => 'required|exists:provider_shop_details,id',
+            'area_id'=>'nullable|exists:areas,id'
 
         ];
     }
