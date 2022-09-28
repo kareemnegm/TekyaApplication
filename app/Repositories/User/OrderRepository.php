@@ -63,7 +63,6 @@ class OrderRepository extends Controller implements OrderInterface
         
 
         return [
-            'order_review'=>$orderResource,
 
             'total_products_price'=>$orderReview->sum('total_price'),
             'total_taxes'=>$orderReview->sum('shop_taxes'),
@@ -75,7 +74,10 @@ class OrderRepository extends Controller implements OrderInterface
                 return count($value['products']);
             }),
 
-            'payment_option'=> New PaymentOptionResource($payment)
+            'payment_option'=> New PaymentOptionResource($payment),
+
+            'order_review'=>$orderResource
+
     
         ];
 
