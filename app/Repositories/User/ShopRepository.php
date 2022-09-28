@@ -90,11 +90,10 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function getShopDetails($request)
     {
-        $latitude = $request->latitude?$request->latitude:30.012537910528884;
-        $longitude = $request->longitude?$request->longitude:31.290307;
+        $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
+        $longitude = $request->longitude ? $request->longitude : 31.290307;
         $q = providerShopBranch::ByDistance($latitude, $longitude, array($request->shop_id))->first();
         return $q;
-
     }
 
 
@@ -106,12 +105,11 @@ class ShopRepository extends Controller implements ShopInrerface
      */
     public function getShopBranches($request)
     {
-
+        $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
+        $longitude = $request->longitude ? $request->longitude : 31.290307;
         $shop = ProviderShopDetails::findOrFail($request->shop_id);
-        $q = $shop->branches();
+        $q = providerShopBranch::ByDistance($latitude, $longitude, array($shop->id))->all();
 
-        $branches = $q->orderBy('id', 'ASC')->get();
-
-        return $branches;
+        return $q;
     }
 }

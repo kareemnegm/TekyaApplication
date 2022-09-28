@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Models\providerShopBranch;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShopBracnhesResource extends JsonResource
@@ -14,14 +15,17 @@ class ShopBracnhesResource extends JsonResource
      */
     public function toArray($request)
     {
+        $brnach = providerShopBranch::findOrFail($this->id);
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'is_head' => $this->is_head,
-            'is_active' => $this->is_active,
-            'working_days' => json_decode($this->working_hours_day),
-            'delivery' => $this->delivery,
-            'pick_up' => $this->pick_up
+            'id' => $brnach->id,
+            'name' => $brnach->name,
+            'is_head' => $brnach->is_head,
+            'is_active' => $brnach->is_active,
+            'working_days' => json_decode($brnach->working_hours_day),
+            'delivery' => $brnach->delivery,
+            'pick_up' => $brnach->pick_up,
+            'distance' => $this->distance > 1 ? round($this->distance, 1) . " K" : round($this->distance * 1000) . " M",
+
         ];
     }
 }
