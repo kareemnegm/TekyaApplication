@@ -4,14 +4,19 @@ namespace App\Repositories\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CartProductResource;
+use App\Http\Resources\User\OrderReviewResource;
+use App\Http\Resources\User\PaymentOptionResource;
 use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\OrderInterface;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderInvoice;
+use App\Models\PaymentOption;
 use App\Models\Product;
+use App\Models\ProviderShopDetails;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -28,20 +33,55 @@ class OrderRepository extends Controller implements OrderInterface
      */
     public function orderReview($request){
 
-        $limit=$request->limit ?$request->limit:10;
+        $shops=[];
 
-        $user=auth()->user();
-        $q=$user->cart->product();
+        foreach($request['order_review']  as $review) {
+            $cart_id = Auth::user()->cart->id;
 
-        if ($request->page) {
-            $reviewOrder = $q->select(['provider_shop_details.id,provider_shop_details.shop_name'])->distinct()->paginate($limit);
-        } else {
-            $reviewOrder = $q->with('shop')->get()->groupBy('shop.id');
+            $shop= ProviderShopDetails::whereHas(
+                'cart',
+                function ($query) use ($cart_id,$review) {
+                    $query->where('cart_id', $cart_id)->where('provider_shop_details_id', $review['shop_id']);
+                }
+            )->first();
+            
+            $shop['delivery_option_id']=$review['delivery_option_id'];
 
-            // $reviewOrder = $q->select(['provider_shop_details_id'])->distinct()->get();
+            if (isset($review['branch_id'])) {
+                $shop['branch_id']=$review['branch_id'];
+            } elseif (isset($review['address_id'])) {
+                $shop['address_id']=$review['address_id'];
+            }
+            array_push($shops,$shop);
         }
 
-        return $reviewOrder;
+        $orderResource=OrderReviewResource::collection($shops);
+        $orderReview=collect($orderResource);
+
+
+        $payment=PaymentOption::FindOrFail($request['paymnet_id'] );
+        
+
+        return [
+            'order_review'=>$orderResource,
+
+            'total_products_price'=>$orderReview->sum('total_price'),
+            'total_taxes'=>$orderReview->sum('shop_taxes'),
+            'total_shipping_fees'=>$orderReview->sum('shop_shipping_fees'),
+            'total_shops'=>$orderReview->count(),
+            'payment_option'=>$orderReview->count(),
+
+            'total_products'=>$orderReview->sum(function($value) {
+                return count($value['products']);
+            }),
+
+            'payment_option'=> New PaymentOptionResource($payment)
+    
+        ];
+
+        
+       return $shops;
+
     }
 
 
@@ -64,11 +104,49 @@ class OrderRepository extends Controller implements OrderInterface
         foreach ($req['shops'] as $arr) {
             $totalProducts+= count($arr['products']);
             $totalShipments+= $arr['shipping_fees'];
-            $totalPriceProduct+= $arr['total_price'];
             $totalShop+= 1;
 
-        }
 
+          
+            $totalShopItemPrice=0;
+            $totalShopItem=0;
+
+            $orderShopInvoice=[
+                'coupon_id'=>$arr['id'],
+                'shipment_fees'=>30,
+                'discount'=>0,
+                'total_product_price'=>$totalShopItemPrice,
+                'total_invoice'=>$totalShopItemPrice + 30 - 0,
+                'invoice_date'=>Carbon::now(),
+            ];
+
+            $orderShop=[
+                'shop_id'=>$arr['id'],
+                'delivery_option_id'=>$arr['delivery_option_id'],
+                'total_items'=>$totalShopItem,
+
+            ];
+
+            $orderShopItems=[];
+
+
+
+            foreach($arr['products'] as $product){
+
+
+         
+                $product=Product::where('is_published',1)->where('id',$product['id'])->firstOrFail();
+
+                $price=$product->offer_price != 0 ? $product->offer_price : $product->price;
+
+
+                $totalShopItem+=1;
+
+                $totalShopItemPrice+=$price;
+                $totalPriceProduct+= $price;
+
+            }
+        }
 
         $user_id=auth('user')->user()->id;
         $orderInvoice['user_id']=$user_id;
@@ -78,7 +156,6 @@ class OrderRepository extends Controller implements OrderInterface
         $orderInvoice['tekya_points']=$req['tekya_points'];
         $orderInvoice['taxes']=30;
 
-        // dd($totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']);
         if($req['grand_total_price'] == $totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']){
 
             $orderInvoice['grand_total_price']=$req['grand_total_price'];

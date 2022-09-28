@@ -16,9 +16,8 @@ class ShopResource extends JsonResource
      */
     public function toArray($request)
     {
-       
-      $brnach=providerShopBranch::findOrFail($this->id);
 
+      $brnach=providerShopBranch::findOrFail($this->id);
        return [
         'id' => $this->shop->id,
         'shop_name' => $this->shop->shop_name,
@@ -36,7 +35,7 @@ class ShopResource extends JsonResource
             'id' =>$brnach->id,
             'name' =>$brnach->name,
             'working_hours_day' =>json_decode($brnach->working_hours_day),
-            'address' =>$brnach->BranchAddress->address,
+            'address' =>$brnach->address,
             'distance' => $this->distance > 1 ? round($this->distance,1) ." K": round($this->distance *1000)." M",
 
         ],

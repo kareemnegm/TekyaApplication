@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\OrderReviewFormRequest;
 use App\Http\Requests\User\PlaceOrderFormRequest;
 use App\Http\Resources\User\OrderReviewResource;
 use App\Interfaces\User\OrderInterface;
@@ -32,10 +33,13 @@ class OrderController extends Controller
      * @param Request $request
      * @return void
      */
-    public function orderReview(Request $request)
+    public function orderReview(OrderReviewFormRequest $request)
     {
-        $orderProdcuts=$this->orderRepository->orderReview($request);
-        return OrderReviewResource::collection($orderProdcuts);
+        $orderProdcuts=$this->orderRepository->orderReview($request->all());
+
+        return $this->dataResponse([
+            $orderProdcuts], 'OK', 200);
+    
 
     }
 

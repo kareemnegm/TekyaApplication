@@ -26,7 +26,8 @@ class ProviderShopDetails extends Model implements HasMedia
         'web_site',
         'provider_id',
         'admin_id',
-        'status'
+        'status',
+        'vat'
 
     ];
 

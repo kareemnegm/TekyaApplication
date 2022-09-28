@@ -57,15 +57,8 @@ class PlaceOrderFormRequest extends BaseFormRequest
             'shops.*.products'=>'required|array|min:1',
             'shops.*.products.*.id'=>'required',
             'shops.*.products.*.quantity'=>'required',
-            'shops.*.products.*.unit_price'=>'required',
-
-            'tekya_wallet'=>'nullable',
-            'tekya_points'=>'nullable',
-            'taxes'=>'nullable',
-
             'grand_total_price'=>'required',
             'payment_id'=>'required'
-            
         ];
     }
 }

@@ -25,12 +25,13 @@ class UserAddressFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'address'=>'required',
-            'street'=>'required',
-            'address_details'=>'required',
-            'area_id'=>'exists:areas,id',
-            'latitude'=>'required_without:area_id',
-            'longitude'=>'required_without:area_id',
+            'address' => 'required',
+            'street' => 'required',
+            'address_details' => 'required',
+            'government_id' => 'exists:governments,id',
+            'area_id' => 'exists:areas,id,government_id,:government_id',
+            'latitude' => 'required_without:area_id,government_id',
+            'longitude' => 'required_without:area_id,government_id',
         ];
     }
 }

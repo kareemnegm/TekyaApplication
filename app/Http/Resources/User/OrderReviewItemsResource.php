@@ -7,12 +7,11 @@ use App\Http\Resources\ImageResource;
 use App\Models\Cart;
 use App\Models\DeliveryOption;
 use App\Models\providerShopBranch;
-use App\Models\ProviderShopDetails;
 use App\Models\UserAddress;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class OrderReviewResource extends JsonResource
+class OrderReviewItemsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
