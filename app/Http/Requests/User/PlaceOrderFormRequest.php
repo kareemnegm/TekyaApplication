@@ -6,6 +6,7 @@ use App\Http\Requests\BaseFormRequest;
 use App\Rules\UnitPricePoructRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PlaceOrderFormRequest extends BaseFormRequest
 {
@@ -29,22 +30,41 @@ class PlaceOrderFormRequest extends BaseFormRequest
         return [
             'shops.*'=>'required|array|min:1',
             'shops.*.id'=>'required',
-            // 'shops.*.total_price'=>'required',
+
             'shops.*.coupon_id'=>'nullable',
             'shops.*.delivery_option_id'=>'required',
             'shops.*.shipping_fees'=>'required',
+
+            'shops.*.shipping_fees'=>'required',
+
+
+
+            'shops.*.branch_id'=>['required_without:address_id',
+            
+            
+            function($attribute, $value, $parameters)
+            {
+                dd($parameters,$attribute);
+                return Rule::exists('provider_shop_branches', 'id')                     
+                ->where('id',$value)->where('shop_id',$request->shop_id);
+            },
+        ],
+            // 'exists:provider_shop_branches,id'],
+
+            'shops.*.address_id'=>'required_without:branch_id|exists:provider_shop_branches,id',
+
+            
             'shops.*.products'=>'required|array|min:1',
             'shops.*.products.*.id'=>'required',
             'shops.*.products.*.quantity'=>'required',
             'shops.*.products.*.unit_price'=>'required',
-            'shops.*.products'=>['required',new UnitPricePoructRule($request)],
 
             'tekya_wallet'=>'nullable',
             'tekya_points'=>'nullable',
             'taxes'=>'nullable',
+
             'grand_total_price'=>'required',
             'payment_id'=>'required'
-
             
         ];
     }
