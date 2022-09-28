@@ -10,6 +10,7 @@ use App\Http\Resources\User\ShopResource;
 use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Http\Resources\User\ShopsResource;
 use App\Interfaces\User\ShopInrerface;
+use App\Models\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,10 +86,24 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopDetails(Request $request)
+    public function getShopDetails(ShopIdFormRequest $request)
     {
+        if (auth('user')->check()) {
+            $userLocation = auth('user')->user()->userLocation;
+            $request['latitude'] = $userLocation->latitude;
+            $request['longitude'] = $userLocation->longitude;
+        } elseif (isset($request->area_id) && !empty($request->area_id)) {
+            $area = Area::findOrFail($request->area_id);
+            $request['latitude'] = $area->latitude;
+            $request['longitude'] = $area->longitude;
+        }
+
+
         $products = $this->shopRepository->getShopDetails($request);
 
+        if ($products == null) {
+            return $this->dataResponse([], 'OK', 200);
+        }
         return $this->dataResponse(['shop' => new ShopResource($products)], 'OK', 200);
     }
     /**
@@ -98,6 +113,11 @@ class ShopController extends Controller
      */
     public function getShopBranches(ShopIdFormRequest $request)
     {
+        if (auth('user')->check()) {
+            $userLocation = auth('user')->user()->userLocation;
+            $request['latitude'] = $userLocation->latitude;
+            $request['longitude'] = $userLocation->longitude;
+        }
         $branches = $this->shopRepository->getShopBranches($request);
         return $this->paginateCollection(ShopBracnhesResource::collection($branches), $request->limit, 'branches');
     }
