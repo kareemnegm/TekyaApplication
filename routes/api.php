@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/payment', 'Provider\PaymentController@index');
-Route::apiResource('/category', 'Category\CategoryController')->except(['store','update','destroy']);
+Route::apiResource('/category', 'Category\CategoryController')->except(['store', 'update', 'destroy']);
 
 
 Route::group(['namespace' => 'Provider\GovernmentArea'], function () {
@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Provider\GovernmentArea'], function () {
     Route::apiResource('area', 'AreaController');
     Route::get('government_area/{id}', 'AreaController@getAllGovernmentAreas');
 });
+Route::apiResource('delivery_option', 'DeliveryOptionController');
 
 
 Route::group(['prefix' => 'user/message', 'namespace' => 'Message', 'middleware' => 'auth:user'], function () {
@@ -31,7 +32,7 @@ Route::group(['prefix' => 'user/message', 'namespace' => 'Message', 'middleware'
     Route::post('/', 'MessageController@sendMessage');
 });
 
-Route::group(['prefix' => 'provider/message', 'namespace' => 'Message','middleware' => 'auth:provider'], function () {
+Route::group(['prefix' => 'provider/message', 'namespace' => 'Message', 'middleware' => 'auth:provider'], function () {
 
     Route::get('/', 'MessageController@ProviderRetrieveMessages');
 });
@@ -49,9 +50,8 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
      * login
      */
     Route::post('/login', 'AuthController@login');
-
 });
-Route::group([ 'namespace' => 'Provider'], function () {
+Route::group(['namespace' => 'Provider'], function () {
     /**
      * signup
      */
@@ -60,10 +60,9 @@ Route::group([ 'namespace' => 'Provider'], function () {
      * login
      */
     Route::post('/login', 'AuthController@login');
-
 });
 
-    Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
+Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     /**
      * signup
      */
@@ -79,9 +78,9 @@ Route::group([ 'namespace' => 'Provider'], function () {
             'title' => 'Tekya.com',
             'body' => 'This is for testing email using smtp'
         ];
-       
+
         Mail::to('anwarsaeed1@yahoo.com')->send(new MyTestMail($details));
-       
+
         dd("Email is Sent.");
     });
 
@@ -90,7 +89,7 @@ Route::group([ 'namespace' => 'Provider'], function () {
      */
     Route::post('authentication', 'AuthController@authentication');
 
-    
+
     /**
      * Category Apis
      */
@@ -115,19 +114,17 @@ Route::group([ 'namespace' => 'Provider'], function () {
     /**
      * Prdocuts Modules
      */
-    Route::get('products_for_you','ProductController@productsForYou');
-    Route::get('most_popular_products','ProductController@mostPopularProduct');
-    Route::get('related_products','ProductController@relatedProducts');
-    Route::get('similar_products','ProductController@similarProducts');
+    Route::get('products_for_you', 'ProductController@productsForYou');
+    Route::get('most_popular_products', 'ProductController@mostPopularProduct');
+    Route::get('related_products', 'ProductController@relatedProducts');
+    Route::get('similar_products', 'ProductController@similarProducts');
 
 
 
     /**
      * SearchKeyWords
      */
-    Route::get('search','SearchController@search');
-
-
+    Route::get('search', 'SearchController@search');
 });
 
 

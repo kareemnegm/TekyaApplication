@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserLocationFormRequest extends FormRequest
+class DeliveryOptionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +24,9 @@ class UserLocationFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'name'=>'required|unique:delivery_options,name',
+            'shipment_type'=>'required|in:branch,address,charity'
+        ];
     }
 }
