@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\System;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\DeliveryOptionFormRequest;
 use App\Http\Resources\DeliveryOptionResource;
 use App\Models\DeliveryOption;
 use Illuminate\Http\Request;
@@ -17,10 +16,18 @@ class DeliveryOptionController extends Controller
      */
     public function index(Request $request)
     {
-        
         return $this->paginateCollection(DeliveryOptionResource::collection(DeliveryOption::get()), $request->limit, 'collection');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -28,10 +35,9 @@ class DeliveryOptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DeliveryOptionFormRequest $request)
+    public function store(Request $request)
     {
-        DeliveryOption::create($request->validated());
-        return $this->successResponse('success', 201);
+        //
     }
 
     /**
@@ -51,6 +57,10 @@ class DeliveryOptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function edit($id)
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.
@@ -72,8 +82,6 @@ class DeliveryOptionController extends Controller
      */
     public function destroy($id)
     {
-        $Do = DeliveryOption::findOrFail($id);
-        $Do->delete();
-        return $this->successResponse('deleted successful', 200);
+        //
     }
 }
