@@ -30,7 +30,7 @@ class OrderReviewFormRequest extends BaseFormRequest
         $user = Auth::user();
         return [
 
-            'order_review.*'=>'required|array|min:1',
+            'order_review.*'=>'required|min:1',
             'order_review.*.shop_id'=>['required',Rule::exists('cart_product', 'provider_shop_details_id')->where('cart_id',$user->cart->id)  ],
 
             'order_review.*.delivery_option_id'=>'required|exists:delivery_options,id' ,
