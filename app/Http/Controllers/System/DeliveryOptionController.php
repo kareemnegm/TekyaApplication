@@ -15,9 +15,10 @@ class DeliveryOptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->dataResponse(['deliveryOptions' => DeliveryOptionResource::collection(DeliveryOption::get())], 'success', 200);
+        
+        return $this->paginateCollection(DeliveryOptionResource::collection(DeliveryOption::get()), $request->limit, 'collection');
     }
 
 
