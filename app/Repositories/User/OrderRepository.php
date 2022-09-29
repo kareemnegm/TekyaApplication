@@ -10,6 +10,7 @@ use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\OrderInterface;
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Order;
 use App\Models\OrderInvoice;
 use App\Models\PaymentOption;
@@ -96,6 +97,15 @@ class OrderRepository extends Controller implements OrderInterface
     public function placeOrder($req){
 
 
+        $cart_id = Auth::user()->cart->id;
+        $products=CartProduct::where('cart_id',$cart_id)->get();
+
+
+        if ($this->productsAreNoLongerAvailable($products)) {
+            return $this->errorResponseWithMessage('Sorry! One of the items in your cart is no longer avialble.',422);
+        }
+
+
         $totalProducts=0;
         $totalPriceProduct=0;
         $totalShipments=0;
@@ -103,60 +113,42 @@ class OrderRepository extends Controller implements OrderInterface
 
 
 
+
+      $orderShopInvoices=[];
+
         foreach ($req['shops'] as $arr) {
-            $totalProducts+= count($arr['products']);
-            $totalShipments+= $arr['shipping_fees'];
-            $totalShop+= 1;
 
 
-          
-            $totalShopItemPrice=0;
-            $totalShopItem=0;
+        $shopProducts=CartProduct::with(['shop', 'product'])->where('cart_id',$cart_id)->where('provider_shop_details_id',$arr['id']);
 
-            $orderShopInvoice=[
-                'coupon_id'=>$arr['id'],
-                'shipment_fees'=>30,
-                'discount'=>0,
-                'total_product_price'=>$totalShopItemPrice,
-                'total_invoice'=>$totalShopItemPrice + 30 - 0,
-                'invoice_date'=>Carbon::now(),
-            ];
-
-            $orderShop=[
-                'shop_id'=>$arr['id'],
-                'delivery_option_id'=>$arr['delivery_option_id'],
-                'total_items'=>$totalShopItem,
-
-            ];
-
-            $orderShopItems=[];
+   
+        $totalShopItemPrice=$shopProducts->get()->sum(function($product) {
+            return $product->product->order_price;
+        });
 
 
+        $orderShopInvoice =[
+            'coupon_id'=>null,
+            'shipment_fees'=>30,
+            'discount'=>0,
+            'total_product_price'=>$totalShopItemPrice,
+            'total_invoice'=>$totalShopItemPrice + 30 - 0,
+            'invoice_date'=>Carbon::now(),
+        ];
 
-            foreach($arr['products'] as $product){
+            array_push($orderShopInvoices,$orderShopInvoice);
 
-
-         
-                $product=Product::where('is_published',1)->where('id',$product['id'])->firstOrFail();
-
-                $price=$product->offer_price != 0 ? $product->offer_price : $product->price;
-
-
-                $totalShopItem+=1;
-
-                $totalShopItemPrice+=$price;
-                $totalPriceProduct+= $price;
-
-            }
         }
 
-        $user_id=auth('user')->user()->id;
-        $orderInvoice['user_id']=$user_id;
-        $orderInvoice['shipping_fees']=$totalShipments;
-        $orderInvoice['total_product_price']=$totalPriceProduct;
-        $orderInvoice['tekya_wallet']=$req['tekya_wallet'];
-        $orderInvoice['tekya_points']=$req['tekya_points'];
-        $orderInvoice['taxes']=30;
+        // dd($orderShopInvoices);
+
+        // $user_id=auth('user')->user()->id;
+        // $orderInvoice['user_id']=$user_id;
+        // $orderInvoice['shipping_fees']=$totalShipments;
+        // $orderInvoice['total_product_price']=$totalPriceProduct;
+        // $orderInvoice['tekya_wallet']=$req['tekya_wallet'];
+        // $orderInvoice['tekya_points']=$req['tekya_points'];
+        // $orderInvoice['taxes']=30;
 
         if($req['grand_total_price'] == $totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']){
 
@@ -180,13 +172,10 @@ class OrderRepository extends Controller implements OrderInterface
    
    
    
-        foreach ($req['shops'] as $arr) {
-           $this->shopsOrderInvoice($orderDetails->id,$arr);
-        }
-        // $this->shopsOrderInvoice($orderDetails->id,);
-
-        // $this->shopsOrderDetails($orderDetails->id,);
-
+        // foreach ($req['shops'] as $arr) {
+        //    $this->shopsOrderInvoice($orderDetails->id,$arr);
+        // }
+     
         
         return $this->successResponse('sussfely Order');
 
@@ -236,6 +225,24 @@ class OrderRepository extends Controller implements OrderInterface
     //     $order['total_items']=$invoiceId;
      
     // }
+
+    /**
+     * Check If Products Aviliable With Stock function
+     *
+     * @return void
+     */
+    protected function productsAreNoLongerAvailable($products)
+    {
+
+        foreach ($products as $item) {
+            $product = Product::find($item->product_id);
+            if ($product->stock_quantity < $item->quantity) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 

@@ -39,24 +39,15 @@ class PlaceOrderFormRequest extends BaseFormRequest
 
 
 
-            'shops.*.branch_id'=>['required_without:address_id',
-            
-            
-            function($attribute, $value, $parameters)
-            {
-                dd($parameters,$attribute);
-                return Rule::exists('provider_shop_branches', 'id')                     
-                ->where('id',$value)->where('shop_id',$request->shop_id);
-            },
-        ],
-            // 'exists:provider_shop_branches,id'],
+            'shops.*.branch_id'=>['required_without:shops.*.address_id'],
+        //     // 'exists:provider_shop_branches,id'],
 
-            'shops.*.address_id'=>'required_without:branch_id|exists:provider_shop_branches,id',
+            'shops.*.address_id'=>['required_without:shops.*.branch_id'],
 
             
-            'shops.*.products'=>'required|array|min:1',
-            'shops.*.products.*.id'=>'required',
-            'shops.*.products.*.quantity'=>'required',
+            // 'shops.*.products'=>'required|array|min:1',
+            // 'shops.*.products.*.id'=>'required',
+            // 'shops.*.products.*.quantity'=>'required',
             'grand_total_price'=>'required',
             'payment_id'=>'required'
         ];
