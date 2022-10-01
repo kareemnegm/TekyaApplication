@@ -106,6 +106,14 @@ class OrderRepository extends Controller implements OrderInterface
         }
 
 
+        foreach($req['shops'] as $shop){
+
+            $shopProducts=CartProduct::with(['shop', 'product'])->where('cart_id',$cart_id)->where('provider_shop_details_id',$arr['id']);
+
+        }
+
+        // dd($products    );
+
         $totalProducts=0;
         $totalPriceProduct=0;
         $totalShipments=0;
@@ -139,7 +147,7 @@ class OrderRepository extends Controller implements OrderInterface
             array_push($orderShopInvoices,$orderShopInvoice);
 
         }
-
+  
         // dd($orderShopInvoices);
 
         // $user_id=auth('user')->user()->id;
