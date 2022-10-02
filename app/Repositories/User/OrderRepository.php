@@ -97,57 +97,118 @@ class OrderRepository extends Controller implements OrderInterface
     public function placeOrder($req){
 
 
-        $cart_id = Auth::user()->cart->id;
-        $products=CartProduct::where('cart_id',$cart_id)->get();
+        $user = Auth::user();
+        // $products=CartProduct::where('cart_id',$user_id->cart->id)->get();
 
+        $userCart=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->get();
+        // dd($userCart);
 
-        if ($this->productsAreNoLongerAvailable($products)) {
+        if ($this->productsAreNoLongerAvailable($userCart)) {
             return $this->errorResponseWithMessage('Sorry! One of the items in your cart is no longer avialble.',422);
         }
 
+          
+       $date=Carbon::now();
 
-        foreach($req['shops'] as $shop){
 
-            $shopProducts=CartProduct::with(['shop', 'product'])->where('cart_id',$cart_id)->where('provider_shop_details_id',$arr['id']);
+      
+       $totalShopItemPrice=0;
+       $taxes=0;
+       $shopShpping=0;
+       $total_items=$userCart->count();
+       $total_shop=$userCart->unique('provider_shop_details_id')->count();
 
+        foreach($req['shops'] as $shopItem){
+            $userCart=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->where('provider_shop_details_id',$shopItem['id'])->get();
+            
+            $totalShopItemPrice+=$userCart->sum(function($product) {
+                return $product->product->order_price;
+            });
+
+            if($userCart->first()->shop->vat == 0){
+             $taxes+= round(($totalShopItemPrice*14/100),2);
+            }
+
+            $shopShpping+=30;
         }
+ 
+        $orderInvoice =[
+            'total_product_price'=>$totalShopItemPrice,
+            'tekya_wallet'=>null,
+            'tekya_points'=>null,
+            'user_id'=>$user->id,
+            'shipping_fees'=>$shopShpping,
+            'taxes'=>$taxes,
+            'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
+        ];
+    
+        $latestOrderInvoiceCount = OrderInvoice::count();
+        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        $orderInvoice=OrderInvoice::create($orderInvoice);
+    
+
+          $order =[
+            'date_order_placed'=>$date,
+            'user_id'=>$user->id,
+            'payment_id'=>$req['payment_id'],
+            'total_items'=>$total_items,
+            'total_shop'=>$total_shop ,
+            'order_invoice_id'=>$orderInvoice->id,
+        ];
+
+            $orderCount = Order::count();
+            $order['order_number'] = '#'.str_pad($orderCount+1, 8, "0", STR_PAD_LEFT);
+            $createOrder=Order::create($order);
+
+
+            // $order =[
+            //     'date_order_placed'=>$date,
+            //     'user_id'=>$user->id,
+            //     'payment_id'=>$req['payment_id'],
+            //     'total_items'=>$total_items,
+            //     'total_shop'=>$total_shop ,
+            //     'order_invoice_id'=>$orderInvoice->id,
+            // ];
+        // dd($totalProductsOrder);
 
         // dd($products    );
 
-        $totalProducts=0;
-        $totalPriceProduct=0;
-        $totalShipments=0;
-        $totalShop=0;
+        // $totalProducts=0;
+        // $totalPriceProduct=0;
+        // $totalShipments=0;
+        // $totalShop=0;
 
 
 
 
-      $orderShopInvoices=[];
+        // dd($req['shops']);
+    //   $orderShopInvoices=[];
 
-        foreach ($req['shops'] as $arr) {
+    //     foreach ($req['shops'] as $arr) {
 
 
-        $shopProducts=CartProduct::with(['shop', 'product'])->where('cart_id',$cart_id)->where('provider_shop_details_id',$arr['id']);
+    //     $shopProducts=CartProduct::with(['shop', 'product'])->where('cart_id',$cart_id)->where('provider_shop_details_id',$arr['id']);
 
    
-        $totalShopItemPrice=$shopProducts->get()->sum(function($product) {
-            return $product->product->order_price;
-        });
+    //     $totalShopItemPrice=$shopProducts->get()->sum(function($product) {
+    //         return $product->product->order_price;
+    //     });
 
 
-        $orderShopInvoice =[
-            'coupon_id'=>null,
-            'shipment_fees'=>30,
-            'discount'=>0,
-            'total_product_price'=>$totalShopItemPrice,
-            'total_invoice'=>$totalShopItemPrice + 30 - 0,
-            'invoice_date'=>Carbon::now(),
-        ];
+        // $orderShopInvoice =[
+        //     'coupon_id'=>null,
+        //     'shipment_fees'=>30,
+        //     'discount'=>0,
+        //     'total_product_price'=>$totalShopItemPrice,
+        //     'total_invoice'=>$totalShopItemPrice + 30 - 0,
+        //     'invoice_date'=>Carbon::now(),
+        // ];
 
-            array_push($orderShopInvoices,$orderShopInvoice);
+            // array_push($orderShopInvoices,$orderShopInvoice);
 
-        }
+        // }
   
+        // $union = $orderShopInvoices->union(['order_id'=>1]);
         // dd($orderShopInvoices);
 
         // $user_id=auth('user')->user()->id;
@@ -158,25 +219,25 @@ class OrderRepository extends Controller implements OrderInterface
         // $orderInvoice['tekya_points']=$req['tekya_points'];
         // $orderInvoice['taxes']=30;
 
-        if($req['grand_total_price'] == $totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']){
+        // if($req['grand_total_price'] == $totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']){
 
-            $orderInvoice['grand_total_price']=$req['grand_total_price'];
+        //     $orderInvoice['grand_total_price']=$req['grand_total_price'];
 
-            $latestOrderInvoiceCount = OrderInvoice::count();
+        //     $latestOrderInvoiceCount = OrderInvoice::count();
 
-            $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        //     $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
     
-            $grandInvoice=OrderInvoice::create($orderInvoice );
+        //     $grandInvoice=OrderInvoice::create($orderInvoice );
 
-        }else{
+        // }else{
     
-            return $this->errorResponse('grand_total not equl the subtotal price with shiipment and taxes Must Be'
-            .$totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']
-            ,422);
-        }
+        //     return $this->errorResponse('grand_total not equl the subtotal price with shiipment and taxes Must Be'
+        //     .$totalPriceProduct+$orderInvoice['taxes']+$totalShipments-$req['tekya_wallet']-$req['tekya_points']
+        //     ,422);
+        // }
 
 
-        $orderDetails=$this->mainOrderDetails($user_id,$req['payment_id'],$totalProducts,$totalShop,$grandInvoice->id);
+        // $orderDetails=$this->mainOrderDetails($user_id,$req['payment_id'],$totalProducts,$totalShop,$grandInvoice->id);
    
    
    
@@ -190,12 +251,12 @@ class OrderRepository extends Controller implements OrderInterface
     }
 
 
-    private function mainOrderDetails($user_id,$payment_id,$totalProducts,$totalShop,$invoiceId){
+    private function mainOrderDetails($user_id,$orderData){
 
         $order['date_order_placed']=Carbon::now();
         $order['user_id']=$user_id;
-        $order['payment_id']=$payment_id;
-        $order['total_items']=$totalProducts;
+        $order['payment_id']=$orderData['payment_id'];
+        $order['total_items']=$orderData['totalProducts'];
         $order['total_shop']=$totalShop;
         $order['order_invoice_id']=$invoiceId;
 
