@@ -265,7 +265,6 @@ class OrderRepository extends Controller implements OrderInterface
         DB::commit('Make Order');
 
         return $this->successResponse('sussfely Order');
-
     }
 
         catch (\Exception $e) {
