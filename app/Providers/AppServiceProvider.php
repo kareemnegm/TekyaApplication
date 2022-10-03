@@ -35,6 +35,8 @@ use App\Repositories\User\OrderRepository;
 use App\Repositories\User\ProductRepository as UserProductRepository;
 use App\Repositories\User\UserRepository;
 use App\Interfaces\User\ProductInterface as InterfacesProductInterface;
+use App\Models\OrderItem;
+use App\Observers\UpdateStockQuantity;
 use App\Repositories\Admin\CollectionRepository as AdminCollectionRepository;
 use App\Repositories\Admin\ProductRepository as AdminProductRepository;
 use App\Repositories\Admin\ProviderRepository;
@@ -90,6 +92,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        OrderItem::observe(UpdateStockQuantity::class);
+
     }
 }
