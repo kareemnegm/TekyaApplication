@@ -132,7 +132,9 @@ class OrderRepository extends Controller implements OrderInterface
             });
 
             if($userCart->first()->shop->vat == 0){
-             $taxes+= round(($totalShopItemPrice*14/100),2);
+             $taxes+= round(($userCart->sum(function($product) {
+                return $product->product->order_price;
+            })*14/100),2);
             }
 
             $shopShpping+=30;
