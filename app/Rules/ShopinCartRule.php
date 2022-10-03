@@ -30,7 +30,7 @@ class ShopinCartRule implements Rule
         $shopCount=CartProduct::where('cart_id',$this->request->cart_id)
         ->where('provider_shop_details_id','!=',$this->request->shop_id)
         ->distinct('provider_shop_details_id')->count() >= 4;
-        
+
         if($shopCount){
             return false;
         }else{
@@ -45,6 +45,6 @@ class ShopinCartRule implements Rule
      */
     public function message()
     {
-        return 'The max Shop be 2 in your cart.';
+        return 'The max Shop be 4 in your cart.';
     }
 }

@@ -45,6 +45,6 @@ class ProductInCartRule implements Rule
      */
     public function message()
     {
-        return 'The max Product be 2 in shop in your cart.';
+        return 'The max Product be 6 in shop in your cart.';
     }
 }
