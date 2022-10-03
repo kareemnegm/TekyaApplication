@@ -270,7 +270,7 @@ class OrderRepository extends Controller implements OrderInterface
 
         catch (\Exception $e) {
             DB::rollback();
-            echo 'erro';
+            echo $e;
         }
 }
     
