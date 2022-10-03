@@ -250,8 +250,8 @@ class OrderRepository extends Controller implements OrderInterface
                     ];
 
                     OrderItem::create($product);
-                    $shopProduct->product->stock_quantity-=$shopProduct->quantity;
-                    $shopProduct->product->save();
+                    // $shopProduct->product->stock_quantity-=$shopProduct->quantity;
+                    // $shopProduct->product->save();
                 }
            
         }
