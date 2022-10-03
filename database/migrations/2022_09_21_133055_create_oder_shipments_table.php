@@ -17,6 +17,7 @@ class CreateOderShipmentsTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('order_shop_id');
+            
             $table->foreign('order_shop_id')->references('id')->on('order_shops')->cascadeOnUpdate();
 
             $table->unsignedBigInteger('address_id');
