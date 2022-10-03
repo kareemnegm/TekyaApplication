@@ -169,76 +169,70 @@ class OrderRepository extends Controller implements OrderInterface
             /**
              * 
              */
-            foreach($req['shops'] as $shopItem){
+foreach ($req['shops'] as $shopItem) {
+    $shopItems=CartProduct::with(['shop','product'])->where('cart_id', $user->cart->id)->where('provider_shop_details_id', $shopItem['id'])->get();
 
-                
-                $shopItems=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->where('provider_shop_details_id',$shopItem['id'])->get();
-                
-      
-                if($shopItems->first()->shop->vat == 0){
-                 $taxes+= round(($totalShopItemPrice*14/100),2);
-                }
 
-                $shopItemsPrice=$shopItems->sum(function($product) {
-                    return $product->product->order_price;
-                });
-                 $orderShopInvoice =[
-                    'coupon_id'=>null,
-                    'shipment_fees'=>30,
-                    'discount'=>0,
-                    'total_product_price'=>$shopItemsPrice,
-                    'total_invoice'=>$shopItemsPrice + 30 - 0,
-                    'invoice_date'=>$date,
+    if ($shopItems->first()->shop->vat == 0) {
+        $taxes+= round(($totalShopItemPrice*14/100), 2);
+    }
+
+    $shopItemsPrice=$shopItems->sum(function ($product) {
+        return $product->product->order_price;
+    });
+    $orderShopInvoice =[
+       'coupon_id'=>null,
+       'shipment_fees'=>30,
+       'discount'=>0,
+       'total_product_price'=>$shopItemsPrice,
+       'total_invoice'=>$shopItemsPrice + 30 - 0,
+       'invoice_date'=>$date,
                 ];
 
-                $shopInvoice=Invoices::create($orderShopInvoice);
+    $shopInvoice=Invoices::create($orderShopInvoice);
 
-                $orderShop =[
-                    'order_id'=>$createOrder->id,
-                    'shop_id'=>$shopItem['id'],
-                    'invoice_id'=>$shopInvoice->id,
-                    'delivery_option_id'=>$shopItem['delivery_option_id'],
-                    'total_items'=>$shopItems->count(),
-                    'note'=>null,
-                ];
+    $orderShop =[
+        'order_id'=>$createOrder->id,
+        'shop_id'=>$shopItem['id'],
+        'invoice_id'=>$shopInvoice->id,
+        'delivery_option_id'=>$shopItem['delivery_option_id'],
+        'total_items'=>$shopItems->count(),
+        'note'=>null,
+    ];
 
-                $shopShop=OrderShop::create($orderShop);
+    $shopShop=OrderShop::create($orderShop);
 
-                 $deliveryOption=DeliveryOption::findOrFail($shopItem['delivery_option_id']);
-
-
-                if ($deliveryOption->shipment_type  == 'address') {
-                    $orderShop =[
-                        'order_shop_id'=>$shopInvoice->id,
-                        'address_id'=>$shopItem['address_id'],
-                    ];
-                    $shopInvoice=OrderShipment::create($orderShop);
-
-                }elseif($deliveryOption->shipment_type  == 'branch'){
-                    $orderShop =[
-                        'order_shop_id'=>$shopInvoice->id,
-                        'branch_id'=>$shopItem['branch_id'],
-                    ];
-                    $shopInvoice=OrderPickup::create($orderShop);
+    $deliveryOption=DeliveryOption::findOrFail($shopItem['delivery_option_id']);
 
 
-                    foreach($userCart as $shopProduct){
+    if ($deliveryOption->shipment_type  == 'address') {
+        $orderShop =[
+            'order_shop_id'=>$shopInvoice->id,
+            'address_id'=>$shopItem['address_id'],
+        ];
+        $shopInvoice=OrderShipment::create($orderShop);
+    } elseif ($deliveryOption->shipment_type  == 'branch') {
+        $orderShop =[
+            'order_shop_id'=>$shopInvoice->id,
+            'branch_id'=>$shopItem['branch_id'],
+        ];
+        $shopInvoice=OrderPickup::create($orderShop);
 
-                        $product =[
-                            'order_shop_id'=>$shopShop->id,
-                            'product_id'=>$shopProduct->product->id,
-                            'quantity'=>$shopProduct->quantity,
-                            'unit_price'=>$shopProduct->product->order_price,
-                            'unit_total'=>$shopProduct->product->order_price*$shopProduct->quantity,
-                        ];
 
-                        OrderItem::create($product);
-                       $shopProduct->product->updated(['stock_quantity'=>$shopProduct->quantity]);
+        foreach ($userCart as $shopProduct) {
+            $product =[
+                'order_shop_id'=>$shopShop->id,
+                'product_id'=>$shopProduct->product->id,
+                'quantity'=>$shopProduct->quantity,
+                'unit_price'=>$shopProduct->product->order_price,
+                'unit_total'=>$shopProduct->product->order_price*$shopProduct->quantity,
+            ];
 
-                    }
-                }
-
-              
+            OrderItem::create($product);
+            $shopProduct->product->updated(['stock_quantity'=>$shopProduct->quantity]);
+        }
+    }
+}
 
            
 
