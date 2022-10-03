@@ -240,7 +240,7 @@ class OrderRepository extends Controller implements OrderInterface
             }
 
 
-                foreach ($userCart as $shopProduct) {
+                foreach ($shopItems as $shopProduct) {
                     $product =[
                         'order_shop_id'=>$shopShop->id,
                         'product_id'=>$shopProduct->product->id,
