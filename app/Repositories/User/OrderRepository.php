@@ -261,7 +261,7 @@ class OrderRepository extends Controller implements OrderInterface
         $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
         $orderInvoice=OrderInvoice::create($orderInvoice);
 
-        $createOrder->update(['order_invoice_id'=>90000]);
+        $createOrder->update(['order_invoice_id'=>$createOrder->id]);
         DB::commit('Make Order');
 
         return $this->successResponse('sussfely Order');
