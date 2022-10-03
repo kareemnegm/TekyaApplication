@@ -17,4 +17,19 @@ class OrderItem extends Model
         'unit_total',
 
     ];
+
+
+
+   
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+     public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+
 }

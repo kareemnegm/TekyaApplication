@@ -23,8 +23,36 @@ class Order extends Model
         'total_shop'
     ];
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function product()
     {
         return $this->belongsToMany(Product::class);
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function invoice()
+    {
+        return $this->belongsTo(OrderInvoice::class,'order_invoice_id');
+    }
+
+
+    /**
+     * 
+     */
+    public function orderShops(){
+        return $this->hasMany(OrderShop::class);
+    }
 }
+
+
+
+
+

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CartProductResource;
 use App\Http\Resources\User\OrderReviewResource;
 use App\Http\Resources\User\PaymentOptionResource;
+use App\Http\Resources\User\PlaceOrderResource;
 use App\Http\Resources\User\UserCartResource;
 use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\OrderInterface;
@@ -113,55 +114,22 @@ class OrderRepository extends Controller implements OrderInterface
 
 
 
-    //    $totalShopItemPrice=0;
-    //    $taxes=0;
-    //    $shopShpping=0;
     $total_items=$userCart->count();
     $total_shop=$userCart->unique('provider_shop_details_id')->count();
 
-    //     foreach($req['shops'] as $shopItem){
-    //         $userCart=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->where('provider_shop_details_id',$shopItem['id'])->get();
 
-    //         $totalShopItemPrice+=$userCart->sum(function($product) {
-    //             return $product->product->order_price;
-    //         });
-
-    //         if($userCart->first()->shop->vat == 0){
-    //          $taxes+= round(($userCart->sum(function($product) {
-    //             return $product->product->order_price;
-    //         })*14/100),2);
-    //         }
-
-    //         $shopShpping+=30;
-    //     }
-
-    // $orderInvoice =[
-        //     'total_product_price'=>$totalShopItemPrice,
-        //     'tekya_wallet'=>null,
-        //     'tekya_points'=>null,
-        //     'user_id'=>$user->id,
-        //     'shipping_fees'=>$shopShpping,
-        //     'taxes'=>$taxes,
-        //     'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
-    // ];
-
-    // $latestOrderInvoiceCount = OrderInvoice::count();
-    // $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
-    // $orderInvoice=OrderInvoice::create($orderInvoice);
     DB::beginTransaction();
     try {
-        $order =[
+
+        $orderData =[
         'date_order_placed'=>$date,
         'user_id'=>$user->id,
         'payment_id'=>$req['payment_id'],
         'total_items'=>$total_items,
         'total_shop'=>$total_shop ,
-        // 'order_invoice_id'=>$orderInvoice->id,
-            ];
+        ];
 
-        $orderCount = Order::count();
-        $order['order_number'] = '#'.str_pad($orderCount+1, 8, "0", STR_PAD_LEFT);
-        $createOrder=Order::create($order);
+       $order = $this->mainOrderDetails($orderData);
 
         /**
          *
@@ -172,6 +140,7 @@ class OrderRepository extends Controller implements OrderInterface
         $totalShipping=0;
 
         foreach ($req['shops'] as $shopItem) {
+
             $shopItems=CartProduct::with(['shop','product'])->where('cart_id', $user->cart->id)->where('provider_shop_details_id', $shopItem['id'])->get();
 
 
@@ -186,6 +155,7 @@ class OrderRepository extends Controller implements OrderInterface
                 $taxes+=$shopTaxes;
             }
 
+            
             $shopShpping=30;
             $totalShipping+=$shopShpping;
 
@@ -196,13 +166,13 @@ class OrderRepository extends Controller implements OrderInterface
                 'total_product_price'=>$shopItemsPrice,
                 'total_invoice'=>$shopItemsPrice + $shopShpping - 0,
                 'invoice_date'=>$date,
-                "taxes"=>$shopTaxes
+                // "taxes"=>$shopTaxes
             ];
 
-            $shopInvoice=Invoices::create($orderShopInvoice);
-
+            $shopInvoice=$this->shopsOrderInvoice($orderShopInvoice);
+    
             $orderShop =[
-                'order_id'=>$createOrder->id,
+                'order_id'=>$order->id,
                 'shop_id'=>$shopItem['id'],
                 'invoice_id'=>$shopInvoice->id,
                 'delivery_option_id'=>$shopItem['delivery_option_id'],
@@ -210,30 +180,16 @@ class OrderRepository extends Controller implements OrderInterface
                 'note'=>null,
             ];
 
-            $shopShop=OrderShop::create($orderShop);
+         
 
-            $deliveryOption=DeliveryOption::findOrFail($shopItem['delivery_option_id']);
-
-
-            if ($deliveryOption->shipment_type  == 'address') {
-                $orderShop =[
-                    'order_shop_id'=>$shopInvoice->id,
-                    'address_id'=>$shopItem['address_id'],
-                ];
-                $shopInvoice=OrderShipment::create($orderShop);
-            } elseif ($deliveryOption->shipment_type  == 'branch') {
-                $orderShop =[
-                    'order_shop_id'=>$shopInvoice->id,
-                    'branch_id'=>$shopItem['branch_id'],
-                ];
-
-                $shopInvoice=OrderPickup::create($orderShop);
-            }
+            $shopOrder=$this->shopOrder($orderShop,$shopItem['delivery_option_id'],
+            isset($shopItem['address_id']) ? $shopItem['address_id']:null
+            ,isset($shopItem['branch_id']) ? $shopItem['branch_id']:null);
 
 
             foreach ($shopItems as $shopProduct) {
                 $product =[
-                    'order_shop_id'=>$shopShop->id,
+                    'order_shop_id'=>$shopOrder->id,
                     'product_id'=>$shopProduct->product->id,
                     'quantity'=>$shopProduct->quantity,
                     'unit_price'=>$shopProduct->product->order_price,
@@ -241,8 +197,6 @@ class OrderRepository extends Controller implements OrderInterface
                 ];
 
                 OrderItem::create($product);
-                // $shopProduct->product->stock_quantity-=$shopProduct->quantity;
-                // $shopProduct->product->save();
             }
         }
 
@@ -257,57 +211,95 @@ class OrderRepository extends Controller implements OrderInterface
         ];
 
 
-        $latestOrderInvoiceCount = OrderInvoice::count();
-        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
-        $orderInvoice=OrderInvoice::create($orderInvoice);
 
-        $createOrder->update(['order_invoice_id'=>$orderInvoice->id]);
-        DB::commit('Make Order');
+        $orderInvoice=$this->mainOrderInvoice($orderInvoice);
 
-        return $this->successResponse('sussfely Order');
-    }
+        $order->update(['order_invoice_id'=>$orderInvoice->id]);
 
-        catch (\Exception $e) {
+        DB::commit();
+        
+        return new PlaceOrderResource($order);
+   
+        }catch (\Exception $e) {
             DB::rollback();
-            echo $e;
+            return $e;
+            return $this->errorResponseWithMessage('Order not place please try agin',200);
         }
-}
+    }
     
 
-    private function mainOrderDetails($user_id,$orderData){
-
-        $order['date_order_placed']=Carbon::now();
-        $order['user_id']=$user_id;
-        $order['payment_id']=$orderData['payment_id'];
-        $order['total_items']=$orderData['totalProducts'];
-        $order['total_shop']=$totalShop;
-        $order['order_invoice_id']=$invoiceId;
-
+    /**
+     * Main Order Created function
+     *
+     * @param [type] $orderData
+     * @return object
+     */
+    private function mainOrderDetails($orderData){
         $orderCount = Order::count();
-
-        $order['order_number'] = '#'.str_pad($orderCount+1, 8, "0", STR_PAD_LEFT);
-
-        $createOrder=Order::create($order);
-
+        $orderData['order_number'] = '#'.str_pad($orderCount+1, 8, "0", STR_PAD_LEFT);
+   
+        $createOrder=Order::create($orderData);
         return $createOrder;
     }
 
 
     /**
+     * Main Order Created function
+     *
+     * @param [type] $orderData
+     * @return object
+     */
+    private function mainOrderInvoice($orderInvoice){
+
+        $latestOrderInvoiceCount = OrderInvoice::count();
+        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        $orderInvoice=OrderInvoice::create($orderInvoice);
+        return $orderInvoice;
+    }
+
+
+     /**
      * Undocumented function
      *
      * @param [type] $orderId
-     * @return void
+     * @return object
      */
-    private function shopsOrderInvoice($orderID,$shopDetails){
-        $order['coupon_id']=$shopDetails->coupon_id;
-        $order['discount']=0;
-        $order['shipment_fees']=30;
-        
-        // $order['total_product_price']=$invoiceId;
-        $order['invoice_date']=Carbon::now();
+    private function shopOrder($orderShop,$deliveryOption,$address_id=null,$branch_id=null){
+ 
 
+        $shopOrder=OrderShop::create($orderShop);
+
+        $deliveryOption=DeliveryOption::findOrFail($deliveryOption);
+
+
+        if ($deliveryOption->shipment_type  == 'address') {
+            // dd($address_id,$deliveryOption->shipment_type );
+            $orderShop =[
+                'order_shop_id'=>$shopOrder->id,
+                'address_id'=>$address_id,
+            ];
+               OrderShipment::create($orderShop);
+        } elseif ($deliveryOption->shipment_type  == 'branch') {
+            $orderShop =[
+                'order_shop_id'=>$shopOrder->id,
+                'branch_id'=>$branch_id,
+            ];
+               OrderPickup::create($orderShop);
+        }
+
+        return $shopOrder;
      
+    }
+    /**
+     * Undocumented function
+     *
+     * @param [type] $orderId
+     * @return object
+     */
+    private function shopsOrderInvoice($shopOrderInvoice){
+ 
+      $shopInvoice=Invoices::create($shopOrderInvoice);
+      return $shopInvoice;
     }
     // private function shopsOrderDetails($orderId){
     //     $order['order_id']=$orderId;

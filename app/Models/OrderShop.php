@@ -18,4 +18,48 @@ class OrderShop extends Model
         'note',
 
     ];
+  
+
+    /**
+     * invoice
+     */
+    public function invoice()
+    {
+        return $this->belongsTo(Invoices::class, 'invoice_id');
+    }
+
+     /**
+     * shop
+     */
+    public function shop()
+    {
+        return $this->belongsTo(ProviderShopDetails::class, 'shop_id');
+    }
+
+    /**
+     * DeliveryOption
+     */
+    public function deliveryOption()
+    {
+        return $this->belongsTo(DeliveryOption::class, 'delivery_option_id');
+    }
+
+     /**
+     * DeliveryOption
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'order_shop_id');
+    }
+
+    
+     /**
+     * DeliveryOption
+     */
+    // public function orderItems()
+    // {
+    //     return $this->hasMany(OrderItem::class, 'order_shop_id');
+    // }
 }
+
+

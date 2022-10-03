@@ -11,8 +11,12 @@ class PaymentOption extends Model
     protected $fillable = [
         'name'
     ];
+
     public function providerShopBranch()
     {
         return $this->belongsToMany(providerShopBranch::class,'shop_branch_payments');
     }
+
+
+    
 }
