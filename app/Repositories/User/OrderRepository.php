@@ -149,7 +149,7 @@ class OrderRepository extends Controller implements OrderInterface
         ];
     
         $latestOrderInvoiceCount = OrderInvoice::count();
-        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        $orderInvoice[' '] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
         $orderInvoice=OrderInvoice::create($orderInvoice);
     
 
@@ -210,14 +210,14 @@ class OrderRepository extends Controller implements OrderInterface
                 if ($deliveryOption->shipment_type  == 'address') {
                     $orderShop =[
                         'order_shop_id'=>$shopInvoice->id,
-                        'address_id'=>$shopItem['id'],
+                        'address_id'=>$shopItem['address_id'],
                     ];
                     $shopInvoice=OrderShipment::create($orderShop);
 
                 }elseif($deliveryOption->shipment_type  == 'branch'){
                     $orderShop =[
                         'order_shop_id'=>$shopInvoice->id,
-                        'branch_id'=>$shopItem['id'],
+                        'branch_id'=>$shopItem['branch_id'],
                     ];
                     $shopInvoice=OrderPickup::create($orderShop);
 
