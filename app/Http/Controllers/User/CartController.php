@@ -30,7 +30,7 @@ class CartController extends Controller
     {
         $this->CartRepository = $CartRepository;
     }
-    
+
     /**
      * Undocumented function
      *
@@ -39,7 +39,7 @@ class CartController extends Controller
      */
     public function addProductsToCart(ProductsFormRequest $request)
     {
-    
+
         return  $this->CartRepository->addProductsToCart($request->validated());
     }
     /**
@@ -51,7 +51,7 @@ class CartController extends Controller
     public function IncreaseOrDecreaseProductQuantity(ProductQuantityFormRequest $request)
     {
         return $this->CartRepository->IncreaseOrDecreaseProductQuantity($request->validated());
-  
+
     }
     /**
      * Undocumented function
@@ -87,9 +87,8 @@ class CartController extends Controller
      */
     public function addMultiProductsToCarts(MultiAddProductsCartForRequest $request)
     {
-        dd($request);
         $cart=$this->CartRepository->addMultiProductsToCarts($request->validated());
 
     }
-    
+
 }

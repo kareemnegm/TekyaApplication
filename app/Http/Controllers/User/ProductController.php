@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ProductsResource;
 use App\Interfaces\User\ProductInterface;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,5 +75,12 @@ class ProductController extends Controller
     {
         $products = $this->ProductRepository->similarProducts();
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'similar_products');
+    }
+
+
+    public function showProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        return $this->dataResponse(['product' => new ProductsResource($product)], 'success', 200);
     }
 }

@@ -114,6 +114,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     /**
      * Prdocuts Modules
      */
+    Route::get('product/{id}', 'ProductController@showProduct');
     Route::get('products_for_you', 'ProductController@productsForYou');
     Route::get('most_popular_products', 'ProductController@mostPopularProduct');
     Route::get('related_products', 'ProductController@relatedProducts');
