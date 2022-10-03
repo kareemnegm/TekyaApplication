@@ -149,7 +149,7 @@ class OrderRepository extends Controller implements OrderInterface
         ];
     
         $latestOrderInvoiceCount = OrderInvoice::count();
-        $orderInvoice[' '] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
         $orderInvoice=OrderInvoice::create($orderInvoice);
     
 
@@ -240,7 +240,7 @@ class OrderRepository extends Controller implements OrderInterface
 
               
 
-            }
+           
 
           
      
