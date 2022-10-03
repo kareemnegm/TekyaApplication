@@ -118,41 +118,41 @@ class OrderRepository extends Controller implements OrderInterface
 
 
       
-       $totalShopItemPrice=0;
-       $taxes=0;
-       $shopShpping=0;
+    //    $totalShopItemPrice=0;
+    //    $taxes=0;
+    //    $shopShpping=0;
        $total_items=$userCart->count();
        $total_shop=$userCart->unique('provider_shop_details_id')->count();
 
-        foreach($req['shops'] as $shopItem){
-            $userCart=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->where('provider_shop_details_id',$shopItem['id'])->get();
+    //     foreach($req['shops'] as $shopItem){
+    //         $userCart=CartProduct::with(['shop','product'])->where('cart_id',$user->cart->id)->where('provider_shop_details_id',$shopItem['id'])->get();
             
-            $totalShopItemPrice+=$userCart->sum(function($product) {
-                return $product->product->order_price;
-            });
+    //         $totalShopItemPrice+=$userCart->sum(function($product) {
+    //             return $product->product->order_price;
+    //         });
 
-            if($userCart->first()->shop->vat == 0){
-             $taxes+= round(($userCart->sum(function($product) {
-                return $product->product->order_price;
-            })*14/100),2);
-            }
+    //         if($userCart->first()->shop->vat == 0){
+    //          $taxes+= round(($userCart->sum(function($product) {
+    //             return $product->product->order_price;
+    //         })*14/100),2);
+    //         }
 
-            $shopShpping+=30;
-        }
+    //         $shopShpping+=30;
+    //     }
  
-        $orderInvoice =[
-            'total_product_price'=>$totalShopItemPrice,
-            'tekya_wallet'=>null,
-            'tekya_points'=>null,
-            'user_id'=>$user->id,
-            'shipping_fees'=>$shopShpping,
-            'taxes'=>$taxes,
-            'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
-        ];
+        // $orderInvoice =[
+        //     'total_product_price'=>$totalShopItemPrice,
+        //     'tekya_wallet'=>null,
+        //     'tekya_points'=>null,
+        //     'user_id'=>$user->id,
+        //     'shipping_fees'=>$shopShpping,
+        //     'taxes'=>$taxes,
+        //     'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
+        // ];
     
-        $latestOrderInvoiceCount = OrderInvoice::count();
-        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
-        $orderInvoice=OrderInvoice::create($orderInvoice);
+        // $latestOrderInvoiceCount = OrderInvoice::count();
+        // $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        // $orderInvoice=OrderInvoice::create($orderInvoice);
     
 
           $order =[
@@ -161,7 +161,7 @@ class OrderRepository extends Controller implements OrderInterface
             'payment_id'=>$req['payment_id'],
             'total_items'=>$total_items,
             'total_shop'=>$total_shop ,
-            'order_invoice_id'=>$orderInvoice->id,
+            // 'order_invoice_id'=>$orderInvoice->id,
         ];
 
             $orderCount = Order::count();
@@ -171,75 +171,106 @@ class OrderRepository extends Controller implements OrderInterface
             /**
              * 
              */
-foreach ($req['shops'] as $shopItem) {
-    $shopItems=CartProduct::with(['shop','product'])->where('cart_id', $user->cart->id)->where('provider_shop_details_id', $shopItem['id'])->get();
+
+            $totalShopItemPrice=0;
+            $taxes=0;
+            $totalShipping=0;
+
+            foreach ($req['shops'] as $shopItem) {
+
+            $shopItems=CartProduct::with(['shop','product'])->where('cart_id', $user->cart->id)->where('provider_shop_details_id', $shopItem['id'])->get();
 
 
-    if ($shopItems->first()->shop->vat == 0) {
-        $taxes+= round(($totalShopItemPrice*14/100), 2);
-    }
+            $shopItemsPrice=$shopItems->sum(function ($product) {
+                return $product->product->order_price;
+            });
 
-    $shopItemsPrice=$shopItems->sum(function ($product) {
-        return $product->product->order_price;
-    });
-    $orderShopInvoice =[
-       'coupon_id'=>null,
-       'shipment_fees'=>30,
-       'discount'=>0,
-       'total_product_price'=>$shopItemsPrice,
-       'total_invoice'=>$shopItemsPrice + 30 - 0,
-       'invoice_date'=>$date,
-                ];
+            $totalShopItemPrice+=$shopItemsPrice;
 
-    $shopInvoice=Invoices::create($orderShopInvoice);
+            if($shopItems->first()->shop->vat == 0){
+                 $shopTaxes= round(($shopItemsPrice*14/100),2);
+                 $taxes+=$shopTaxes;
+            }
 
-    $orderShop =[
-        'order_id'=>$createOrder->id,
-        'shop_id'=>$shopItem['id'],
-        'invoice_id'=>$shopInvoice->id,
-        'delivery_option_id'=>$shopItem['delivery_option_id'],
-        'total_items'=>$shopItems->count(),
-        'note'=>null,
-    ];
+            $shopShpping=30;
+            $totalShipping+=$shopShpping;
 
-    $shopShop=OrderShop::create($orderShop);
-
-    $deliveryOption=DeliveryOption::findOrFail($shopItem['delivery_option_id']);
-
-
-    if ($deliveryOption->shipment_type  == 'address') {
-        $orderShop =[
-            'order_shop_id'=>$shopInvoice->id,
-            'address_id'=>$shopItem['address_id'],
-        ];
-        $shopInvoice=OrderShipment::create($orderShop);
-    } elseif ($deliveryOption->shipment_type  == 'branch') {
-        $orderShop =[
-            'order_shop_id'=>$shopInvoice->id,
-            'branch_id'=>$shopItem['branch_id'],
-        ];
-        $shopInvoice=OrderPickup::create($orderShop);
-
-
-        foreach ($userCart as $shopProduct) {
-            $product =[
-                'order_shop_id'=>$shopShop->id,
-                'product_id'=>$shopProduct->product->id,
-                'quantity'=>$shopProduct->quantity,
-                'unit_price'=>$shopProduct->product->order_price,
-                'unit_total'=>$shopProduct->product->order_price*$shopProduct->quantity,
+            $orderShopInvoice =[
+                'coupon_id'=>null,
+                'shipment_fees'=>30,
+                'discount'=>0,
+                'total_product_price'=>$shopItemsPrice,
+                'total_invoice'=>$shopItemsPrice + $shopShpping - 0,
+                'invoice_date'=>$date,
+                "taxes"=>$shopTaxes
             ];
 
-            OrderItem::create($product);
-            $shopProduct->product->updated(['stock_quantity'=>$shopProduct->quantity]);
-        }
-    }
-}
+            $shopInvoice=Invoices::create($orderShopInvoice);
 
+            $orderShop =[
+                'order_id'=>$createOrder->id,
+                'shop_id'=>$shopItem['id'],
+                'invoice_id'=>$shopInvoice->id,
+                'delivery_option_id'=>$shopItem['delivery_option_id'],
+                'total_items'=>$shopItems->count(),
+                'note'=>null,
+            ];
+
+            $shopShop=OrderShop::create($orderShop);
+
+            $deliveryOption=DeliveryOption::findOrFail($shopItem['delivery_option_id']);
+
+
+            if ($deliveryOption->shipment_type  == 'address') {
+
+                $orderShop =[
+                    'order_shop_id'=>$shopInvoice->id,
+                    'address_id'=>$shopItem['address_id'],
+                ];
+                $shopInvoice=OrderShipment::create($orderShop);
+
+            } elseif ($deliveryOption->shipment_type  == 'branch') {
+
+                $orderShop =[
+                    'order_shop_id'=>$shopInvoice->id,
+                    'branch_id'=>$shopItem['branch_id'],
+            ];
+
+                $shopInvoice=OrderPickup::create($orderShop);
+            }
+
+
+                foreach ($userCart as $shopProduct) {
+                    $product =[
+                        'order_shop_id'=>$shopShop->id,
+                        'product_id'=>$shopProduct->product->id,
+                        'quantity'=>$shopProduct->quantity,
+                        'unit_price'=>$shopProduct->product->order_price,
+                        'unit_total'=>$shopProduct->product->order_price*$shopProduct->quantity,
+                    ];
+
+                    OrderItem::create($product);
+                    $shopProduct->product->updated(['stock_quantity'=>$shopProduct->quantity]);
+                }
            
+        }
 
-          
-     
+            $orderInvoice =[
+                'total_product_price'=>$totalShopItemPrice,
+                'tekya_wallet'=>null,
+                'tekya_points'=>null,
+                'user_id'=>$user->id,
+                'shipping_fees'=>$totalShipping,
+                'taxes'=>$taxes,
+                'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
+            ];
+
+
+            $latestOrderInvoiceCount = OrderInvoice::count();
+            $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+            $orderInvoice=OrderInvoice::create($orderInvoice);
+
+            $createOrder->update(['order_invoice_id'=>$orderInvoice->id]);
         
         return $this->successResponse('sussfely Order');
 

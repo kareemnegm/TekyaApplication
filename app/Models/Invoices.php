@@ -17,6 +17,7 @@ class Invoices extends Model
         'total_product_price',
         'total_invoice',
         'invoice_date',
+        'taxes'
 
     ];
 }
