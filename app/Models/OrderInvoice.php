@@ -20,6 +20,6 @@ class OrderInvoice extends Model
         'shipping_fees',
         'grand_total_price'
         ,'taxes',
-        'order_invoice_number'
+      
     ];
 }

@@ -4,6 +4,9 @@ namespace App\Http\Resources\User;
 
 use App\Http\Resources\DeliveryOptionResource;
 use App\Http\Resources\ImageResource;
+use App\Models\OrderPickup;
+use App\Models\OrderShipment;
+use App\Models\OrderShop;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PlaceOrderItemsResource extends JsonResource
@@ -16,25 +19,46 @@ class PlaceOrderItemsResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        // dd($this->resource->deliveryType);
+
+// dd($this);
         return [
 
         
-            "delivery_option"=>$this->deliveryOption,
+            // "delivery_option"=>$this->deliveryOption,
 
-            'delivery_option'=> new DeliveryOptionResource($this->deliveryOption),
+            // 'delivery_option'=> new DeliveryOptionResource($this->deliveryOption),
             // 'branch'=> $this->when(isset($this->branch_id),new UserBranchOrderResource(providerShopBranch::find($this->branch_id))),
             // 'address'=> $this->when(isset($this->address_id),new UserOrderAddressResource(UserAddress::find($this->address_id))),
 
             
-            "invoice_shop"=> new OrderInvoiceResource($this->invoice),
+
+             
+            // "invoice_shop"=> new OrderInvoiceResource($this->invoice),
 
             "shop"=>[
                 'id'=>$this->shop->id,
-                'name'=>$this->shop->name,
+                'name'=>$this->shop->shop_name,
+                'total_products'=>$this->total_items,
                 'shop_logo' => new ImageResource($this->shop->getFirstMedia('shop_logo')) ?? null,
                 'shop_cover' => new ImageResource($this->shop->getFirstMedia('shop_cover')) ?? null,
                 'shop_shipping_fees'=>30,
                 'products' => ShopItemsOrderResource::collection($this->orderItems),
+                "invoice_shop"=> new ShopInvoiceResource($this->invoice),  
+            
+                'delivery_option'=> new DeliveryOptionResource($this->deliveryOption),
+
+                'delivery_type_info' => $this->when($this->deliveryType, function () {
+
+                    if ($this->resource->deliveryType instanceof OrderShipment) {
+                        return new DeliveryShipmentResource($this->resource->deliveryType);
+                    }
+
+                    if ($this->resource->deliveryType instanceof OrderPickup ) {
+                        return new PickupResource($this->resource->deliveryType);
+                    }
+                }),
 
             ],
 

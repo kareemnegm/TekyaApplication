@@ -13,30 +13,30 @@ class CreateOrderShopsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_shops', function (Blueprint $table) {
-            $table->id();
+        // Schema::create('order_shops', function (Blueprint $table) {
+        //     $table->id();
 
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate();
+        //     $table->unsignedBigInteger('order_id');
+        //     $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate();
 
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnUpdate();
-
-
-            $table->unsignedBigInteger('invoice_id');
-            $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnUpdate();
+        //     $table->unsignedBigInteger('shop_id');
+        //     $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnUpdate();
 
 
-            $table->unsignedBigInteger('delivery_option_id');
-            $table->foreign('delivery_option_id')->references('id')->on('delivery_options')->cascadeOnUpdate();
-
-            $table->integer('total_items');
+        //     $table->unsignedBigInteger('invoice_id');
+        //     $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnUpdate();
 
 
-            $table->text('note')->nullable();
+        //     $table->unsignedBigInteger('delivery_option_id');
+        //     $table->foreign('delivery_option_id')->references('id')->on('delivery_options')->cascadeOnUpdate();
 
-            $table->timestamps();
-        });
+        //     $table->integer('total_items');
+
+
+        //     $table->text('note')->nullable();
+
+        //     $table->timestamps();
+        // });
     }
 
     /**

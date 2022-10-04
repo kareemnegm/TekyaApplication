@@ -20,6 +20,19 @@ class OrderShop extends Model
     ];
   
 
+
+      /**
+        * Get the model that the image belongs to.
+        */
+        public function deliveryType()
+        {
+            return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
+        }
+     
+    // public function modelable()
+    // {
+    //     return $this->morphTo();
+    // }
     /**
      * invoice
      */

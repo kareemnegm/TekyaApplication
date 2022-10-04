@@ -19,4 +19,20 @@ class OrderShipment extends Model
     ];
 
 
+    /**
+     * Get the post's image.
+     */
+    public function deliveryOptions()
+    {
+        return $this->morphOne(OrderShop::class, 'model');
+    }
+
+    /**
+     * Get the post's image.
+     */
+    public function address()
+    {
+        return $this->belongsTo(UserAddress::class, 'address_id');
+    }
+
 }

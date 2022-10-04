@@ -16,12 +16,12 @@ class ShopItemsOrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->product->product_id,
+            'id' => $this->product->id,
             'name' => $this->product->name,
             'description' => $this->product->description,
             'price' => $this->product->price,
             'offer_price' => $this->product->offer_price,
-            'quantity' => $this->product->quantity,
+            'quantity' => $this->quantity,
             'product_image' => new ImageResource($this->product->getFirstMedia('product_images')) ?? null,
         ];
     }

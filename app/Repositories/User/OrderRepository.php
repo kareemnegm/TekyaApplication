@@ -99,11 +99,10 @@ class OrderRepository extends Controller implements OrderInterface
      */
     public function placeOrder($req)
     {
+
     $user = Auth::user();
-    // $products=CartProduct::where('cart_id',$user_id->cart->id)->get();
 
     $userCart=CartProduct::with(['shop','product'])->where('cart_id', $user->cart->id)->get();
-    // dd($userCart);
 
     if ($this->productsAreNoLongerAvailable($userCart)) {
         return $this->errorResponseWithMessage('Sorry! One of the items in your cart is no longer avialble.', 422);
@@ -155,7 +154,7 @@ class OrderRepository extends Controller implements OrderInterface
                 $taxes+=$shopTaxes;
             }
 
-            
+
             $shopShpping=30;
             $totalShipping+=$shopShpping;
 
@@ -166,7 +165,7 @@ class OrderRepository extends Controller implements OrderInterface
                 'total_product_price'=>$shopItemsPrice,
                 'total_invoice'=>$shopItemsPrice + $shopShpping - 0,
                 'invoice_date'=>$date,
-                // "taxes"=>$shopTaxes
+                "taxes"=>$shopTaxes
             ];
 
             $shopInvoice=$this->shopsOrderInvoice($orderShopInvoice);
@@ -190,6 +189,7 @@ class OrderRepository extends Controller implements OrderInterface
             foreach ($shopItems as $shopProduct) {
                 $product =[
                     'order_shop_id'=>$shopOrder->id,
+                    'order_id'=>$order->id,
                     'product_id'=>$shopProduct->product->id,
                     'quantity'=>$shopProduct->quantity,
                     'unit_price'=>$shopProduct->product->order_price,
@@ -197,6 +197,7 @@ class OrderRepository extends Controller implements OrderInterface
                 ];
 
                 OrderItem::create($product);
+
             }
         }
 
@@ -251,8 +252,8 @@ class OrderRepository extends Controller implements OrderInterface
      */
     private function mainOrderInvoice($orderInvoice){
 
-        $latestOrderInvoiceCount = OrderInvoice::count();
-        $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
+        // $latestOrderInvoiceCount = OrderInvoice::count();
+        // $orderInvoice['order_invoice_number'] = '#'.str_pad($latestOrderInvoiceCount+1, 8, "0", STR_PAD_LEFT);
         $orderInvoice=OrderInvoice::create($orderInvoice);
         return $orderInvoice;
     }
@@ -267,25 +268,27 @@ class OrderRepository extends Controller implements OrderInterface
     private function shopOrder($orderShop,$deliveryOption,$address_id=null,$branch_id=null){
  
 
-        $shopOrder=OrderShop::create($orderShop);
+        
 
         $deliveryOption=DeliveryOption::findOrFail($deliveryOption);
 
 
         if ($deliveryOption->shipment_type  == 'address') {
             // dd($address_id,$deliveryOption->shipment_type );
-            $orderShop =[
-                'order_shop_id'=>$shopOrder->id,
+            $optionData =[
                 'address_id'=>$address_id,
             ];
-               OrderShipment::create($orderShop);
+               $option = OrderShipment::create($optionData);
+
         } elseif ($deliveryOption->shipment_type  == 'branch') {
-            $orderShop =[
-                'order_shop_id'=>$shopOrder->id,
+            $optionData =[
                 'branch_id'=>$branch_id,
             ];
-               OrderPickup::create($orderShop);
+              $option  = OrderPickup::create($optionData);
         }
+
+        $shopOrder= $option->deliveryOptions()->create($orderShop);
+
 
         return $shopOrder;
      
@@ -298,18 +301,13 @@ class OrderRepository extends Controller implements OrderInterface
      */
     private function shopsOrderInvoice($shopOrderInvoice){
  
+      $invoiceCount=Invoices::count();
+      $shopOrderInvoice['shop_invoice_number'] = '#'.str_pad($invoiceCount+1, 8, "0", STR_PAD_LEFT);
+   
+
       $shopInvoice=Invoices::create($shopOrderInvoice);
       return $shopInvoice;
     }
-    // private function shopsOrderDetails($orderId){
-    //     $order['order_id']=$orderId;
-    //     $order['shop_id']=$payment_id;
-    //     $order['invoice_id']=$totalProducts;
-    //     $order['delivery_option_id']=$totalShop;
-    //     $order['total_items']=$invoiceId;
-     
-    // }
-
     /**
      * Check If Products Aviliable With Stock function
      *
