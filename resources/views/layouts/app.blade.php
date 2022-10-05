@@ -8,12 +8,13 @@
 <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-        apiKey: "XXXXXXXXXXXXXXXXXXXXXXXXXX",
-        authDomain: "XXXXXXX.firebaseapp.com",
-        projectId: "XXXXXXXXXX",
-        storageBucket: "XXXXXXXXXX.appspot.com",
-        messagingSenderId: "XXXXXXXXXX",
-        appId: "1:XXXXXXXXX:web:XXXXXXXXXXXXX"
+        apiKey: "AIzaSyBL85bbwYvY3shOonPDdzjIrhAkY6YAf_U",
+        authDomain: "new-tekya.firebaseapp.com",
+        projectId: "new-tekya",
+        storageBucket: "new-tekya.appspot.com",
+        messagingSenderId: "1011536605149",
+        appId: "1:1011536605149:web:ced524c048058ee9581034",
+        measurementId: "G-26N33S5JB6"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -25,8 +26,8 @@
             return messaging.getToken()
         }).then(function(token) {
             
-            axios.post("{{ route('fcmToken') }}",{
-                _method:"PATCH",
+            axios.post("{{ route('store.token') }}",{
+                _method:"POST",
                 token
             }).then(({data})=>{
                 console.log(data)

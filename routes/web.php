@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
 
+    return view('welcome');
 
 });
 
 Route::post('/store-token', [AuthController::class, 'storeToken'])->name('store.token');
 
+Route::get('/app', [HomeController::class, 'index'])->name('home');
