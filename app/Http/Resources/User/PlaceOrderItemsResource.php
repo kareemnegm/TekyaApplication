@@ -20,24 +20,9 @@ class PlaceOrderItemsResource extends JsonResource
     public function toArray($request)
     {
 
-        // dd($this->resource->deliveryType);
 
-// dd($this);
         return [
 
-        
-            // "delivery_option"=>$this->deliveryOption,
-
-            // 'delivery_option'=> new DeliveryOptionResource($this->deliveryOption),
-            // 'branch'=> $this->when(isset($this->branch_id),new UserBranchOrderResource(providerShopBranch::find($this->branch_id))),
-            // 'address'=> $this->when(isset($this->address_id),new UserOrderAddressResource(UserAddress::find($this->address_id))),
-
-            
-
-             
-            // "invoice_shop"=> new OrderInvoiceResource($this->invoice),
-
-            "shop"=>[
                 'id'=>$this->shop->id,
                 'name'=>$this->shop->shop_name,
                 'total_products'=>$this->total_items,
@@ -60,7 +45,7 @@ class PlaceOrderItemsResource extends JsonResource
                     }
                 }),
 
-            ],
+            
 
 
         ];

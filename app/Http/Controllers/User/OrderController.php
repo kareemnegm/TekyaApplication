@@ -55,8 +55,9 @@ class OrderController extends Controller
     {
         $orderProdcuts=$this->orderRepository->placeOrder($request->validated());
 
-        // dd($orderProdcuts);
-         return $orderProdcuts;
+        return $this->dataResponse([
+            $orderProdcuts], 'Order Checkout Successfully', 201);
+
 
     }
 }
