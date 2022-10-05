@@ -38,4 +38,7 @@ Route::group(['prefix' => 'cart'], function () {
 Route::group(['prefix' => 'order'], function () {
     Route::post('order_review', 'OrderController@orderReview');
     Route::post('place_order', 'OrderController@placeOrder');
+    Route::get('my_orders', 'OrderController@myOrderList');
+    Route::get('order_details', 'OrderController@orderDetiels');
+
 });

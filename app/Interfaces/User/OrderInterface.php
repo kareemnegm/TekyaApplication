@@ -20,6 +20,23 @@ interface OrderInterface
      * @return void
      */
     public function placeOrder($req);
+
+      /**
+     * Undocumented function
+     *
+     * @param [type] $product
+     * @return void
+     */
+    public function myOrderList($req);
+
+     /**
+     * Undocumented function
+     *
+     * @param [type] $product
+     * @return void
+     */
+    public function orderDetails($req);
+    
     
 
 }

@@ -130,11 +130,19 @@ class AuthController extends Controller
     }
 
 
-    public function testEmail(Request $request)
+
+    public function storeToken(Request $request)
     {
-        Mail::send(['html' => 'view_name'], $data, function ($m) use ($email) {
-            $m->from('anwarsaeed1@yahoo.com', 'name');
-            $m->to($email, $email)->subject('email subject');
-        });
+        dd($request->token);
+        auth()->user()->update(['device_key'=>$request->token]);
+        return response()->json(['Token successfully stored.']);
     }
+  
+    // public function testEmail(Request $request)
+    // {
+    //     Mail::send(['html' => 'view_name'], $data, function ($m) use ($email) {
+    //         $m->from('anwarsaeed1@yahoo.com', 'name');
+    //         $m->to($email, $email)->subject('email subject');
+    //     });
+    // }
 }

@@ -43,6 +43,16 @@ class Order extends Model
         return $this->belongsTo(OrderInvoice::class,'order_invoice_id');
     }
 
+     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function payment()
+    {
+        return $this->belongsTo(PaymentOption::class,'payment_id');
+    }
+
 
     /**
      * 

@@ -332,25 +332,40 @@ class OrderRepository extends Controller implements OrderInterface
      *
      * @return void
      */
-    protected function myOrderList($request)
+    public function myOrderList($request)
     {
         $user=Auth::user();
 
-        
         $limit=$request->limit ?$request->limit:10;
 
-        $orders = Order::where('user_id',$user->id);
+        $q = Order::where('user_id',$user->id);
 
         if ($request->page) {
-            $orders = $q->orderBy('id','DESC')->paginate($limit);
+            $orders = $q->orderBy('date_order_placed','DESC')->paginate($limit);
         } else {
-            $orders = $q->orderBy('id','DESC')->get();
+            $orders = $q->orderBy('date_order_placed','DESC')->get();
 
         }
 
-
-        return false;
+        return $orders;
     }
+
+     /**
+     * Check If Products Aviliable With Stock function
+     *
+     * @return void
+     */
+    public function orderDetails($request)
+    {
+        $user=Auth::user();
+        
+        $order = Order::where('user_id',$user->id)->where('order_number',$request['order_number'])->firstOrFail();
+
+        return $order;
+    }
+
+
+    
 }
 
 

@@ -32,9 +32,6 @@ class PlaceOrderResource extends JsonResource
 
             'invoice_order' => New OrderInvoiceResource($this->invoice),
 
-            
-
-
         ];
 
     }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\OrderDetielsRequest;
 use App\Http\Requests\User\OrderReviewFormRequest;
 use App\Http\Requests\User\PlaceOrderFormRequest;
+use App\Http\Resources\User\MyOrderListResource;
 use App\Http\Resources\User\OrderReviewResource;
+use App\Http\Resources\User\PlaceOrderResource;
 use App\Interfaces\User\OrderInterface;
 use Illuminate\Http\Request;
 
@@ -60,4 +63,34 @@ class OrderController extends Controller
 
 
     }
+
+    /**
+     * Category Products function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function myOrderList(Request $request)
+    {
+        $orders=$this->orderRepository->myOrderList($request);
+
+        return MyOrderListResource::collection($orders);
+    }
+
+
+      /**
+     * Category Products function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function orderDetiels(OrderDetielsRequest $request)
+    {
+        $orderDetails=$this->orderRepository->orderDetails($request->validated());
+
+        return new PlaceOrderResource($orderDetails);
+    }
+
+
+    
 }

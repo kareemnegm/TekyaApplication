@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\PaymentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MyOrderListResource extends JsonResource
@@ -14,6 +15,21 @@ class MyOrderListResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"=>$this->id,
+            "order_number"=> $this->order_number,
+            "total_items"=> $this->total_items,
+            "total_shop"=> $this->total_shop,
+            "date_order_placed"=>$this->date_order_placed,
+    
+            "payment"=> new PaymentResource($this->payment),
+
+            "invoice_info"=>[
+                "grand_total_price"=>$this->invoice->grand_total_price,
+                "status"=>$this->invoice->status,
+
+            ]
+           
+        ];
     }
 }
