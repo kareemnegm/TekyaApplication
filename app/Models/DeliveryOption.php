@@ -9,6 +9,8 @@ class DeliveryOption extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name'
+        'name',
+        'shipment_type',
+        'option'
     ];
 }

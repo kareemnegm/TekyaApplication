@@ -22,7 +22,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->foreign('coupon_id')->references('id')->on('coupons')->cascadeOnUpdate();
 
-            $table->enum('status',['pending','paid','refund','canceled'])->default('pending');
+            $table->enum('status',['pending','paid','refund','canceled'])->default('paid');
 
             $table->double('discount')->default(0);
             $table->double('shipment_fees');

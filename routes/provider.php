@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('shop/categories', 'CategoryController@shopProductsCategories');
 
-Route::post('logout','AuthController@logout');
+Route::post('logout', 'AuthController@logout');
 
 
 /**
@@ -13,7 +13,7 @@ Route::post('logout','AuthController@logout');
  * ! sale
  */
 
-Route::apiResource('sale', 'SaleController')->except(['update','show']);
+Route::apiResource('sale', 'SaleController')->except(['update', 'show']);
 Route::put('sale', 'SaleController@update');
 Route::get('show_sale', 'SaleController@show');
 
@@ -104,3 +104,9 @@ Route::group(['namespace' => 'GovernmentArea'], function () {
     Route::apiResource('government', 'GovernmentController');
     Route::apiResource('area', 'AreaController');
 });
+
+
+/**shop orders  */
+
+Route::get('/orders', 'OrderController@shopOrders');
+Route::put('/order', 'OrderController@updateOrderStatus');
