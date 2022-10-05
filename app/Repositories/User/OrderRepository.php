@@ -211,14 +211,14 @@ class OrderRepository extends Controller implements OrderInterface
             'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
         ];
 
-
+   
 
         $orderInvoice=$this->mainOrderInvoice($orderInvoice);
 
         $order->update(['order_invoice_id'=>$orderInvoice->id]);
 
         DB::commit();
-        
+                      
         return new PlaceOrderResource($order);
    
         }catch (\Exception $e) {
@@ -322,6 +322,32 @@ class OrderRepository extends Controller implements OrderInterface
                 return true;
             }
         }
+
+        return false;
+    }
+
+
+    /**
+     * Check If Products Aviliable With Stock function
+     *
+     * @return void
+     */
+    protected function myOrderList($request)
+    {
+        $user=Auth::user();
+
+        
+        $limit=$request->limit ?$request->limit:10;
+
+        $orders = Order::where('user_id',$user->id);
+
+        if ($request->page) {
+            $orders = $q->orderBy('id','DESC')->paginate($limit);
+        } else {
+            $orders = $q->orderBy('id','DESC')->get();
+
+        }
+
 
         return false;
     }
