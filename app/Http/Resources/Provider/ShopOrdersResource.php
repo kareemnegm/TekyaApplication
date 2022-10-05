@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Resources\Provider;
+
+use App\Models\DeliveryOption;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ShopOrdersResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        $delivery_option = DeliveryOption::find($this->delivery_option_id);
+        return [
+            'id' => $this->id,
+            'order_number' => $this->invoice->shop_invoice_number,
+            'status' => $this->invoice->status,
+            'delivery_option' => $delivery_option->option,
+            'total' => $this->invoice->total_invoice,
+            'total_products' => $this->total_items,
+            'total_product_items' => $this->order_items_sum_quantity,
+        ];
+    }
+}

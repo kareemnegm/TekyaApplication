@@ -16,7 +16,8 @@ class CreateDeliveryOptionsTable extends Migration
         Schema::create('delivery_options', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('shipment_type',['address','branch','charity']);
+            $table->enum('shipment_type', ['address', 'branch', 'charity']);
+            $table->enum('option', ['delivery', 'pick_up']);
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ use App\Interfaces\DeliveryCoverageInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\ProductInterface;
 use App\Interfaces\ProviderInterface;
+use App\Interfaces\ProviderOrderInterface;
 use App\Interfaces\SaleInterface;
 use App\Interfaces\User\CartInterface;
 use App\Interfaces\User\ShopInrerface;
@@ -40,6 +41,7 @@ use App\Observers\UpdateStockQuantity;
 use App\Repositories\Admin\CollectionRepository as AdminCollectionRepository;
 use App\Repositories\Admin\ProductRepository as AdminProductRepository;
 use App\Repositories\Admin\ProviderRepository;
+use App\Repositories\ProviderOrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -71,6 +73,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ShopInrerface::class, ShopRepository::class);
 
         $this->app->bind(OrderInterface::class, OrderRepository::class);
+
+        $this->app->bind(ProviderOrderInterface::class, ProviderOrderRepository::class);
 
 
         /**
