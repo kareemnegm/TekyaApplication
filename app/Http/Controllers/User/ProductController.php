@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User\ProductResource;
 use App\Http\Resources\User\ProductsResource;
 use App\Interfaces\User\ProductInterface;
 use App\Models\Product;
@@ -81,6 +82,6 @@ class ProductController extends Controller
     public function showProduct($id)
     {
         $product = Product::findOrFail($id);
-        return $this->dataResponse(['product' => new ProductsResource($product)], 'success', 200);
+        return $this->dataResponse(['product' => new ProductResource($product)], 'success', 200);
     }
 }
