@@ -6,7 +6,7 @@ use App\Http\Resources\ImageResource;
 use App\Models\providerShopBranch;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShopResource extends JsonResource
+class ProductShopResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,7 @@ class ShopResource extends JsonResource
      */
     public function toArray($request)
     {
-        $brnach = providerShopBranch::findOrFail($this->id);
-        $q = providerShopBranch::ByDistance($latitude, $longitude, array($request->shop_id))->first();
-
+        $brnach = providerShopBranch::where('shop_id',$this->id)->get();
         return [
             'id' => $this->shop->id,
             'shop_name' => $this->shop->shop_name,
