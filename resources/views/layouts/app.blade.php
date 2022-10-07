@@ -1,6 +1,7 @@
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -25,7 +26,7 @@
         messaging.requestPermission().then(function () {
             return messaging.getToken()
         }).then(function(token) {
-            
+            console.log
             axios.post("{{ route('store.token') }}",{
                 _method:"POST",
                 token
