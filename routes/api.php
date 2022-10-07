@@ -72,6 +72,12 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
      */
     Route::post('login', 'AuthController@login');
 
+    Route::post('notfication', 'AuthController@testSendNotfiaction');
+
+
+
+
+    
     Route::get('send-mail', function () {
 
         $details = [

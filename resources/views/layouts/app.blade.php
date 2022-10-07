@@ -8,13 +8,13 @@
 <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-        apiKey: "AIzaSyBL85bbwYvY3shOonPDdzjIrhAkY6YAf_U",
-        authDomain: "new-tekya.firebaseapp.com",
-        projectId: "new-tekya",
-        storageBucket: "new-tekya.appspot.com",
-        messagingSenderId: "1011536605149",
-        appId: "1:1011536605149:web:ced524c048058ee9581034",
-        measurementId: "G-26N33S5JB6"
+        apiKey: "AIzaSyBZvSaHeUTiY54JurlSuqg4x_38Xu8xJXA",
+        authDomain: "anwar-project-8fece.firebaseapp.com",
+        projectId: "anwar-project-8fece",
+        storageBucket: "anwar-project-8fece.appspot.com",
+        messagingSenderId: "8894368585",
+        appId: "1:8894368585:web:97fc47720a61acbbeae898",
+        measurementId: "G-NNKLGPJDT6"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);

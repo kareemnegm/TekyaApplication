@@ -15,6 +15,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 class AuthController extends Controller
 {
 
@@ -133,11 +137,37 @@ class AuthController extends Controller
 
     public function storeToken(Request $request)
     {
-        dd($request->token);
-        auth()->user()->update(['device_key'=>$request->token]);
-        return response()->json(['Token successfully stored.']);
+        // dd($request->token);
+            $user=User::findOrfail(19);
+            $user->update(['fcm_token'=>$request->token]);
+            return response()->json(['Token successfully stored.']);
     }
   
+
+
+    public function testSendNotfiaction(){
+
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $notificationBuilder = new PayloadNotificationBuilder('my title');
+        $notificationBuilder->setBody('Hello world')
+                            ->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'my_data']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+        $user   =User::where('id',19)->firstOrfail();
+
+        $token=$user->fcm_token ;
+
+
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+    }
     // public function testEmail(Request $request)
     // {
     //     Mail::send(['html' => 'view_name'], $data, function ($m) use ($email) {
@@ -145,4 +175,14 @@ class AuthController extends Controller
     //         $m->to($email, $email)->subject('email subject');
     //     });
     // }
+
+       /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function firebaseOtp()
+    {
+        return view('firebase');
+    }
 }

@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 });
 
+Route::get('otp', 'User\AuthController@firebaseOtp');
+
+
 Route::post('/store-token', [AuthController::class, 'storeToken'])->name('store.token');
 
 Route::get('/app', [HomeController::class, 'index'])->name('home');
