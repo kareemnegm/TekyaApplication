@@ -40,8 +40,8 @@ class OrderController extends Controller
     {
         $orderProdcuts=$this->orderRepository->orderReview($request->all());
 
-        return $this->dataResponse([
-            $orderProdcuts], 'OK', 200);
+        return $this->dataResponse(
+            $orderProdcuts, 'OK', 200);
     
 
     }

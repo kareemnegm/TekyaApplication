@@ -74,6 +74,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
     Route::post('notfication', 'AuthController@testSendNotfiaction');
 
+    Route::post('firebase', 'AuthController@firebaseOtp');
 
 
 
