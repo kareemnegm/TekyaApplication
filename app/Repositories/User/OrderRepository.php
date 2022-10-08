@@ -68,7 +68,6 @@ class OrderRepository extends Controller implements OrderInterface
 
 
         return [
-
             'total_products_price'=>$orderReview->sum('total_price'),
             'total_taxes'=>$orderReview->sum('shop_taxes'),
             'total_shipping_fees'=>$orderReview->sum('shop_shipping_fees'),

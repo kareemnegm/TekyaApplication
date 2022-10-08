@@ -19,6 +19,9 @@ use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\CloudMessage;
+
 class AuthController extends Controller
 {
 
@@ -147,25 +150,39 @@ class AuthController extends Controller
 
     public function testSendNotfiaction(){
 
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60*20);
+        // $optionBuilder = new OptionsBuilder();
+        // $optionBuilder->setTimeToLive(60*20);
 
-        $notificationBuilder = new PayloadNotificationBuilder('my title');
-        $notificationBuilder->setBody('Hello world')
-                            ->setSound('default');
+        // $notificationBuilder = new PayloadNotificationBuilder('my title');
+        // $notificationBuilder->setBody('Hello world')
+        //                     ->setSound('default');
 
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['a_data' => 'my_data']);
+        // $dataBuilder = new PayloadDataBuilder();
+        // $dataBuilder->addData(['a_data' => 'my_data']);
 
-        $option = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
-        $data = $dataBuilder->build();
+        // $option = $optionBuilder->build();
+        // $notification = $notificationBuilder->build();
+        // $data = $dataBuilder->build();
         $user   =User::where('id',19)->firstOrfail();
 
         $token=$user->fcm_token ;
 
 
-        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+        // $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+        $message = CloudMessage::withTarget('token', $token)
+      ->withNotification(['title' => 'My title', 'body' => 'My Body']);
+
+
+      $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-dc0cb61703.json");
+
+        $messaging = (new Factory)->withServiceAccount($keyPath)->createMessaging();
+
+        // $messaging = $auth->createMessaging();
+
+          dd($messaging->send($message));
+
 
     }
     // public function testEmail(Request $request)
@@ -183,6 +200,21 @@ class AuthController extends Controller
      */
     public function firebaseOtp()
     {
-        return view('firebase');
+
+        // change $keyPath to yours, do not just copy and paste
+        $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-dc0cb61703.json");
+        $auth = (new Factory)->withServiceAccount($keyPath)->createAuth();
+
+        try {
+            // change $examplePhoneNumber to yours
+            $examplePhoneNumber = '+201112022550';
+            $user = $auth->getUserByPhoneNumber($examplePhoneNumber);
+
+            return ($user);
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        
     }
 }
