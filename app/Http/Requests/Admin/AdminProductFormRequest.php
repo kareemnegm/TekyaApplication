@@ -35,12 +35,10 @@ class AdminProductFormRequest extends BaseFormRequest
             'total_weight'=>'nullable',
             'is_published'=>'required|in:1,0',
             'to_donation'=>'required|in:1,0',
-            'variant_id'=>'nullable|exists:products,id',
             'collection_id'=>'required|exists:collections,id',
             'category_id'=>'required|exists:categories,id',
             'tags'=>'nullable|array',
             'product_images'=>'nullable',
-            'variants'=>'nullable',
             'shop_id' => 'required|exists:provider_shop_details,id',
 
          ];
