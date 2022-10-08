@@ -32,4 +32,7 @@ interface ProductInterface {
      */
     public function similarProducts($productId);
 
+
+    public function getVariantsValues($variant_id);
+
 }

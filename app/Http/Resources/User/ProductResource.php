@@ -4,6 +4,7 @@ namespace App\Http\Resources\User;
 
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\Provider\TagsResource;
+use App\Http\Resources\Provider\VariantResource;
 use App\Models\CartProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +22,7 @@ class ProductResource extends JsonResource
     {
         $inCart = null;
         $cartProductQuantity = null;
-        if (Auth::check()) {
+        if ($request->header('Authorization')) {
             $cart_id = auth('user')->user()->cart->id;
             $inCart = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop_id)->exists();
             if ($inCart) {
@@ -42,7 +43,7 @@ class ProductResource extends JsonResource
             'is_published' => $this->is_published,
             'to_donation' => $this->to_donation,
 
-            'variants' => json_decode($this->variants),
+            'variant' => VariantResource::collection($this->variant),
 
             'category' => [
                 'id' => $this->category->id,
@@ -59,7 +60,7 @@ class ProductResource extends JsonResource
             'product_images' => ImageResource::collection($this->getMedia('product_images')) ?? null,
             'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
             'updated_at' => $this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A') : null,
-            'shop_data'=>new ShopResource($this->shop)
+            // 'shop_data' => new ShopResource($this->shop)
 
         ];
     }

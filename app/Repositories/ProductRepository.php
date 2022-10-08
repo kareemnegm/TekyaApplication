@@ -6,6 +6,8 @@ use App\Interfaces\CollectionInterface;
 use App\Interfaces\ProductInterface;
 use App\Models\Collection;
 use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\VariantValue;
 use GuzzleHttp\Psr7\Request;
 
 class ProductRepository implements ProductInterface
@@ -135,4 +137,49 @@ class ProductRepository implements ProductInterface
     {
         $products = Product::where('id', $productDetails['product_id'])->update(['is_published' => $productDetails['is_published']]);
     }
+
+
+
+    /***product variants  */
+
+    public function createProductVariant($variant)
+    {
+        $product = Product::findOrFail($variant['product_id']);
+        $productVariant = $product->variant()->create($variant);
+        foreach ($variant['variant_values'] as $values) {
+            $productVariant->value()->create($values);
+        }
+        return;
+    }
+
+    public function deleteVariantsFromProduct($variant_id)
+    {
+        $product_variants = ProductVariant::findOrFail($variant_id);
+        $provider = Auth('provider')->user()->providerShopDetails->id;
+        $product_id = $product_variants->product->shop_id;
+        if ($provider == $product_id) {
+            $product_variants->delete();
+            return true;
+        }
+        return false;
+    }
+
+
+    public function deleteVariantValue($value_id){
+        $variant_value = VariantValue::findOrFail($value_id);
+        $provider = Auth('provider')->user()->providerShopDetails->id;
+        $product_id = $variant_value->productVariant->product->shop_id;
+        if ($provider == $product_id) {
+            $variant_value->delete();
+            return true;
+        }
+        return false;
+    }
+
+    public function getVariantsValues($variant_id)
+    {
+        $product_variants = ProductVariant::findOrFail($variant_id);
+        return $product_variants->value;
+    }
+
 }

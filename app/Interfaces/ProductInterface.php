@@ -54,4 +54,11 @@ interface ProductInterface
 
 
     public function publishOrUnPublishProduct($productDetails);
+
+
+    public function createProductVariant($variant);
+    public function deleteVariantsFromProduct($variant_id);
+    public function deleteVariantValue($value_id);
+    public function getVariantsValues($variant_id);
+
 }

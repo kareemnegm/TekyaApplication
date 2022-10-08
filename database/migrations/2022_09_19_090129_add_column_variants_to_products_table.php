@@ -13,10 +13,10 @@ class AddColumnVariantsToProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->json('variants')->nullable();
-            $table->dropConstrainedForeignId('variant_id');
-        });
+        // Schema::table('products', function (Blueprint $table) {
+        //     // $table->json('variants')->nullable();
+        //     // $table->dropConstrainedForeignId('variant_id');
+        // });
     }
 
     /**
@@ -26,8 +26,8 @@ class AddColumnVariantsToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('variants');
-        });
+        // Schema::table('products', function (Blueprint $table) {
+        //     // $table->dropColumn('variants');
+        // });
     }
 }

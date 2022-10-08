@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\Product\ProductSortFormRequest;
+use App\Http\Requests\Provider\Product\ProductVariantFormRequest;
+use App\Http\Requests\Provider\Product\VariantIdFormRequestDelete;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductsResource;
+use App\Http\Resources\Provider\VariantValueResource;
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -35,7 +38,7 @@ class ProductController extends Controller
 
     /**
      * List Product function
-     *
+     *2
      * @param Request $request
      * @return array
      */
@@ -164,4 +167,42 @@ class ProductController extends Controller
             return $this->successResponse('product published', 200);
         }
     }
+
+
+
+    /*/*** variants  */
+
+
+    public function createProductVariant(ProductVariantFormRequest $request)
+    {
+        $variant = $request->validated();
+        $this->productInterface->createProductVariant($variant);
+        return $this->successResponse('created success', 201);
+    }
+
+    public function DeleteVariant($variant_id)
+    {
+        $variant= $this->productInterface->deleteVariantsFromProduct($variant_id);
+        if($variant){
+            return $this->successResponse('success',200);
+        }else{
+            return $this->errorResponse('not authorized',401);
+
+        }
+    }
+    public function deleteVariantValue($value_id)
+    {
+        $variant= $this->productInterface->deleteVariantValue($value_id);
+        if($variant){
+            return $this->successResponse('success',200);
+        }else{
+            return $this->errorResponse('not authorized',401);
+
+        }
+    }
+    public function getVariantsValues(Request $variant_id)
+    {
+        return $this->dataResponse(['values'=>VariantValueResource::collection($this->productInterface->getVariantsValues($variant_id->variant_id))],'success',200);
+    }
+
 }

@@ -15,7 +15,7 @@ class Product extends Model implements HasMedia
     use HasFactory, HasTags, InteractsWithMedia, FileTrait;
 
     protected $mediaCollection = 'product_images';
-    protected $appends = ['Tags','order_price'];
+    protected $appends = ['Tags', 'order_price'];
 
 
     protected $fillable = [
@@ -33,7 +33,6 @@ class Product extends Model implements HasMedia
         'category_id',
         'shop_id',
         'order',
-        'variants',
         'admin_id'
 
     ];
@@ -41,12 +40,10 @@ class Product extends Model implements HasMedia
 
     public function getOrderPriceAttribute()
     {
-        return $this->offer_price  != 0 ? $this->offer_price :$this->price;
+        return $this->offer_price  != 0 ? $this->offer_price : $this->price;
     }
 
-    protected $casts = [
-        'variants' => 'array'
-    ];
+
 
     public function order()
     {
@@ -88,6 +85,12 @@ class Product extends Model implements HasMedia
     public function bundels()
     {
         return $this->belongsToMany(Bundel::class, 'bundel_products')->withTimestamps();
+    }
+
+
+    public function variant()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 
     /**

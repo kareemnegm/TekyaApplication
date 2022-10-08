@@ -84,9 +84,14 @@ Route::put('/product_remove_collection', 'ProductController@remove_product_from_
 Route::put('/move_product_collection', 'ProductController@move_product_from_collection');
 Route::get('collection/{id}/products', 'ProductController@index');
 Route::put('order_product', 'ProductController@orderProduct');
+/**
+ * product variants
+ */
 
-
-
+Route::post('/product_variant', 'ProductController@createProductVariant');
+Route::get('/variant_values', 'ProductController@getVariantsValues');
+Route::delete('/product_variant/{id}', 'ProductController@DeleteVariant');
+Route::delete('/variant_value/{id}', 'ProductController@deleteVariantValue');
 
 /**
  * Bundel

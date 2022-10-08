@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Provider\VariantValueResource;
 use App\Http\Resources\User\ProductResource;
 use App\Http\Resources\User\ProductsResource;
 use App\Interfaces\User\ProductInterface;
@@ -83,5 +84,11 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         return $this->dataResponse(['product' => new ProductResource($product)], 'success', 200);
+    }
+
+
+    public function getVariantsValues(Request $variant_id)
+    {
+        return $this->dataResponse(['values'=>VariantValueResource::collection($this->ProductRepository->getVariantsValues($variant_id->variant_id))],'success',200);
     }
 }

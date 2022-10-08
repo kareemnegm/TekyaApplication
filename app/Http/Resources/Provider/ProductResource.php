@@ -30,7 +30,7 @@ class ProductResource extends JsonResource
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
 
-            'variants' => json_decode($this->variants),
+            'variant' => VariantResource::collection($this->variant),
 
             'category'=>[
                 'id'=>$this->category->id,

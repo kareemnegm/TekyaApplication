@@ -3,6 +3,7 @@ namespace App\Repositories\User;
 
 use App\Models\Product;
 use App\Interfaces\User\ProductInterface;
+use App\Models\ProductVariant;
 
 class ProductRepository implements ProductInterface
 {
@@ -58,6 +59,13 @@ class ProductRepository implements ProductInterface
         $similarProducts =Product::where('caregory_id',$product->category_id)->where('shop_id','!=',$product->shop_id)->get();
 
         return $similarProducts;
+    }
+
+
+    public function getVariantsValues($variant_id)
+    {
+        $product_variants = ProductVariant::findOrFail($variant_id);
+        return $product_variants->value;
     }
 
 }

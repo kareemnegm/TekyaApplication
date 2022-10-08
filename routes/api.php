@@ -77,7 +77,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
 
 
-    
+
     Route::get('send-mail', function () {
 
         $details = [
@@ -125,6 +125,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('most_popular_products', 'ProductController@mostPopularProduct');
     Route::get('related_products', 'ProductController@relatedProducts');
     Route::get('similar_products', 'ProductController@similarProducts');
+    Route::get('/variant_values', 'ProductController@getVariantsValues');
 
 
 

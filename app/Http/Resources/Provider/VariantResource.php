@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Provider;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PickupResource extends JsonResource
+class VariantResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,9 @@ class PickupResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "address"=>  new UserBranchOrderResource($this->address),
-            "order_user_status"=> $this->order_user_status,
-            "order_shop_status"=> $this->order_shop_status,
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'values'=>VariantValueResource::collection($this->value)
         ];
     }
 }

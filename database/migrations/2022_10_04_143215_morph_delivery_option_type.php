@@ -25,6 +25,5 @@ class MorphDeliveryOptionType extends Migration
      */
     public function down()
     {
-     
     }
 }
