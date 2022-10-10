@@ -23,9 +23,12 @@ use App\Models\OrderShop;
 use App\Models\PaymentOption;
 use App\Models\Product;
 use App\Models\ProviderShopDetails;
+use App\Models\User;
+use App\Notifications\User\UserCheckoutOrder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class OrderRepository extends Controller implements OrderInterface
@@ -65,6 +68,9 @@ class OrderRepository extends Controller implements OrderInterface
 
 
         $payment=PaymentOption::FindOrFail($request['payment_id']);
+
+
+
 
 
         return [
@@ -216,8 +222,10 @@ class OrderRepository extends Controller implements OrderInterface
 
         $order->update(['order_invoice_id'=>$orderInvoice->id]);
 
+         Notification::sendNow(null, new UserCheckoutOrder('Test Fire Base','Test Fire Base Order',User::where('id',19)->firstOrfail()->fcm_token));
+
         DB::commit();
-                      
+
         return new PlaceOrderResource($order);
    
         }catch (\Exception $e) {

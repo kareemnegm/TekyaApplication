@@ -165,7 +165,6 @@ class AuthController extends Controller
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
         $user=Provider::where('id',1)->firstOrfail();
-
         $token=$user->fcm_token ;
 
 
