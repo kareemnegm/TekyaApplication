@@ -1,11 +1,14 @@
 <?php
 namespace App\Services;
+
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
-class FcmCloudMessage
+class FcmCloudMessage 
 {
     /**
      * Handle the FCM Cloud Message Notfication "creating" event.
@@ -15,6 +18,8 @@ class FcmCloudMessage
      */
     public function sendMessageViaFcm($title,$message,$fcmTokens)
     {
+    
+
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
 
@@ -30,7 +35,10 @@ class FcmCloudMessage
         $data = $dataBuilder->build();
    
          FCM::sendTo($fcmTokens, $option, $notification, $data);
+        
+       
     }
+    
 }
 
 

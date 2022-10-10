@@ -230,8 +230,7 @@ class OrderRepository extends Controller implements OrderInterface
    
         }catch (\Exception $e) {
             DB::rollback();
-            return $e;
-            return $this->errorResponseWithMessage('Order not place please try agin',200);
+            return $this->errorResponseWithMessage('Order not place please try agin',422);
         }
     }
     
