@@ -18,7 +18,8 @@ class Provider extends Authenticatable
         'password',
         'type', //shop or charity
         'mobile',
-        'admin_id'
+        'admin_id',
+        'fcm_token'
 
     ];
 

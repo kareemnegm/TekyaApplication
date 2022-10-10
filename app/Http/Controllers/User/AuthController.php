@@ -10,6 +10,7 @@ use App\Http\Requests\User\UpdateUserFormRequest;
 use App\Http\Requests\User\UserFormRequest;
 use App\Http\Requests\User\UserLoginFormRequest;
 use App\Models\Cart;
+use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -141,7 +142,7 @@ class AuthController extends Controller
     public function storeToken(Request $request)
     {
         // dd($request->token);
-            $user=User::findOrfail(19);
+            $user=Provider::findOrfail(1);
             $user->update(['fcm_token'=>$request->token]);
             return response()->json(['Token successfully stored.']);
     }
@@ -150,38 +151,35 @@ class AuthController extends Controller
 
     public function testSendNotfiaction(){
 
-        // $optionBuilder = new OptionsBuilder();
-        // $optionBuilder->setTimeToLive(60*20);
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
 
-        // $notificationBuilder = new PayloadNotificationBuilder('my title');
-        // $notificationBuilder->setBody('Hello world')
-        //                     ->setSound('default');
+        $notificationBuilder = new PayloadNotificationBuilder('my title');
+        $notificationBuilder->setBody('Hello world')
+                            ->setSound('default');
 
-        // $dataBuilder = new PayloadDataBuilder();
-        // $dataBuilder->addData(['a_data' => 'my_data']);
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'my_data']);
 
-        // $option = $optionBuilder->build();
-        // $notification = $notificationBuilder->build();
-        // $data = $dataBuilder->build();
-        $user   =User::where('id',19)->firstOrfail();
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+        $user=Provider::where('id',1)->firstOrfail();
 
         $token=$user->fcm_token ;
 
 
-        // $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
 
-        $message = CloudMessage::withTarget('token', $token)
-      ->withNotification(['title' => 'My title', 'body' => 'My Body']);
+        // $message = CloudMessage::withTarget('token', $token)->withNotification(['title' => 'My title', 'body' => 'My Body']);
+        // $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-d7e6ecb3c6.json");
 
-
-      $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-dc0cb61703.json");
-
-        $messaging = (new Factory)->withServiceAccount($keyPath)->createMessaging();
+        // $messaging = (new Factory)->withServiceAccount($keyPath)->createMessaging();
 
         // $messaging = $auth->createMessaging();
 
-          dd($messaging->send($message));
+        //   dd($messaging->send($message));
 
 
     }
@@ -202,12 +200,12 @@ class AuthController extends Controller
     {
 
         // change $keyPath to yours, do not just copy and paste
-        $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-dc0cb61703.json");
+        $keyPath = storage_path("app/firebase/anwar-project-8fece-firebase-adminsdk-b0ojg-d7e6ecb3c6.json");
         $auth = (new Factory)->withServiceAccount($keyPath)->createAuth();
 
         try {
             // change $examplePhoneNumber to yours
-            $examplePhoneNumber = '+201112022550';
+            $examplePhoneNumber = '+201066520139';
             $user = $auth->getUserByPhoneNumber($examplePhoneNumber);
 
             return ($user);
