@@ -236,8 +236,8 @@ class OrderRepository extends Controller implements OrderInterface
         DB::commit();
 
 
-        return $this->dataResponse([
-            new PlaceOrderResource($order)], 'Order Checkout Successfully', 200);
+        return $this->dataResponse(
+            new PlaceOrderResource($order), 'Order Checkout Successfully', 200);
 
    
         
