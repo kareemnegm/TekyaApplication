@@ -16,8 +16,8 @@ class ChangeFieldsInSalesTable extends Migration
         Schema::table('sales', function (Blueprint $table) {
             $table->dropColumn('start_date');
             $table->dropColumn('end_date');
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            // $table->date('start_date')->nullable();
+            // $table->date('end_date')->nullable();
         });
     }
 
