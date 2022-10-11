@@ -15,8 +15,8 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('start_date');
-            $table->string('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->double('discount_cap');
             $table->double('discount');
             $table->double('price_range_start');

@@ -13,7 +13,7 @@ class SaleRepository implements SaleInterface
         $categories = $details['category_id'];
         foreach ($categories as $category) {
             $details['category_id'] = $category;
-            $date = date('d/m/Y');
+            $date = date('Y-m-d');
             $checkIfSaleExists = Sale::where('category_id', $details['category_id'])->where('shop_id', $details['shop_id'])->where('end_date', '>=', $date)->value('id');
             if (isset($checkIfSaleExists)) {
                 $updateSale = Sale::find($checkIfSaleExists);
