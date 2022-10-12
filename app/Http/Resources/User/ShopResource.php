@@ -17,7 +17,7 @@ class ShopResource extends JsonResource
     public function toArray($request)
     {
         $brnach = providerShopBranch::findOrFail($this->id);
-        $q = providerShopBranch::ByDistance($latitude, $longitude, array($request->shop_id))->first();
+        // $q = providerShopBranch::ByDistance($latitude, $longitude, array($request->shop_id))->first();
 
         return [
             'id' => $this->shop->id,
