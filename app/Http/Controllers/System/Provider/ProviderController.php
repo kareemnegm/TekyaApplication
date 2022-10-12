@@ -31,7 +31,7 @@ class ProviderController extends Controller
 
 
     public function getAllProviders(Request $request){
-        return $this->paginateCollection(ProviderResource::collection(Provider::get()), $request->limit, 'providers');
+        return $this->paginateCollection(ProviderResource::collection(Provider::orderBy('id','desc')->get()), $request->limit, 'providers');
 
     }
 

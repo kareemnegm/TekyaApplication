@@ -28,7 +28,6 @@ class ProviderShopFormRequest extends BaseFormRequest
             'provider_id' => 'required|exists:providers,id',
             'shop_name' => 'required|unique:provider_shop_details,shop_name',
             'whatsapp_number' => 'numeric|min:10',
-            'email' => 'email',
             'category_id.*' => 'required|exists:categories,id',
         ];
     }

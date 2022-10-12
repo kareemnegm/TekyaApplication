@@ -53,6 +53,7 @@ class ProviderRepository  implements ProviderInterface
     }
 
 
+
     public function createBranch($details)
     {
         $details['working_hours_day'] = json_encode($details['working_hours_day']);
