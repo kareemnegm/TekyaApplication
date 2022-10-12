@@ -38,9 +38,9 @@ class PlaceOrderFormRequest extends BaseFormRequest
 
             'shops.*.shipping_fees'=>'required',
 
-            'shops.*.branch_id'=>['required_if:shops.*.delivery_option_id,2','exists:provider_shop_branches,id'],
+            'shops.*.branch_id'=>'sometimes|nullable|required_if:shops.*.delivery_option_id,2|exists:provider_shop_branches,id',
 
-            'shops.*.address_id'=>['required_if:shops.*.delivery_option_id,1','exists:user_addresses,id'],
+            'shops.*.address_id'=>'sometimes|nullable|required_if:shops.*.delivery_option_id,1|exists:user_addresses,id',
 
             'grand_total_price'=>'required',
 
