@@ -29,27 +29,22 @@ class PlaceOrderFormRequest extends BaseFormRequest
     {
         return [
             'shops.*'=>'required|array|min:1',
+
             'shops.*.id'=>'required',
 
             'shops.*.coupon_id'=>'nullable',
-            'shops.*.delivery_option_id'=>'required',
-            'shops.*.shipping_fees'=>'required',
-
-            'shops.*.shipping_fees'=>'required',
-
-
-
-            'shops.*.branch_id'=>['required_without:shops.*.address_id'],
-        //     // 'exists:provider_shop_branches,id'],
-
-            'shops.*.address_id'=>['required_without:shops.*.branch_id'],
-
             
-            // 'shops.*.products'=>'required|array|min:1',
-            // 'shops.*.products.*.id'=>'required',
-            // 'shops.*.products.*.quantity'=>'required',
+            'shops.*.delivery_option_id'=>'required|exists:delivery_options,id',
+
+            'shops.*.shipping_fees'=>'required',
+
+            'shops.*.branch_id'=>['required_if:shops.*.delivery_option_id,2','exists:provider_shop_branches,id'],
+
+            'shops.*.address_id'=>['required_if:shops.*.delivery_option_id,1','exists:user_addresses,id'],
+
             'grand_total_price'=>'required',
-            'payment_id'=>'required'
+
+            'payment_id'=>'required|exists:payment_options,id'
         ];
     }
 }

@@ -26,6 +26,9 @@ use App\Models\ProviderShopDetails;
 use App\Models\User;
 use App\Notifications\User\UserCheckoutOrder;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -100,7 +103,7 @@ class OrderRepository extends Controller implements OrderInterface
      * Place Order function
      *
      * @param [type] $projectId
-     * @return void
+     * @return object
      */
     public function placeOrder($req)
     {
@@ -216,18 +219,32 @@ class OrderRepository extends Controller implements OrderInterface
             'grand_total_price'=>$totalShopItemPrice+$taxes+$shopShpping,
         ];
 
+
+        if($totalShopItemPrice+$taxes+$shopShpping != $req['grand_total_price']){
+
+
+            // return $this->errorResponseWithMessage('Your grand total change to another value,check items price',422);
+        }
    
 
         $orderInvoice=$this->mainOrderInvoice($orderInvoice);
 
         $order->update(['order_invoice_id'=>$orderInvoice->id]);
 
-         Notification::sendNow(null, new UserCheckoutOrder('Test Fire Base','Test Fire Base Order',User::where('id',19)->firstOrfail()->fcm_token));
+        //  Notification::sendNow(null, new UserCheckoutOrder('Test Fire Base','Test Fire Base Order',User::where('id',19)->firstOrfail()->fcm_token));
 
         DB::commit();
 
-        return new PlaceOrderResource($order);
+
+        return $this->dataResponse(
+            new PlaceOrderResource($order), 'Order Checkout Successfully', 200);
+
    
+        
+        } catch (HttpResponseException $exception) {
+            DB::rollback();
+            return $exception->getResponse()->getData();
+
         }catch (\Exception $e) {
             DB::rollback();
             return $this->errorResponseWithMessage('Order not place please try agin',422);
@@ -317,7 +334,7 @@ class OrderRepository extends Controller implements OrderInterface
     /**
      * Check If Products Aviliable With Stock function
      *
-     * @return void
+     * @return object
      */
     protected function productsAreNoLongerAvailable($products)
     {

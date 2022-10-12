@@ -52,14 +52,14 @@ class OrderController extends Controller
      * Category Products function
      *
      * @param Request $request
-     * @return void
+     * @return object
      */
     public function placeOrder(PlaceOrderFormRequest $request)
     {
-        $orderProdcuts=$this->orderRepository->placeOrder($request->validated());
+        $checkOut=$this->orderRepository->placeOrder($request->validated());
 
-        return $this->dataResponse([
-            $orderProdcuts], 'Order Checkout Successfully', 201);
+        return $checkOut;
+
 
 
     }
