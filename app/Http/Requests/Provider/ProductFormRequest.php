@@ -26,27 +26,32 @@ class ProductFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            'description'=>'nullable',
-            'price'=>'required',
+            'name' => 'required',
+            'description' => 'nullable',
+            'price' => 'required',
             'start_date' => 'nullable|date_format:Y-m-d|before_or_equal:end_date',
             'end_date' => 'nullable|date_format:Y-m-d|after_or_equal:start_date',
-            'stock_quantity'=>'required',
-            'total_weight'=>'nullable',
-            'is_published'=>'required|in:1,0',
-            'to_donation'=>'required|in:1,0',
+            'stock_quantity' => 'required',
+            'total_weight' => 'nullable',
+            'is_published' => 'required|in:1,0',
+            'to_donation' => 'required|in:1,0',
 
-            'collection_id'=>['nullable',Rule::exists('collections', 'id')->where('shop_id',
-            auth('provider')->user()->providerShopDetails->id)],
-       
-            'category_id'=>'required|exists:categories,id',
-            'tags'=>'sometimes|required|array',
-            'tags.*'=>'required|string|distinct|min:3',
-            'product_images'=>'nullable',
+            'collection_id' => ['nullable', Rule::exists('collections', 'id')->where(
+                'shop_id',
+                auth('provider')->user()->providerShopDetails->id
+            )],
+
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'sometimes|required|array',
+            'tags.*' => 'required|string|distinct|min:3',
+            'product_images' => 'nullable',
             'variants' => 'nullable|array',
             'variants.*.*.value' => 'sometimes|required|string',
-            // 'variants.*.*.is_default' => 'distinct'
+            'branches_stock' => 'required|array',
+            'branches_stock.*.branch_id' => 'required|exists:provider_shop_branches,id,shop_id,'.auth('provider')->user()->providerShopDetails->id,
+            'branches_stock.*.stock_qty' => 'required|numeric',
+            'variants.*.*.is_default' => 'distinct'
 
-         ];
+        ];
     }
 }

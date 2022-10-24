@@ -45,7 +45,7 @@ class Product extends Model implements HasMedia
 
     public function branchStock()
     {
-        return $this->belongsTo(BranchProductStock::class);
+        return $this->hasMany(BranchProductStock::class);
     }
 
 

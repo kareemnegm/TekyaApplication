@@ -61,6 +61,7 @@ Route::get('/shopDetails', 'ShopController@getShopDetails');
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
 Route::get('/shop/branches', 'BranchController@getBranches');
+Route::get('/shop/stock_branches', 'BranchController@getBranchesForStocks');
 Route::get('/shop/branch', 'BranchController@getBranch');
 Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
 Route::put('/branch/{id}/remove_payment_option', 'BranchController@removePaymentOptionFromBranch');
@@ -97,6 +98,8 @@ Route::get('/variant_values', 'ProductController@getVariantsValues');
 Route::delete('/product_variant/{id}', 'ProductController@DeleteVariant');
 Route::delete('/variant_value/{id}', 'ProductController@deleteVariantValue');
 Route::get('product/{productId}/variants', 'ProductController@getProductVariants');
+Route::get('product/{productId}/branches', 'ProductController@getProductStockBranches');
+
 
 
 

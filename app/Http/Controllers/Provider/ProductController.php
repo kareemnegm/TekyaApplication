@@ -10,6 +10,7 @@ use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Requests\Provider\ProductSearchRequest;
+use App\Http\Resources\Provider\ProductBranchStockResource;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductSearchResource;
 use App\Http\Resources\Provider\ProductsResource;
@@ -198,12 +199,12 @@ class ProductController extends Controller
     /*/*** variants  */
 
 
-    public function createProductVariant(ProductVariantFormRequest $request)
-    {
-        $variant = $request->validated();
-        $this->productInterface->createProductVariant($variant);
-        return $this->successResponse('created success', 201);
-    }
+    // public function createProductVariant(ProductVariantFormRequest $request)
+    // {
+    //     $variant = $request->validated();
+    //     $this->productInterface->createProductVariant($variant);
+    //     return $this->successResponse('created success', 201);
+    // }
 
     public function DeleteVariant($variant_id)
     {
@@ -248,5 +249,9 @@ class ProductController extends Controller
         return $this->dataResponse(['variants' => VariantResource::collection($variants)], 'success', 200);
     }
 
-    
+    public function getProductStockBranches($product_id)
+    {
+        $branches = $this->productInterface->productStockBranches($product_id);
+        return $this->dataResponse(['stock_branches' => ProductBranchStockResource::collection($branches)], 'success', 200);
+    }
 }

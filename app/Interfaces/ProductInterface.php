@@ -6,6 +6,8 @@ interface ProductInterface
 {
 
 
+    public function productStockBranches($product_id);
+
      /**
      * Undocumented function
      *
@@ -77,8 +79,8 @@ interface ProductInterface
     public function getVariantsValues($variant_id);
     public function getProductVariants($productID);
 
-   
 
-    
+
+
 
 }

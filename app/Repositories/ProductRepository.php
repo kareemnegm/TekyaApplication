@@ -110,7 +110,7 @@ class ProductRepository implements ProductInterface
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
         if (!empty($productDetails['branches_stock'])) {
-            return $this->branchProductStock($productDetails['branches_stock'], $product->id);
+            $this->branchProductStock($productDetails['branches_stock'], $product->id);
         }
 
         if (!empty($productDetails['variants'])) {
@@ -118,8 +118,6 @@ class ProductRepository implements ProductInterface
         } else {
             return $product;
         }
-
-
     }
 
 
@@ -127,9 +125,9 @@ class ProductRepository implements ProductInterface
     private function branchProductStock(array $branchStocks, $product_id)
     {
         foreach ($branchStocks as $branchStock) {
-             BranchProductStock::updateOrCreate(
-                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty],
-                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty]
+            BranchProductStock::updateOrCreate(
+                ['product_id' => $product_id, "branch_id" => $branchStock['branch_id'], 'stock_qty' => $branchStock['stock_qty']],
+                ['product_id' => $product_id, "branch_id" => $branchStock['branch_id'], 'stock_qty' => $branchStock['stock_qty']]
             );
         }
         return;
@@ -147,7 +145,6 @@ class ProductRepository implements ProductInterface
 
         $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request . '%')->get();
         return $prdoucts;
-
     }
 
     /**
@@ -276,4 +273,12 @@ class ProductRepository implements ProductInterface
 
         return $product->variant;
     }
+
+
+
+    public function productStockBranches($product_id){
+        $product=Product::findOrFail($product_id);
+        return $product->branchStock;
+    }
+
 }

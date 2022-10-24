@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\UpdateShopBranchFormRequest;
+use App\Http\Resources\Provider\ProductBranch\BranchResource;
 use App\Http\Resources\Provider\ShopBranchResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\BranchAddress;
@@ -61,6 +62,12 @@ class BranchController extends Controller
     {
         $shop_id = Auth::user()->providerShopDetails->value('id');
         return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request)), $request->limit, 'branch');
+    }
+
+    public function getBranchesForStocks(Request $request)
+    {
+        $shop_id = Auth::user()->providerShopDetails->value('id');
+        return $this->dataResponse([BranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request))], 'success', 200);
     }
 
     public function getBranch(BranchIdFormRequest $request)
