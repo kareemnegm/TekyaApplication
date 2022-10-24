@@ -85,6 +85,9 @@ Route::put('/move_product_collection', 'ProductController@move_product_from_coll
 Route::get('collection/{id}/products', 'ProductController@index');
 Route::get('all_products', 'ProductController@getAllShopProduct');
 Route::put('order_product', 'ProductController@orderProduct');
+Route::get('products_search', 'ProductController@productsSearch');
+
+
 /**
  * product variants
  */

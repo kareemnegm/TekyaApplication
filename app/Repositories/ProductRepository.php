@@ -33,10 +33,6 @@ class ProductRepository implements ProductInterface
             $q->where('is_publish', $is_publish);
         }
 
-        if (isset($request->search)) {
-            $q->where('title', 'like', '%' . $request->name . '%');
-        }
-
         if (isset($request->sortBy) && isset($request->filter)) {
             $collections = $q->orderBy($request->filter, $request->sortBy)->get();
         }else{
@@ -61,11 +57,6 @@ class ProductRepository implements ProductInterface
         if ($request->is_publish) {
             $is_publish = $request->is_publish == 'true' ? 1 : 0;
             $q->where('is_publish', $is_publish);
-        }
-
-        if (isset($request->search)) {
-
-            $q->where('title', 'like', '%' . $request->search . '%');
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
@@ -129,7 +120,19 @@ class ProductRepository implements ProductInterface
     }
 
 
-  
+    /**
+     * Undocumented function
+     *
+     * @param [type] $varients
+     * @return array
+     */
+    public function productSearch($request)
+    {
+        
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request . '%')->get();
+        return $prdoucts;
+
+    }
     
     /**
      * Undocumented function

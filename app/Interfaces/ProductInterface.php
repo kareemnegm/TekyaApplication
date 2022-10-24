@@ -5,6 +5,14 @@ namespace App\Interfaces;
 interface ProductInterface
 {
 
+
+     /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public function productsSearch($request);
     /**
      * All Shop Procuts function
      *
@@ -68,6 +76,8 @@ interface ProductInterface
     public function deleteVariantValue($value_id);
     public function getVariantsValues($variant_id);
     public function getProductVariants($productID);
+
+   
 
     
 

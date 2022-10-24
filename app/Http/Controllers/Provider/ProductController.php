@@ -9,7 +9,9 @@ use App\Http\Requests\Provider\Product\VariantIdFormRequestDelete;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
+use App\Http\Requests\Provider\ProductSearchRequest;
 use App\Http\Resources\Provider\ProductResource;
+use App\Http\Resources\Provider\ProductSearchResource;
 use App\Http\Resources\Provider\ProductsResource;
 use App\Http\Resources\Provider\VariantResource;
 use App\Http\Resources\Provider\VariantValueResource;
@@ -59,6 +61,18 @@ class ProductController extends Controller
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'product');
     }
 
+
+    /**
+     * List Product function
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function productsSearch(ProductSearchRequest $request)
+    {
+        $products = $this->productInterface->productsSearch($request->validated());
+        return $this->paginateCollection(ProductSearchResource::collection($products), $request->limit, 'product');
+    }
     /**
      * Single Product function
      *
