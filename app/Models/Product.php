@@ -43,6 +43,10 @@ class Product extends Model implements HasMedia
         return $this->offer_price  != 0 ? $this->offer_price : $this->price;
     }
 
+    public function branchStock()
+    {
+        return $this->belongsTo(BranchProductStock::class);
+    }
 
 
     public function order()

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CollectionInterface;
 use App\Interfaces\ProductInterface;
+use App\Models\BranchProductStock;
 use App\Models\Collection;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -15,7 +16,7 @@ class ProductRepository implements ProductInterface
 
 
 
-     /**
+    /**
      * Get All Shop Collection function
      *
      * @param [type] $projectId
@@ -35,7 +36,7 @@ class ProductRepository implements ProductInterface
 
         if (isset($request->sortBy) && isset($request->filter)) {
             $collections = $q->orderBy($request->filter, $request->sortBy)->get();
-        }else{
+        } else {
             $collections = $q->orderBy('order', 'ASC')->get();
         }
 
@@ -60,12 +61,12 @@ class ProductRepository implements ProductInterface
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
-            
+
             $collections = $q->orderBy($request->filter, $request->sortBy)->get();
-        }else{
+        } else {
             $collections = $q->orderBy('order', 'ASC')->get();
         }
-       
+
         return $collections;
     }
 
@@ -102,7 +103,7 @@ class ProductRepository implements ProductInterface
 
         $product = Product::create($productDetails);
 
-        
+
         if (isset($productDetails['tags'])) {
             $product->attachTags($productDetails['tags']);
         }
@@ -110,13 +111,30 @@ class ProductRepository implements ProductInterface
         if (!empty($productDetails['product_images'])) {
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
+        if (!empty($productDetails['branches_stock'])) {
+            return $this->branchProductStock($productDetails['branches_stock'], $product->id);
+        }
 
-        if(!empty($productDetails['variants'])){
+        if (!empty($productDetails['variants'])) {
             return $this->productVarints($productDetails['variants'], $product);
-        }else{
+        } else {
             return $product;
         }
 
+
+    }
+
+
+
+    private function branchProductStock(array $branchStocks, $product_id)
+    {
+        foreach ($branchStocks as $branchStock) {
+             BranchProductStock::updateOrCreate(
+                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty],
+                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty]
+            );
+        }
+        return;
     }
 
 
@@ -140,17 +158,19 @@ class ProductRepository implements ProductInterface
      * @param [type] $varients
      * @return array
      */
-    private function productVarints(array $varients,$product)
+    private function productVarints(array $varients, $product)
     {
-        foreach($varients as $varient => $variantValue){
-            $productVariant = ProductVariant::updateOrCreate(['product_id'=>$product->id,"name"=>$varient],
-            ["name"=>$varient]);
+        foreach ($varients as $varient => $variantValue) {
+            $productVariant = ProductVariant::updateOrCreate(
+                ['product_id' => $product->id, "name" => $varient],
+                ["name" => $varient]
+            );
 
             foreach ($variantValue as $values) {
                 $productVariant->value()->create($values);
             }
         }
-      return $product;
+        return $product;
     }
 
 
@@ -228,7 +248,8 @@ class ProductRepository implements ProductInterface
     }
 
 
-    public function deleteVariantValue($value_id){
+    public function deleteVariantValue($value_id)
+    {
         $variant_value = VariantValue::findOrFail($value_id);
         $provider = Auth('provider')->user()->providerShopDetails->id;
         $product_id = $variant_value->productVariant->product->shop_id;
@@ -257,5 +278,4 @@ class ProductRepository implements ProductInterface
 
         return $product->variant;
     }
-
 }
