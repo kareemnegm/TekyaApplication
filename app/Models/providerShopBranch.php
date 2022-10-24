@@ -43,6 +43,10 @@ class providerShopBranch extends Model
         return $this->belongsTo(Area::class);
     }
 
+    public function branchStock()
+    {
+        return $this->hasMany(BranchProductStock::class);
+    }
     /**
      * Undocumented function
      *
