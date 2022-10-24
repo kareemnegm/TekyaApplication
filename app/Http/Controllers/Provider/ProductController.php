@@ -11,6 +11,7 @@ use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductsResource;
+use App\Http\Resources\Provider\VariantResource;
 use App\Http\Resources\Provider\VariantValueResource;
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
@@ -35,7 +36,17 @@ class ProductController extends Controller
         $this->productInterface = $productInterface;
     }
 
-
+    /**
+     * List Product function
+     *2
+     * @param Request $request
+     * @return array
+     */
+    public function getAllShopProduct(ProductSortFormRequest $request)
+    {
+        $products = $this->productInterface->getAllShopProduct($request);
+        return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'product');
+    }
     /**
      * List Product function
      *2
@@ -44,7 +55,7 @@ class ProductController extends Controller
      */
     public function index(ProductSortFormRequest $request, $collection_id)
     {
-        $products = $this->productInterface->getAllShopProduct($request, $collection_id);
+        $products = $this->productInterface->getAllShopCollectionProduct($request, $collection_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'product');
     }
 
@@ -200,9 +211,34 @@ class ProductController extends Controller
 
         }
     }
+    /**
+     * Undocumented function
+     *
+     * @param Request $variant_id
+     * @return void
+     */
     public function getVariantsValues(Request $variant_id)
     {
         return $this->dataResponse(['values'=>VariantValueResource::collection($this->productInterface->getVariantsValues($variant_id->variant_id))],'success',200);
     }
+
+
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $variant_id
+     * @return void
+     */
+    public function getProductVariants(Request $request,$productID)
+    {
+        $variants=$this->productInterface->getProductVariants($productID);
+        return $this->dataResponse(['variants'=>VariantResource::collection($variants)],'success',200);
+    }
+
+
+    
+    
+    
 
 }

@@ -13,41 +13,68 @@ use GuzzleHttp\Psr7\Request;
 class ProductRepository implements ProductInterface
 {
 
+
+
+     /**
+     * Get All Shop Collection function
+     *
+     * @param [type] $projectId
+     * @return void
+     */
+    public function getAllShopProduct($request)
+    {
+
+        $q = Product::query();
+
+        $q->where('shop_id', auth('provider')->user()->providerShopDetails->id);
+
+        if ($request->is_publish) {
+            $is_publish = $request->is_publish == 'true' ? 1 : 0;
+            $q->where('is_publish', $is_publish);
+        }
+
+        if (isset($request->search)) {
+            $q->where('title', 'like', '%' . $request->name . '%');
+        }
+
+        if (isset($request->sortBy) && isset($request->filter)) {
+            $collections = $q->orderBy($request->filter, $request->sortBy)->get();
+        }else{
+            $collections = $q->orderBy('order', 'ASC')->get();
+        }
+
+        return $collections;
+    }
     /**
      * Get All Shop Collection function
      *
      * @param [type] $projectId
      * @return void
      */
-    public function getAllShopProduct($request, $collectionId)
+    public function getAllShopCollectionProduct($request, $collectionId)
     {
-
 
         $q = Product::query();
 
         $q->where('collection_id', $collectionId);
 
         if ($request->is_publish) {
-            $is_publish = $request->is_publish === 'true' ? 1 : 0;
+            $is_publish = $request->is_publish == 'true' ? 1 : 0;
             $q->where('is_publish', $is_publish);
         }
 
-        if (isset($request->sortBy) && !empty($request->sortBy)) {
-            if ($request->sortBy == 'alphabetical') {
-                $request->sortBy = 'name';
-            } elseif ($request->sortBy == 'date_of_creating') {
-                $request->sortBy = 'created_at';
-            }
-            if (isset($request->sort) && !empty($request->sort)) {
-                $collections = $q->orderBy($request->sortBy, $request->sort)->get();
-            } else {
-                $collections = $q->orderBy($request->sortBy, 'desc')->get();
-            }
-        } else {
-            $collections = $q->orderBy('order', 'ASC')->get();
+        if (isset($request->search)) {
+
+            $q->where('title', 'like', '%' . $request->search . '%');
         }
 
-
+        if (isset($request->sortBy) && isset($request->filter)) {
+            
+            $collections = $q->orderBy($request->filter, $request->sortBy)->get();
+        }else{
+            $collections = $q->orderBy('order', 'ASC')->get();
+        }
+       
         return $collections;
     }
 
@@ -80,18 +107,51 @@ class ProductRepository implements ProductInterface
      */
     public function createShopProduct(array $productDetails)
     {
-
         $productDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
 
         $product = Product::create($productDetails);
-        $product->attachTags($productDetails['tags']);
+
+        
+        if (isset($productDetails['tags'])) {
+            $product->attachTags($productDetails['tags']);
+        }
 
         if (!empty($productDetails['product_images'])) {
-            // foreach($productDetails['product_images'] as $productImage){
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
-        return $product;
+
+        if(!empty($productDetails['variants'])){
+            return $this->productVarints($productDetails['variants'], $product);
+        }else{
+            return $product;
+        }
+
     }
+
+
+  
+    
+    /**
+     * Undocumented function
+     *
+     * @param [type] $varients
+     * @return array
+     */
+    private function productVarints(array $varients,$product)
+    {
+        foreach($varients as $varient => $variantValue){
+            $productVariant = ProductVariant::updateOrCreate(['product_id'=>$product->id,"name"=>$varient],
+            ["name"=>$varient]);
+
+            foreach ($variantValue as $values) {
+                $productVariant->value()->create($values);
+            }
+        }
+      return $product;
+    }
+
+
+
     /**
      * Product Update function
      *
@@ -180,6 +240,19 @@ class ProductRepository implements ProductInterface
     {
         $product_variants = ProductVariant::findOrFail($variant_id);
         return $product_variants->value;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $variant_id
+     * @return void
+     */
+    public function getProductVariants($productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        return $product->variant;
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Provider;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductFormRequest extends BaseFormRequest
 {
@@ -34,10 +35,17 @@ class ProductFormRequest extends BaseFormRequest
             'total_weight'=>'nullable',
             'is_published'=>'required|in:1,0',
             'to_donation'=>'required|in:1,0',
-            'collection_id'=>'required|exists:collections,id',
+
+            'collection_id'=>['nullable',Rule::exists('collections', 'id')->where('shop_id',
+            auth('provider')->user()->providerShopDetails->id)],
+       
             'category_id'=>'required|exists:categories,id',
-            'tags'=>'nullable|array',
-            'product_images'=>'nullable'
+            'tags'=>'sometimes|required|array',
+            'tags.*'=>'required|string|distinct|min:3',
+            'product_images'=>'nullable',
+            'variants' => 'nullable|array',
+            'variants.*.*.value' => 'sometimes|required|string',
+            // 'variants.*.*.is_default' => 'distinct'
 
          ];
     }

@@ -10,7 +10,14 @@ interface ProductInterface
      *
      * @return void
      */
-    public function getAllShopProduct($request, $collectionId);
+    public function getAllShopProduct($request);
+ /**
+     * All Shop Procuts function
+     *
+     * @return void
+     */
+    public function getAllShopCollectionProduct($request, $collectionId);
+
     /**
      * Single Product Shop function
      *
@@ -60,5 +67,8 @@ interface ProductInterface
     public function deleteVariantsFromProduct($variant_id);
     public function deleteVariantValue($value_id);
     public function getVariantsValues($variant_id);
+    public function getProductVariants($productID);
+
+    
 
 }

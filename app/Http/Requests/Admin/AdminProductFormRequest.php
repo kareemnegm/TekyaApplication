@@ -34,7 +34,7 @@ class AdminProductFormRequest extends BaseFormRequest
             'stock_quantity'=>'required',
             'total_weight'=>'nullable',
             'is_published'=>'required|in:1,0',
-            'to_donation'=>'required|in:1,0',
+            'to_donation'=>'required|in:k1,0',
             'collection_id'=>'required|exists:collections,id',
             'category_id'=>'required|exists:categories,id',
             'tags'=>'nullable|array',

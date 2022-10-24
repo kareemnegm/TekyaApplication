@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Provider;
 
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\provider\ProductCollectionResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->tags);
+        // dd($this->whenLoaded('tags'));
 
         return [
             'id'=>$this->id,
@@ -36,14 +37,13 @@ class ProductResource extends JsonResource
                 'id'=>$this->category->id,
                 'name'=>$this->category->name
             ],
-            'collection'=>[
-                'id'=>$this->collection->id,
-                'name'=>$this->collection->name
-            ],
-            'tags'=>$this->when(isset($this->tags),  TagsResource::collection($this->tags)),
 
+            'collection' => $this->when($this->collection, new ProductCollectionResource($this->collection)),
 
-            'product_images'=> ImageResource::collection($this->getMedia('product_images'))?? null,
+            'tags'=>TagsResource::collection($this->tags),
+            
+            'product_images'=> ImageResource::collection($this->getMedia('product_images')),
+
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
             'updated_at'=>$this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A'):null,
 

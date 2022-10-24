@@ -4,6 +4,7 @@ namespace App\Http\Requests\Provider\Product;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class ProductSortFormRequest extends BaseFormRequest
 {
@@ -22,18 +23,27 @@ class ProductSortFormRequest extends BaseFormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            'sortBy'=>'in:alphabetical,price,date_of_creating,order',
-            'is_publish'=>'in:true,false'
+        // dd($this->route('id'));
 
+
+        // dd($request);
+        return [
+            'filter'=>'in:name,price,created_at,order',
+            'sortBy'=>'in:desc,asc',
+            'is_publish'=>'in:true,false',
+            'in_collection'=>'number:true,false',
+            'page'=>'integer',
+            'limit'=>'integer',
         ];
     }
     public function messages()
     {
         return [
-            'sortBy.in'=>' :attribute is used in alphabetical , price , date_of_creating , order'
+            'filter.in'=>' :attribute is used in name,price,created_at,order',
+            'sortBy.in'=>' :attribute is used in dsec,asc'
+
         ];
     }
 }
