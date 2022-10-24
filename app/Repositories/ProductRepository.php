@@ -143,7 +143,7 @@ class ProductRepository implements ProductInterface
     public function productsSearch($request)
     {
 
-        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request . '%')->get();
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->get();
         return $prdoucts;
     }
 
