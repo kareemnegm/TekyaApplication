@@ -21,7 +21,6 @@ class CreateProviderShopBranchesTable extends Migration
             $table->boolean('is_active')->default(0);
             $table->string('working_hours_day');
             $table->unsignedBigInteger('shop_id');
-            $table->string('address');
             $table->string('street');
             $table->string('address_details')->nullable();
             $table->string('nearest_landmark')->nullable();
