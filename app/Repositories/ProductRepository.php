@@ -14,8 +14,6 @@ use GuzzleHttp\Psr7\Request;
 class ProductRepository implements ProductInterface
 {
 
-
-
     /**
      * Get All Shop Collection function
      *
@@ -144,14 +142,14 @@ class ProductRepository implements ProductInterface
      * @param [type] $varients
      * @return array
      */
-    public function productSearch($request)
+    public function productsSearch($request)
     {
-        
+
         $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request . '%')->get();
         return $prdoucts;
 
     }
-    
+
     /**
      * Undocumented function
      *
