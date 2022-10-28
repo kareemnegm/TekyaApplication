@@ -51,16 +51,16 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
      */
     Route::post('/login', 'AuthController@login');
 });
-Route::group(['namespace' => 'Provider'], function () {
-    /**
-     * signup
-     */
-    Route::post('/signup', 'AuthController@signUp');
-    /**
-     * login
-     */
-    Route::post('/login', 'AuthController@login');
-});
+// Route::group(['namespace' => 'Provider'], function () {
+//     /**
+//      * signup
+//      */
+//     Route::post('/signup', 'AuthController@signUp');
+//     /**
+//      * login
+//      */
+//     Route::post('/login', 'AuthController@login');
+// });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     /**
