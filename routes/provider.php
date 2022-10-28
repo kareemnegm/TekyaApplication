@@ -63,6 +63,7 @@ Route::post('/shop/branch', 'BranchController@createBranch');
 Route::get('/shop/branches', 'BranchController@getBranches');
 Route::get('/shop/stock_branches', 'BranchController@getBranchesForStocks');
 Route::get('/shop/branch', 'BranchController@getBranch');
+Route::put('/shop/branch/status', 'BranchController@branchActive');
 Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
 Route::put('/branch/{id}/remove_payment_option', 'BranchController@removePaymentOptionFromBranch');
 Route::delete('/shop/branch/{id}', 'BranchController@deleteBranch');
