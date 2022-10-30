@@ -91,4 +91,19 @@ class CartController extends Controller
 
     }
 
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function cartItemsCount(Request $request)
+    {
+        $cartItemsCount=$this->CartRepository->cartItemsCount();
+
+        return $this->dataResponse([
+            'cart_items_count' => $cartItemsCount], 'OK', 200);
+        
+    }
+
 }
