@@ -60,13 +60,13 @@ class BranchController extends Controller
 
     public function getBranches(Request $request)
     {
-        $shop_id = Auth::user('provider')->providerShopDetails->value('id');
+        $shop_id = Auth::user('provider')->providerShopDetails->id;
         return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request)), $request->limit, 'branch');
     }
 
     public function getBranchesForStocks(Request $request)
     {
-        $shop_id = Auth::user()->providerShopDetails->value('id');
+        $shop_id = Auth::user()->providerShopDetails->id;
         return $this->dataResponse([BranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request))], 'success', 200);
     }
 
