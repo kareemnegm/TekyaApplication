@@ -60,7 +60,7 @@ class BranchController extends Controller
 
     public function getBranches(Request $request)
     {
-        $shop_id = Auth::user()->providerShopDetails->value('id');
+        $shop_id = Auth::user('provider')->providerShopDetails->value('id');
         return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request)), $request->limit, 'branch');
     }
 
