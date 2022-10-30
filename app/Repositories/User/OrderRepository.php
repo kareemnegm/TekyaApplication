@@ -239,7 +239,7 @@ class OrderRepository extends Controller implements OrderInterface
 
 
             return $this->dataResponse(
-                new AA($order),
+                new ($order),
                 'Order Checkout Successfully',
                 200
             );
@@ -365,11 +365,11 @@ class OrderRepository extends Controller implements OrderInterface
         $limit = $request->limit ? $request->limit : 10;
 
         $q = Order::where('user_id', $user->id)->withSum('orderItems', 'quantity');
-        if ($request->page) {
-            $orders = $q->orderBy('date_order_placed', 'DESC')->paginate($limit);
-        } else {
+        // if ($request->page) {
+        //     $orders = $q->orderBy('date_order_placed', 'DESC')->paginate($limit);
+        // } else {
             $orders = $q->orderBy('date_order_placed', 'DESC')->get();
-        }
+        // }
 
         return $orders;
     }
