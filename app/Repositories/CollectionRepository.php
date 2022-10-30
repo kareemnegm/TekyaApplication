@@ -17,7 +17,7 @@ class CollectionRepository implements CollectionInterface
     public function getAllShopCollection($request)
     {
 
-        $limit = $request->limit ? $request->limit : 10;
+        // $limit = $request->limit ? $request->limit : 10;
 
         $q = Collection::query();
 
@@ -31,11 +31,11 @@ class CollectionRepository implements CollectionInterface
         }
 
 
-        if ($request->page) {
-            $collections = $q->paginate($limit);
-        } else {
+        // if ($request->page) {
+        //     $collections = $q->paginate($limit);
+        // } else {
             $collections = $q->get();
-        }
+        // }
 
         return $collections;
     }
