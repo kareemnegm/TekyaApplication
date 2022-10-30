@@ -156,6 +156,20 @@ class CartRepository extends Controller implements CartInterface
 
     }
 
+      /**
+     * Undocumented function
+     *
+     * @param [type] $cart_id
+     * @return void
+     */
+    public function cartItemsCount()
+    {
+        $cart_id = Auth::user()->cart->id;
+        $cart  = Cart::findOrFail($cart_id);
+        return CartProduct::where('cart_id',$cart->id)->count();
+    }
+
+    
     /**
      * Undocumented function
      *

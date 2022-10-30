@@ -39,7 +39,13 @@ interface CartInterface
      * @return void
      */
     public function addMultiProductsToCarts($itmes);
-
+    /**
+     * Undocumented function
+     *
+     * @param [type] $itmes
+     * @return void
+     */
+    public function cartItemsCount();
     
 }
               

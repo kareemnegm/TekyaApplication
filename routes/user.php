@@ -32,6 +32,7 @@ Route::group(['prefix' => 'cart'], function () {
     Route::get('/', 'CartController@getCartProducts');
     Route::delete('/clear_shops ', 'CartController@clearShopsFromCarts');
     Route::post('/multi_products ', 'CartController@addMultiProductsToCarts');
+    Route::get('/cart_items_count ', 'CartController@cartItemsCount');
 });
 
 
