@@ -18,6 +18,8 @@ class User extends Authenticatable  implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, FileTrait ,SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes that are mass assignable.
      *

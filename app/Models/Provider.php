@@ -13,6 +13,9 @@ class Provider extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
+    
     protected $fillable = [
         'user_name',
         'email',

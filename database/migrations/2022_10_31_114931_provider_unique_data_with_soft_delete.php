@@ -16,6 +16,8 @@ class ProviderUniqueDataWithSoftDelete extends Migration
         Schema::table('providers', function (Blueprint $table) {
             $table->unique(['mobile', 'deleted_at']);
             $table->unique(['email', 'deleted_at']);
+            $table->unique(['user_name', 'deleted_at']);
+
         });
     }
 
