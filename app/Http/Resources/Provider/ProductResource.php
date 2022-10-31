@@ -17,7 +17,6 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->whenLoaded('tags'));
 
         return [
             'id'=>$this->id,
@@ -37,7 +36,7 @@ class ProductResource extends JsonResource
                 'id'=>$this->category->id,
                 'name'=>$this->category->name
             ],
-            
+
             'shop_details'=>[
                 'id'=>$this->shop->id,
                 'shop_name'=>$this->shop->shop_name,

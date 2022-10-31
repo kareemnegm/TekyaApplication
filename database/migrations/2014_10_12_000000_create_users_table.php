@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->foreign('government_id')->references('id')->on('governments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
