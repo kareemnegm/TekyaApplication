@@ -31,7 +31,7 @@ class ProductRepository implements ProductInterface
             $is_publish = $request->is_publish == 'true' ? 1 : 0;
             $q->where('is_publish', $is_publish);
         }
-        
+
         if (isset($request->in_collection) && $request->in_collection == 'true') {
             $q->whereNotNull('collection_id');
         }elseif(isset($request->in_collection) && $request->in_collection == 'false'){

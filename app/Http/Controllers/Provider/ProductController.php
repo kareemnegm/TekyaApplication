@@ -179,8 +179,8 @@ class ProductController extends Controller
     {
         $products = $request->product_id;
         $collection_id = $request->collection_id;
-        $data = $this->productInterface->move_product_from_collection($products, $collection_id);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+        $this->productInterface->move_product_from_collection($products, $collection_id);
+        return $this->successResponse('moved successful', 200);
     }
 
     public function publishOrUnPublishProduct(ProductPublishUnPublishFormRequest $request)

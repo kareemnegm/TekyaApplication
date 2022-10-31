@@ -49,7 +49,7 @@ class ProductResource extends JsonResource
             'collection' => $this->when($this->collection, new ProductCollectionResource($this->collection)),
 
             'tags'=>TagsResource::collection($this->tags),
-            
+
             'product_images'=> ImageResource::collection($this->getMedia('product_images')),
 
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
