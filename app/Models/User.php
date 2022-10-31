@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class User extends Authenticatable  implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, FileTrait;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, FileTrait ,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

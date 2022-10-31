@@ -37,6 +37,15 @@ class ProductResource extends JsonResource
                 'id'=>$this->category->id,
                 'name'=>$this->category->name
             ],
+            
+            'shop_details'=>[
+                'id'=>$this->shop->id,
+                'shop_name'=>$this->shop->shop_name,
+                'whatsapp_number'=>$this->shop->whatsapp_number,
+                'facebook_link'=>$this->shop->facebook_link,
+                'available_vat'=>$this->shop->vat,
+                'email'=>$this->shop->email,
+            ],
 
             'collection' => $this->when($this->collection, new ProductCollectionResource($this->collection)),
 

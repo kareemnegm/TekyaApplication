@@ -7,6 +7,10 @@ Route::get('shop/categories', 'CategoryController@shopProductsCategories');
 
 Route::post('logout', 'AuthController@logout');
 
+Route::delete('delete_provider', 'ProviderController@deleteProviderAccount');
+
+
+
 
 /**
  *

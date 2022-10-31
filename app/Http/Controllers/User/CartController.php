@@ -100,10 +100,7 @@ class CartController extends Controller
     public function cartItemsCount(Request $request)
     {
         $cartItemsCount=$this->CartRepository->cartItemsCount();
-
-        return $this->dataResponse([
-            'cart_items_count' => $cartItemsCount], 'OK', 200);
-        
+        return $this->dataResponse(['cart_items_count' => $cartItemsCount], 'OK', 200);
     }
 
 }

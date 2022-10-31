@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Http\Resources\User\MyAddressesResource;
 use App\Interfaces\User\UserInterface;
+use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserLocation;
 use Illuminate\Support\Facades\DB;
@@ -45,4 +46,18 @@ class UserRepository implements UserInterface
     {
         return UserLocation::where('user_id', $user_id)->first();
     }
+
+
+    /**
+     * Delete User Account Function function
+     *
+     * @return boolean
+     */
+    public function deleteUser()
+    {
+        $userId=auth()->user()->id;
+        return User::findOrFail($userId)->delete();
+    }
+
+    
 }

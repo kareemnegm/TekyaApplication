@@ -18,7 +18,6 @@ class ProviderClass implements ProviderInterface
      */
     public function createShopDetails($details)
     {
-
         $provider = ProviderShopDetails::create($details);
     }
 
@@ -54,6 +53,17 @@ class ProviderClass implements ProviderInterface
     {
         $shops = ProviderShopDetails::where('category_id', $id)->get();
         return ShopDetailsResource::collection($shops);
+    }
+
+    /**
+     * Delete Provider Account function
+     *
+     * @return void
+     */
+    public function deleteProvider()
+    {
+        $providerId=auth('provider')->user()->id;
+        return Provider::findOrFail($providerId)->delete();
     }
 
 

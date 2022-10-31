@@ -6,11 +6,19 @@ interface ProviderInterface
 {
 
 
+    
+    /**
+     * Delete Provider Account function
+     *
+     * @return void
+     */
+    public function deleteProvider();
 
     public function createShopDetails($details);
     public function updateShopDetails($details, $id);
     public function getShopDetails($id);
     public function getShopByCategoryId($id, $details);
+    
     /**
      * !branch section
      */

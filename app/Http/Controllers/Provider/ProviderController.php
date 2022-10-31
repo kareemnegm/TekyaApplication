@@ -40,4 +40,16 @@ class ProviderController extends Controller
         $token = $request->bearerToken();
         return $this->dataResponse(['provider' => $user, 'shop' => $shop_name, 'token' => $token], 'success', 200);
     }
+
+
+    /**
+     * Delete Provider Account SoftDelete function
+     *
+     * @return object
+     */
+    public function deleteProviderAccount()
+    {
+        $this->ProviderRepository->deleteProvider();
+        return $this->successResponse('delete successfully', 200);
+    }
 }

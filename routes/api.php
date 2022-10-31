@@ -77,8 +77,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::post('firebase', 'AuthController@firebaseOtp');
 
 
-
-
     Route::get('send-mail', function () {
 
         $details = [
