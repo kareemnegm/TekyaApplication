@@ -24,11 +24,13 @@ class ShopsResource extends JsonResource
             'nearest_brnach' =>[
                 'id' =>$this->id,
                 'name' =>$this->name,
+                'latitude'=>$this->latitude,
+                'longitude'=>$this->longitude,
             ],
 
             'shop_logo'=>new ImageResource($this->shop->getFirstMedia('shop_logo'))?? null,
             'shop_cover'=>new ImageResource($this->shop->getFirstMedia('shop_cover'))?? null,
-    
+
            ];
     }
 }
