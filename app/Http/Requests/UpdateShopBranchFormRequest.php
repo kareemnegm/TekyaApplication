@@ -30,7 +30,6 @@ class UpdateShopBranchFormRequest extends BaseFormRequest
             "is_head" => 'required',
             "working_hours_day" => "required",
             "working_hours_day.*.startTimeStandard" => "in:AM,PM",
-            "address" => "required",
             "street" => "required",
             "notes" => 'nullable',
             "area_id" => "required|exists:areas,id",

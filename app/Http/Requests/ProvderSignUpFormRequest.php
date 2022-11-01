@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProvderSignUpFormRequest extends BaseFormRequest
 {
@@ -25,11 +26,13 @@ class ProvderSignUpFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'user_name'=>'required|unique:providers,user_name',
-            'email'=>'required|unique:providers,email',
+
+            'user_name'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
+            'email'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
+            
             'password'=>'required|min:8',
             'type'=>'required',
-            'mobile'=>'required|unique:providers,mobile|numeric',
+            'mobile'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
         ];
     }
 }

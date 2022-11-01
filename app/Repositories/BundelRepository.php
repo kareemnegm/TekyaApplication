@@ -21,7 +21,7 @@ class BundelRepository implements BundelInterface
      */
     public function getAllShopBundel($request){
 
-        $limit=$request->limit ?$request->limit:10;
+        // $limit=$request->limit ?$request->limit:10;
 
         $q = Bundel::query();
 
@@ -33,11 +33,11 @@ class BundelRepository implements BundelInterface
                 $q->where('is_publish',$is_publish);
             }
 
-            if ($request->page) {
-                $collections = $q->orderBy('order','ASC')->paginate($limit);
-            } else {
+            // if ($request->page) {
+            //     $collections = $q->orderBy('order','ASC')->paginate($limit);
+            // } else {
                 $collections = $q->orderBy('order','ASC')->get();
-            }
+            // }
 
         return $collections;
     }
@@ -122,7 +122,7 @@ class BundelRepository implements BundelInterface
     }
 
     public function renameBundle($bundleDetails){
-        
+
     }
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\User\UserAddressFormRequest;
 use App\Http\Requests\User\UserLocationFormRequest;
 use App\Http\Resources\User\UserAddressResource;
 use App\Interfaces\User\UserInterface;
+use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,5 +87,17 @@ class UserController extends Controller
         $user_id = Auth::user()->location()->first();
 
         return $user_id;
+    }
+
+
+    /**
+     * Delete User Account SoftDelete function
+     *
+     * @return object
+     */
+    public function deleteUserAccount()
+    {
+        $this->UserRepository->deleteUser();
+        return $this->successResponse('delete successfully', 200);
     }
 }

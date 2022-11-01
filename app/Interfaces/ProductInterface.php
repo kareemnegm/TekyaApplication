@@ -5,6 +5,16 @@ namespace App\Interfaces;
 interface ProductInterface
 {
 
+
+    public function productStockBranches($product_id);
+
+     /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public function productsSearch($request);
     /**
      * All Shop Procuts function
      *
@@ -69,6 +79,8 @@ interface ProductInterface
     public function getVariantsValues($variant_id);
     public function getProductVariants($productID);
 
-    
+
+
+
 
 }

@@ -8,7 +8,7 @@ use App\Models\Collection;
 
 class CollectionRepository  implements CollectionInterface
 {
-    
+
       /**
      * Get All Shop Collection function
      *
@@ -18,7 +18,7 @@ class CollectionRepository  implements CollectionInterface
     public function getAllAdminShopCollection($request)
     {
 
-        $limit = $request->limit ? $request->limit : 10;
+        // $limit = $request->limit ? $request->limit : 10;
 
         $q = Collection::query();
 
@@ -32,11 +32,11 @@ class CollectionRepository  implements CollectionInterface
             $q->where('is_published', $is_publish);
         }
 
-        if ($request->page) {
-            $collections = $q->paginate($limit);
-        } else {
+        // if ($request->page) {
+        //     $collections = $q->paginate($limit);
+        // } else {
             $collections = $q->get();
-        }
+        // }
 
         return $collections;
     }
@@ -106,7 +106,7 @@ class CollectionRepository  implements CollectionInterface
      *
      * @param [type] $details
      * @return void
-     */ 
+     */
     public function renameAdminCollection($details)
     {
         $collection = Collection::findOrFail($details['collection_id']);

@@ -7,6 +7,10 @@ Route::get('shop/categories', 'CategoryController@shopProductsCategories');
 
 Route::post('logout', 'AuthController@logout');
 
+Route::delete('delete_provider', 'ProviderController@deleteProviderAccount');
+
+
+
 
 /**
  *
@@ -61,7 +65,9 @@ Route::get('/shopDetails', 'ShopController@getShopDetails');
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
 Route::get('/shop/branches', 'BranchController@getBranches');
+Route::get('/shop/stock_branches', 'BranchController@getBranchesForStocks');
 Route::get('/shop/branch', 'BranchController@getBranch');
+Route::put('/shop/branch/status', 'BranchController@branchActive');
 Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
 Route::put('/branch/{id}/remove_payment_option', 'BranchController@removePaymentOptionFromBranch');
 Route::delete('/shop/branch/{id}', 'BranchController@deleteBranch');
@@ -85,6 +91,9 @@ Route::put('/move_product_collection', 'ProductController@move_product_from_coll
 Route::get('collection/{id}/products', 'ProductController@index');
 Route::get('all_products', 'ProductController@getAllShopProduct');
 Route::put('order_product', 'ProductController@orderProduct');
+Route::get('products_search', 'ProductController@productsSearch');
+
+
 /**
  * product variants
  */
@@ -94,6 +103,8 @@ Route::get('/variant_values', 'ProductController@getVariantsValues');
 Route::delete('/product_variant/{id}', 'ProductController@DeleteVariant');
 Route::delete('/variant_value/{id}', 'ProductController@deleteVariantValue');
 Route::get('product/{productId}/variants', 'ProductController@getProductVariants');
+Route::get('product/{productId}/branches', 'ProductController@getProductStockBranches');
+
 
 
 

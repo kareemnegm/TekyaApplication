@@ -14,8 +14,6 @@ use GuzzleHttp\Psr7\Request;
 class ProductRepository implements ProductInterface
 {
 
-
-
     /**
      * Get All Shop Collection function
      *
@@ -34,8 +32,10 @@ class ProductRepository implements ProductInterface
             $q->where('is_publish', $is_publish);
         }
 
-        if (isset($request->search)) {
-            $q->where('title', 'like', '%' . $request->name . '%');
+        if (isset($request->in_collection) && $request->in_collection == 'true') {
+            $q->whereNotNull('collection_id');
+        }elseif(isset($request->in_collection) && $request->in_collection == 'false'){
+            $q->whereNull('collection_id');
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
@@ -62,11 +62,6 @@ class ProductRepository implements ProductInterface
         if ($request->is_publish) {
             $is_publish = $request->is_publish == 'true' ? 1 : 0;
             $q->where('is_publish', $is_publish);
-        }
-
-        if (isset($request->search)) {
-
-            $q->where('title', 'like', '%' . $request->search . '%');
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
@@ -121,7 +116,7 @@ class ProductRepository implements ProductInterface
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
         if (!empty($productDetails['branches_stock'])) {
-            return $this->branchProductStock($productDetails['branches_stock'], $product->id);
+            $this->branchProductStock($productDetails['branches_stock'], $product->id);
         }
 
         if (!empty($productDetails['variants'])) {
@@ -129,8 +124,6 @@ class ProductRepository implements ProductInterface
         } else {
             return $product;
         }
-
-
     }
 
 
@@ -138,14 +131,27 @@ class ProductRepository implements ProductInterface
     private function branchProductStock(array $branchStocks, $product_id)
     {
         foreach ($branchStocks as $branchStock) {
-             BranchProductStock::updateOrCreate(
-                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty],
-                ['product_id' => $product_id, "branch_id" => $branchStock->branch_id, 'stock_qty' => $branchStock->stock_qty]
+            BranchProductStock::updateOrCreate(
+                ['product_id' => $product_id, "branch_id" => $branchStock['branch_id'], 'stock_qty' => $branchStock['stock_qty']],
+                ['product_id' => $product_id, "branch_id" => $branchStock['branch_id'], 'stock_qty' => $branchStock['stock_qty']]
             );
         }
         return;
     }
 
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $varients
+     * @return array
+     */
+    public function productsSearch($request)
+    {
+
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->get();
+        return $prdoucts;
+    }
 
     /**
      * Undocumented function
@@ -273,4 +279,12 @@ class ProductRepository implements ProductInterface
 
         return $product->variant;
     }
+
+
+
+    public function productStockBranches($product_id){
+        $product=Product::findOrFail($product_id);
+        return $product->branchStock;
+    }
+
 }

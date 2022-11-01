@@ -55,11 +55,17 @@ class Order extends Model
 
 
     /**
-     * 
+     *
      */
     public function orderShops(){
         return $this->hasMany(OrderShop::class);
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
 }
 
 

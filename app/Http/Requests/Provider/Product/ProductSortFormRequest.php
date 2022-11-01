@@ -33,7 +33,7 @@ class ProductSortFormRequest extends BaseFormRequest
             'filter'=>'in:name,price,created_at,order',
             'sortBy'=>'in:desc,asc',
             'is_publish'=>'in:true,false',
-            'in_collection'=>'number:true,false',
+            'in_collection'=>'in:true,false',
             'page'=>'integer',
             'limit'=>'integer',
         ];

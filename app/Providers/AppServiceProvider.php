@@ -42,6 +42,7 @@ use App\Repositories\Admin\CollectionRepository as AdminCollectionRepository;
 use App\Repositories\Admin\ProductRepository as AdminProductRepository;
 use App\Repositories\Admin\ProviderRepository;
 use App\Repositories\ProviderOrderRepository;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

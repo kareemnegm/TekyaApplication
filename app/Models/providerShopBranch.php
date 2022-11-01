@@ -45,7 +45,7 @@ class providerShopBranch extends Model
 
     public function branchStock()
     {
-        return $this->hasMany(BranchProductStock::class);
+        return $this->hasMany(BranchProductStock::class,'branch_id');
     }
     /**
      * Undocumented function

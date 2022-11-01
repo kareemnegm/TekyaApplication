@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use App\Http\Requests\BaseFormRequest;
 use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserFormRequest extends BaseFormRequest
 {
@@ -30,7 +31,7 @@ class UserFormRequest extends BaseFormRequest
             // 'last_name'=>'required',
             // 'email'=>'email|unique:users,email',
             // 'password'=>'required|min:8',
-            'mobile' => ['required', new PhoneNumber,'max:11','unique:users,mobile'],
+            'mobile' => ['required', new PhoneNumber,'max:11',Rule::unique('users')->whereNull('deleted_at')],
             'country_code' => ['nullable','in:+20'],
 
             // 'gender'=>'required|in:male,female',

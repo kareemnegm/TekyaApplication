@@ -18,7 +18,7 @@ class OrderShop extends Model
         'note',
 
     ];
-  
+
 
 
       /**
@@ -28,7 +28,12 @@ class OrderShop extends Model
         {
             return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
         }
-     
+
+
+        public function order(){
+            return $this->belongsTo(Order::class);
+        }
+
     // public function modelable()
     // {
     //     return $this->morphTo();
@@ -65,7 +70,7 @@ class OrderShop extends Model
         return $this->hasMany(OrderItem::class, 'order_shop_id');
     }
 
-    
+
      /**
      * DeliveryOption
      */

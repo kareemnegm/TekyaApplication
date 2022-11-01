@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\BranchActiveFormRequest;
 use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\UpdateShopBranchFormRequest;
+use App\Http\Resources\Provider\ProductBranch\BranchResource;
 use App\Http\Resources\Provider\ShopBranchResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\BranchAddress;
@@ -54,18 +56,23 @@ class BranchController extends Controller
             return $this->successResponse('removed successful', 200);
         }
         return $this->errorResponseWithMessage('Unauthorized', 401);
-
     }
 
     public function getBranches(Request $request)
     {
-        $shop_id = Auth::user()->providerShopDetails->value('id');
+        $shop_id = Auth::user('provider')->providerShopDetails->id;
         return $this->paginateCollection(ShopBranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request)), $request->limit, 'branch');
+    }
+
+    public function getBranchesForStocks(Request $request)
+    {
+        $shop_id = Auth::user()->providerShopDetails->id;
+        return $this->dataResponse([BranchResource::collection($this->ProviderRepository->getBranches($shop_id, $request))], 'success', 200);
     }
 
     public function getBranch(BranchIdFormRequest $request)
     {
-        return $this->dataResponse(['branch'=>new ShopBranchResource($this->ProviderRepository->getBranch($request))],'success',200);
+        return $this->dataResponse(['branch' => new ShopBranchResource($this->ProviderRepository->getBranch($request))], 'success', 200);
     }
 
     public function updateBranch(UpdateShopBranchFormRequest $request, $id)
@@ -79,5 +86,13 @@ class BranchController extends Controller
     {
         $this->ProviderRepository->deleteBranch($id);
         return $this->successResponse('deleted successful', 200);
+    }
+
+
+    public function branchActive(BranchActiveFormRequest $request)
+    {
+        $data = $request->validated();
+        providerShopBranch::where('id', $data['branch_id'])->update(['is_active' => $data['is_active']]);
+        return $this->successResponse('updated successful', 200);
     }
 }

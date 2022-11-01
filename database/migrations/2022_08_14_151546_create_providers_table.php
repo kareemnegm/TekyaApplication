@@ -22,6 +22,7 @@ class CreateProvidersTable extends Migration
             $table->string('mobile');
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnUpdate();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
