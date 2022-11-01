@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Provider;
 
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\ProductDetailsListStockResouce;
 use App\Http\Resources\provider\ProductCollectionResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,6 +19,7 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
 
+
         return [
             'id'=>$this->id,
             'name'=>$this->name,
@@ -26,7 +28,7 @@ class ProductResource extends JsonResource
             'offer_price'=>$this->offer_price,
             'start_date'=>$this->start_date,
             'end_date'=>$this->end_date,
-            'stock_quantity'=>$this->stock_quantity,
+            'stock' => ProductDetailsListStockResouce::collection($this->branchStock),
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
 

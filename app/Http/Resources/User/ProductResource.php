@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\ProductDetailsListStockResouce;
 use App\Http\Resources\Provider\TagsResource;
 use App\Http\Resources\Provider\VariantResource;
 use App\Models\CartProduct;
@@ -22,6 +23,7 @@ class ProductResource extends JsonResource
     {
         $inCart = null;
         $cartProductQuantity = null;
+
         if ($request->header('Authorization')) {
             $cart_id = auth('user')->user()->cart->id;
             $inCart = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop_id)->exists();
@@ -39,7 +41,8 @@ class ProductResource extends JsonResource
             'offer_price' => $this->offer_price,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'stock_quantity' => $this->stock_quantity,
+            'stock' => ProductDetailsListStockResouce::collection($this->branchStock),
+
             'is_published' => $this->is_published,
             'to_donation' => $this->to_donation,
 
@@ -50,8 +53,8 @@ class ProductResource extends JsonResource
                 'name' => $this->category->name
             ],
             'collection' => [
-                'id' => $this->collection->id,
-                'name' => $this->collection->name
+                'id' => isset($this->collection->id)?$this->collection->id:null,
+                'name' => isset($this->collection->name)?$this->collection->name:null
             ],
             'tags' => $this->when(isset($this->tags),  TagsResource::collection($this->tags)),
 
