@@ -42,12 +42,12 @@ class OrderController extends Controller
 
         return $this->dataResponse(
             $orderProdcuts, 'OK', 200);
-    
+
 
     }
 
 
-    
+
     /**
      * Category Products function
      *
@@ -74,7 +74,8 @@ class OrderController extends Controller
     {
         $orders=$this->orderRepository->myOrderList($request);
 
-        return MyOrderListResource::collection($orders);
+        return $this->paginateCollection( MyOrderListResource::collection($orders),$request->limit,'success');
+
     }
 
 
@@ -92,5 +93,5 @@ class OrderController extends Controller
     }
 
 
-    
+
 }
