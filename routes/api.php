@@ -122,8 +122,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('product/{id}', 'ProductController@showProduct');
     Route::get('products_for_you', 'ProductController@productsForYou');
     Route::get('most_popular_products', 'ProductController@mostPopularProduct');
-    Route::get('related_products', 'ProductController@relatedProducts');
-    Route::get('similar_products', 'ProductController@similarProducts');
+    Route::get('related_products/{id}', 'ProductController@relatedProducts');
+    Route::get('similar_products/{id}', 'ProductController@similarProducts');
     Route::get('/variant_values', 'ProductController@getVariantsValues');
 
 

@@ -60,9 +60,9 @@ class ProductController extends Controller
      * @param Request $request
      * @return void
      */
-    public function relatedProducts(Request $request)
+    public function relatedProducts(Request $request,$product_id)
     {
-        $products = $this->ProductRepository->relatedProducts();
+        $products = $this->ProductRepository->relatedProducts($product_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'related_products');
     }
 
@@ -73,9 +73,9 @@ class ProductController extends Controller
      * @param Request $request
      * @return void
      */
-    public function similarProducts(Request $request)
+    public function similarProducts(Request $request,$product_id)
     {
-        $products = $this->ProductRepository->similarProducts();
+        $products = $this->ProductRepository->similarProducts($product_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'similar_products');
     }
 
