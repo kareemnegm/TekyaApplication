@@ -42,7 +42,7 @@ class ProductRepository implements ProductInterface
         $product = Product::findOrFail($productId);
 
         $relatedProducts =Product::where('id','!=',$product->id)->
-        where('caregory_id',$product->category_id)->where('shop_id',$product->shop_id)->get();
+        where('category_id',$product->category_id)->where('shop_id',$product->shop_id)->get();
 
         return $relatedProducts ;
     }
@@ -56,7 +56,7 @@ class ProductRepository implements ProductInterface
 
         $product = Product::findOrFail($productId);
 
-        $similarProducts =Product::where('caregory_id',$product->category_id)->where('shop_id','!=',$product->shop_id)->get();
+        $similarProducts =Product::where('category_id',$product->category_id)->where('shop_id','!=',$product->shop_id)->get();
 
         return $similarProducts;
     }
