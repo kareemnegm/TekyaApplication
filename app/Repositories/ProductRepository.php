@@ -213,6 +213,7 @@ class ProductRepository implements ProductInterface
 
     public function move_product_from_collection($products, $collection_id)
     {
+
         $products = Product::whereIn('id', $products)->update(['collection_id' => $collection_id]);
         return $products;
     }

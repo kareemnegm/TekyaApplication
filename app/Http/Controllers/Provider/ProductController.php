@@ -8,6 +8,7 @@ use App\Http\Requests\Provider\Product\ProductVariantFormRequest;
 use App\Http\Requests\Provider\Product\VariantIdFormRequestDelete;
 use App\Http\Requests\Provider\ProductFormRequest;
 use App\Http\Requests\Provider\ProductIdsFormRequest;
+use App\Http\Requests\Provider\ProductMoveCollectionFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Requests\Provider\ProductSearchRequest;
 use App\Http\Resources\Provider\ProductBranchStockResource;
@@ -175,9 +176,9 @@ class ProductController extends Controller
     }
 
 
-    public function move_product_from_collection(ProductIdsFormRequest $request)
+    public function move_product_from_collection(ProductMoveCollectionFormRequest $request)
     {
-        $products = $request->product_id;
+        $products = $request->product_ids;
         $collection_id = $request->collection_id;
         $this->productInterface->move_product_from_collection($products, $collection_id);
         return $this->successResponse('moved successful', 200);
