@@ -15,9 +15,8 @@ class Provider extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    
+
     protected $fillable = [
-        'user_name',
         'email',
         'password',
         'type', //shop or charity

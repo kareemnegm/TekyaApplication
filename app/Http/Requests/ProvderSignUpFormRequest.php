@@ -27,9 +27,9 @@ class ProvderSignUpFormRequest extends BaseFormRequest
     {
         return [
 
-            'user_name'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
+            // 'user_name'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
             'email'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
-            
+
             'password'=>'required|min:8',
             'type'=>'required',
             'mobile'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
