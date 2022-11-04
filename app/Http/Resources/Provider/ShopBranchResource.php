@@ -29,6 +29,7 @@ class ShopBranchResource extends JsonResource
             'is_head' => $this->is_head,
             'is_active' => $this->is_active,
             'address' => $this->address,
+            'phone' => $this->phone,
             'street' => $this->street,
             'address_details' => $this->address_details,
             'nearest_landmark' => $this->nearest_landmark,
