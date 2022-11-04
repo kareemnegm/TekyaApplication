@@ -34,7 +34,7 @@ class ProductRepository implements ProductInterface
 
         if (isset($request->in_collection) && $request->in_collection == 'true') {
             $q->whereNotNull('collection_id');
-        }elseif(isset($request->in_collection) && $request->in_collection == 'false'){
+        } elseif (isset($request->in_collection) && $request->in_collection == 'false') {
             $q->whereNull('collection_id');
         }
 
@@ -176,6 +176,7 @@ class ProductRepository implements ProductInterface
 
 
 
+
     /**
      * Product Update function
      *
@@ -189,6 +190,12 @@ class ProductRepository implements ProductInterface
 
         $newDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
 
+        if (isset($newDetails['variants_id'])) {
+            $this->updateProductVariants($newDetails['variants_id']);
+        }
+        if(isset($newDetails['variant_values_id'])){
+            $this->updateProductVariantValues($newDetails['variant_values_id']);
+        }
         $product->update($newDetails);
 
         $product->syncTags($newDetails['tags']);
@@ -202,6 +209,24 @@ class ProductRepository implements ProductInterface
 
         return $product;
     }
+
+
+    private function updateProductVariants(array $variants)
+    {
+        foreach ($variants as $variant => $variantValue) {
+            ProductVariant::where('id', $variant)->update(['name' => $variantValue]);
+        }
+    }
+
+
+
+    private function updateProductVariantValues(array $variants)
+    {
+        foreach ($variants as $variant => $variantValue) {
+            VariantValue::where('id', $variant)->update($variantValue);
+        }
+    }
+
 
 
     public function remove_product_from_collection($products)
@@ -283,9 +308,9 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function productStockBranches($product_id){
-        $product=Product::findOrFail($product_id);
+    public function productStockBranches($product_id)
+    {
+        $product = Product::findOrFail($product_id);
         return $product->branchStock;
     }
-
 }

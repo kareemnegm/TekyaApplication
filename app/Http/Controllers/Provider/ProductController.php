@@ -11,6 +11,7 @@ use App\Http\Requests\Provider\ProductIdsFormRequest;
 use App\Http\Requests\Provider\ProductMoveCollectionFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Requests\Provider\ProductSearchRequest;
+use App\Http\Requests\Provider\ProductUpdateFormRequest;
 use App\Http\Resources\Provider\ProductBranchStockResource;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductSearchResource;
@@ -106,7 +107,7 @@ class ProductController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function update(ProductFormRequest $product, $productId)
+    public function update(ProductUpdateFormRequest $product, $productId)
     {
         $shopProduct = $this->productInterface->updateShopProduct($productId, $product->validated());
         return $this->dataResponse(['product' => new ProductResource($shopProduct)], 'Updated Successfully', 200);
