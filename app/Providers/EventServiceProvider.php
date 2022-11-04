@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\providerShopBranch;
 use App\Models\Sale;
 use App\Models\UserAddress;
+use App\Observers\BranchObserver;
 use App\Observers\SaleObserver;
 use App\Observers\UserAddressObserver;
 use Illuminate\Auth\Events\Registered;
@@ -33,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Sale::observe(SaleObserver::class);
         UserAddress::observe(UserAddressObserver::class);
+        providerShopBranch::observe(BranchObserver::class);
     }
 }

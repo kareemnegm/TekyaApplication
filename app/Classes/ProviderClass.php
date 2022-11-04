@@ -42,6 +42,8 @@ class ProviderClass implements ProviderInterface
 
 
 
+
+
     public function getShopDetails($id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
@@ -62,7 +64,7 @@ class ProviderClass implements ProviderInterface
      */
     public function deleteProvider()
     {
-        $providerId=auth('provider')->user()->id;
+        $providerId = auth('provider')->user()->id;
         return Provider::findOrFail($providerId)->delete();
     }
 
@@ -101,7 +103,7 @@ class ProviderClass implements ProviderInterface
     }
     public function getBranches($id, $details)
     {
-        $branches = providerShopBranch::where('shop_id',$id)->get();
+        $branches = providerShopBranch::where('shop_id', $id)->get();
         return $branches;
     }
 
@@ -123,6 +125,13 @@ class ProviderClass implements ProviderInterface
         $branch->delete();
     }
 
+
+    public function branchDeliveryPickUpToggle($details)
+    {
+
+        $branch = providerShopBranch::findOrFail($details['branch_id']);
+        $branch->update($details);
+    }
 
     /**
      *!end of branch section

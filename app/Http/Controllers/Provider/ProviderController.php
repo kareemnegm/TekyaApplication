@@ -31,14 +31,10 @@ class ProviderController extends Controller
 
     public function updateShopAndUserName(ShopDetailsFormRequest $request)
     {
-        $details = $request->input();
-        $user = Auth::user();
-        $this->ProviderRepository->updateShopDetails($details, $user->id);
-        $user->user_name = $details['user_name'];
-        $user->save();
-        $shop_name = $user->providerShopDetails()->value('shop_name');
-        $token = $request->bearerToken();
-        return $this->dataResponse(['provider' => $user, 'shop' => $shop_name, 'token' => $token], 'success', 200);
+
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+        $shop = ProviderShopDetails::where('id', $shop_id)->update(['shop_name' => $request->shop_name]);
+        return $this->successResponse('updated success', 200);
     }
 
 

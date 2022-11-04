@@ -11,6 +11,10 @@ use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Http\Resources\User\ShopsResource;
 use App\Interfaces\User\ShopInrerface;
 use App\Models\Area;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\providerShopBranch;
+use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -120,5 +124,20 @@ class ShopController extends Controller
         }
         $branches = $this->shopRepository->getShopBranches($request);
         return $this->paginateCollection(ShopBracnhesResource::collection($branches), $request->limit, 'branches');
+    }
+
+
+    public function relatedShops($productId,Request $request)
+    {
+
+        $product = Product::findOrFail($productId);
+
+        $relatedProducts = Category::findOrFail($product->category_id);
+        $shops = $relatedProducts->shops()->branch();
+        dd($shops);
+        $latitude = 30.012537910528884;
+        $longitude = 31.290307442198323;
+        // $q = providerShopBranch::whereIn('shop_id',$)->ByDistance($latitude, $longitude);
+        return $this->paginateCollection(ShopsResource::collection($shops), $request->limit, 'shops');
     }
 }

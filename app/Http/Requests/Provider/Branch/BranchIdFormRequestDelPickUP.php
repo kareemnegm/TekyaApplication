@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Provider\Branch;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShopDetailsFormRequest extends BaseFormRequest
+class BranchIdFormRequestDelPickUP extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +24,11 @@ class ShopDetailsFormRequest extends BaseFormRequest
      */
     public function rules()
     {
+        $shop_id=auth('provider')->user()->providerShopDetails->id;
         return [
-            'shop_name'=>'required|unique:provider_shop_details,shop_name,'.auth('provider')->user()->providerShopDetails->id
+          "branch_id"=>'required|exists:provider_shop_branches,id,shop_id,'.$shop_id,
+          'pick_up'=>'required_without:delivery',
+          'delivery'=>'required_without:pick_up',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\Branch\BranchIdFormRequestDelPickUP;
 use App\Http\Requests\Provider\BranchActiveFormRequest;
 use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Requests\ShopBranchFormRequest;
@@ -93,6 +94,14 @@ class BranchController extends Controller
     {
         $data = $request->validated();
         providerShopBranch::where('id', $data['branch_id'])->update(['is_active' => $data['is_active']]);
+        return $this->successResponse('updated successful', 200);
+    }
+
+
+
+    public function branchDeliveryPickUpToggle(BranchIdFormRequestDelPickUP $request)
+    {
+        $this->ProviderRepository->branchDeliveryPickUpToggle($request->validated());
         return $this->successResponse('updated successful', 200);
     }
 }
