@@ -189,6 +189,7 @@ class ProductRepository implements ProductInterface
         $product = Product::findOrFail($collectionID);
 
         $newDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
+        $incoming_variants=$newDetails['variants_id'];
 
         if (isset($newDetails['variants_id'])) {
             $this->updateProductVariants($newDetails['variants_id']);
@@ -196,6 +197,8 @@ class ProductRepository implements ProductInterface
         if(isset($newDetails['variant_values_id'])){
             $this->updateProductVariantValues($newDetails['variant_values_id']);
         }
+        $this->deleteProductVariants($incoming_variants,$product);
+
         $product->update($newDetails);
 
         $product->syncTags($newDetails['tags']);
@@ -214,8 +217,20 @@ class ProductRepository implements ProductInterface
     private function updateProductVariants(array $variants)
     {
         foreach ($variants as $variant => $variantValue) {
+
             ProductVariant::where('id', $variant)->update(['name' => $variantValue]);
         }
+    }
+
+    //removes vairants that are not send in the update product
+    private function deleteProductVariants(array $incomingVariants,$product)
+    {
+        $array=[];
+        foreach ($incomingVariants as $variant => $variantValue) {
+            $array[]=$variant;
+        }
+        $deleted_variants=ProductVariant::where('product_id', $product->id)->whereNotIn('id',$array);
+        $deleted_variants->delete();
     }
 
 

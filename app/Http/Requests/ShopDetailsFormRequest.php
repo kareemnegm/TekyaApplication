@@ -24,7 +24,8 @@ class ShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_name'=>'required|unique:provider_shop_details,shop_name,'.auth('provider')->user()->providerShopDetails->id
+            'shop_name'=>'required|unique:provider_shop_details,shop_name,'.auth('provider')->user()->providerShopDetails->id,
+            'email'=>'sometimes|required|unique:provider_shop_details,email,'.auth('provider')->user()->providerShopDetails->id
         ];
     }
 }

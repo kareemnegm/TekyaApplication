@@ -33,7 +33,7 @@ class ProviderController extends Controller
     {
 
         $shop_id = auth('provider')->user()->providerShopDetails->id;
-        $shop = ProviderShopDetails::where('id', $shop_id)->update(['shop_name' => $request->shop_name]);
+        $shop = ProviderShopDetails::where('id', $shop_id)->update($request->validated());
         return $this->successResponse('updated success', 200);
     }
 

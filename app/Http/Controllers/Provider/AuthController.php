@@ -31,7 +31,7 @@ class AuthController extends Controller
         $data['provider_id'] = $user->id;
         $shop = ProviderShopDetails::create($data);
         $token = $user->createToken('ProviderToken')->plainTextToken;
-        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name, 'token' => $token], 'success', 200);
+        return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name], 'success', 200);
     }
 
 
@@ -45,6 +45,9 @@ class AuthController extends Controller
     {
 
         $provider = Provider::where('email', $request->email)->first();
+        if ($provider->approved == 0) {
+            return $this->successResponse('account need to be approved', 200);
+        }
         $shop_name = $provider->providerShopDetails()->value('shop_name');
 
         if (!$provider || !Hash::check($request->password, $provider->password)) {
@@ -73,5 +76,4 @@ class AuthController extends Controller
         Auth::user()->tokens()->delete();
         return $this->successResponse(' success logged out', 200);
     }
-
 }

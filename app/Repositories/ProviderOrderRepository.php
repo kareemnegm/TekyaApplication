@@ -10,7 +10,7 @@ class ProviderOrderRepository implements ProviderOrderInterface
 {
     public function ShopOrders($shop_id)
     {
-        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('invoice')->withSum('orderItems', 'quantity')->get();
+        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('order')->with('invoice')->withSum('orderItems', 'quantity')->get();
         return $shopOrder;
     }
 

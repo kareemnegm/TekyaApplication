@@ -179,7 +179,7 @@ class ProductController extends Controller
 
     public function move_product_from_collection(ProductMoveCollectionFormRequest $request)
     {
-        $products = $request->product_ids;
+        $products = $request->product_id;
         $collection_id = $request->collection_id;
         $this->productInterface->move_product_from_collection($products, $collection_id);
         return $this->successResponse('moved successful', 200);

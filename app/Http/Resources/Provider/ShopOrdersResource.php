@@ -24,6 +24,7 @@ class ShopOrdersResource extends JsonResource
             'total' => $this->invoice->total_invoice,
             'total_products' => $this->total_items,
             'total_product_items' => $this->order_items_sum_quantity,
+            'order_status'=>isset($this->order->date_order_placed)?'placed':null
         ];
     }
 }

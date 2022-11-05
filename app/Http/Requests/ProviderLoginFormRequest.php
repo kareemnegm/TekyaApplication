@@ -28,4 +28,5 @@ class ProviderLoginFormRequest extends BaseFormRequest
             'password' => 'required'
         ];
     }
+
 }
