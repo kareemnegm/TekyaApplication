@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         $provider = Provider::where('email', $request->email)->first();
         if ($provider->approved == 0) {
-            return $this->successResponse('account need to be approved', 200);
+            return $this->successResponse('account need to be approved', 422);
         }
         $shop_name = $provider->providerShopDetails()->value('shop_name');
 

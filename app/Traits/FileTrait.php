@@ -19,8 +19,8 @@ trait FileTrait
                 $media = $this->addMedia($file)->usingFileName(time().'.'.$file ->extension())->toMediaCollection($collection, $disk);
             }
         } else {
-            $this->clearMediaCollectionExcept($collection);
-            // dd($collection , $files , time().'.'.$files->extension());
+            // $this->clearMediaCollectionExcept($collection);
+            // // dd($collection , $files , time().'.'.$files->extension());
             $media = $this->addMedia($files)->usingFileName(time().'.'.$files->extension())->toMediaCollection($collection, $disk);
         }
 

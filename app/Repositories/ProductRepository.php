@@ -126,6 +126,58 @@ class ProductRepository implements ProductInterface
         }
     }
 
+    public function updateShopProduct($collectionID, array $newDetails)
+    {
+
+        $product = Product::findOrFail($collectionID);
+
+        $newDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
+        if (isset($newDetails['variants'])) {
+
+            $this->productVarints($newDetails['variants'], $product);
+        }
+        if (isset($newDetails['variants_id'])) {
+            $this->updateProductVariants($newDetails['variants_id']);
+            $incoming_variants = $newDetails['variants_id'];
+        }
+        if (isset($newDetails['variant_values_id'])) {
+            $this->updateProductVariantValues($newDetails['variant_values_id']);
+        }
+        if (isset($newDetails['branches_stock'])) {
+            $this->branchProductStock($newDetails['branches_stock'], $product->id);
+        }
+        if (isset($newDetails['branch_stock_id'])) {
+            $this->updateBranchProductStock($newDetails['branch_stock_id']);
+            $incoming_branchStockIds = $newDetails['branch_stock_id'];
+        }
+        $this->deleteProductVariants($incoming_variants, $product);
+        $this->deleteProductStockBranch($incoming_branchStockIds, $product);
+
+        $product->update($newDetails);
+
+        $product->attachTags($newDetails['tags']);
+        if (isset($newDetails['tags'])) {
+            $product->attachTags($newDetails['tags']);
+        }
+        if (isset($newDetails['deleted_tags'])) {
+            $product->detachTags($newDetails['deleted_tags']);
+        }
+
+        if (!empty($newDetails['product_images'])) {
+            foreach ($newDetails['product_images'] as $productImage) {
+                $product->saveFiles($productImage, 'product_images');
+            }
+        }
+
+        if (!empty($newDetails['deleted_images'])) {
+            foreach ($newDetails['deleted_images'] as $productImage) {
+                $product->Media()->where('id', $productImage)->delete();
+            }
+        }
+
+
+        return $product;
+    }
 
 
     private function branchProductStock(array $branchStocks, $product_id)
@@ -136,7 +188,13 @@ class ProductRepository implements ProductInterface
                 ['product_id' => $product_id, "branch_id" => $branchStock['branch_id'], 'stock_qty' => $branchStock['stock_qty']]
             );
         }
-        return;
+    }
+
+    private function updateBranchProductStock(array $branchStocks)
+    {
+        foreach ($branchStocks as $stockId => $value) {
+            BranchProductStock::where('id', $stockId)->update($value);
+        }
     }
 
 
@@ -183,35 +241,6 @@ class ProductRepository implements ProductInterface
      * @param [type] $projectId
      * @return void
      */
-    public function updateShopProduct($collectionID, array $newDetails)
-    {
-
-        $product = Product::findOrFail($collectionID);
-
-        $newDetails['shop_id'] = auth('provider')->user()->providerShopDetails->id;
-        $incoming_variants=$newDetails['variants_id'];
-
-        if (isset($newDetails['variants_id'])) {
-            $this->updateProductVariants($newDetails['variants_id']);
-        }
-        if(isset($newDetails['variant_values_id'])){
-            $this->updateProductVariantValues($newDetails['variant_values_id']);
-        }
-        $this->deleteProductVariants($incoming_variants,$product);
-
-        $product->update($newDetails);
-
-        $product->syncTags($newDetails['tags']);
-
-        if (!empty($newDetails['product_images'])) {
-            foreach ($newDetails['product_images'] as $productImage) {
-                $product->saveFiles($productImage, 'product_images');
-            }
-        }
-
-
-        return $product;
-    }
 
 
     private function updateProductVariants(array $variants)
@@ -223,14 +252,28 @@ class ProductRepository implements ProductInterface
     }
 
     //removes vairants that are not send in the update product
-    private function deleteProductVariants(array $incomingVariants,$product)
+    private function deleteProductVariants(array $incomingVariants, $product)
     {
-        $array=[];
+        $array = [];
+
         foreach ($incomingVariants as $variant => $variantValue) {
-            $array[]=$variant;
+            $array[] = $variant;
         }
-        $deleted_variants=ProductVariant::where('product_id', $product->id)->whereNotIn('id',$array);
+        $deleted_variants = ProductVariant::where('product_id', $product->id)->whereNotIn('id', $array);
         $deleted_variants->delete();
+    }
+
+    //removes stock Branches that are not send in the update product
+    private function deleteProductStockBranch(array $incomingStockIds, $product)
+    {
+        $array = [];
+
+        foreach ($incomingStockIds as $id => $value) {
+
+            $array[] = $id;
+        }
+        $deleted_stocks = BranchProductStock::where('product_id', $product->id)->whereNotIn('id', $array);
+        $deleted_stocks->delete();
     }
 
 
