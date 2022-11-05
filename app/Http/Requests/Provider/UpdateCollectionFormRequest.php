@@ -5,7 +5,7 @@ namespace App\Http\Requests\Provider;
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductIdsFormRequest extends BaseFormRequest
+class UpdateCollectionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class ProductIdsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required|array|',
-            'product_id.*' => 'exists:products,id,shop_id,'.auth('provider')->user()->providerShopDetails->id,
-            'collection_id' => 'exists:collections,id',
-
+            'name'=>'required',
+            'is_published'=>'required|in:1,0',
+            'collection_image'=>'nullable',
+            'deleted_image'=>'nullable'
         ];
     }
 }

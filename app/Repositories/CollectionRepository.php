@@ -34,7 +34,7 @@ class CollectionRepository implements CollectionInterface
         // if ($request->page) {
         //     $collections = $q->paginate($limit);
         // } else {
-            $collections = $q->get();
+        $collections = $q->get();
         // }
 
         return $collections;
@@ -93,9 +93,13 @@ class CollectionRepository implements CollectionInterface
     {
 
         $collection = Collection::findOrFail($collectionID);
+
         $collection->update($newDetails);
         if (isset($newDetails['collection_image'])) {
-            $collection->updateFile($newDetails['collection_image'], 'collection_image');
+            $collection->saveFiles($newDetails['collection_image'], 'collection_image');
+        }
+        if (isset($newDetails['deleted_image'])) {
+            $collection->Media()->where('id', $newDetails['deleted_image'])->delete();
         }
         $collection['collection_image'] = $collection->getFirstMediaUrl('collection_image', 'thumb');
         return $collection;
@@ -110,11 +114,10 @@ class CollectionRepository implements CollectionInterface
 
 
 
-    public function publish_unPublish($details){
+    public function publish_unPublish($details)
+    {
         $collection = Collection::findOrFail($details['collection_id']);
         $collection->update(['is_published' => $details['published']]);
         return $collection;
-
     }
-
 }

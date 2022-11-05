@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Provider;
 
+use App\Http\Resources\ImageResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class CollectionResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'is_published'=>$this->is_published,
-            'collection_image' => $this->getFirstMediaUrl('collection_image','thumb'),
+            'collection_image' => new CollectionImageResource($this->getFirstMedia('collection_image',))??null,
             'created_at'=> $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A'):null,
             'updated_at'=>$this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A'):null,
         ];

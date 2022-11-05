@@ -40,6 +40,12 @@ class OrderController extends Controller
         return $this->successResponse('order status now ' . $order_shop['status'], 200);
     }
 
+
+
+    public function orderDetails(Request, $request,$id){
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      *

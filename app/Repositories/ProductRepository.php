@@ -287,9 +287,9 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function remove_product_from_collection($products)
+    public function remove_product_from_collection($productsId)
     {
-        $products = Product::whereIn('id', $products)->update(['collection_id' => null]);
+        Product::whereIn('id', $productsId)->update(['collection_id' => null]);
     }
 
 

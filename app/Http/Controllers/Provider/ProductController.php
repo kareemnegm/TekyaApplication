@@ -171,9 +171,9 @@ class ProductController extends Controller
 
     public function remove_product_from_collection(ProductIdsFormRequest $request)
     {
-        $products = $request->input();
+        $products = $request->product_id;
         $data = $this->productInterface->remove_product_from_collection($products);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'removed Successfully', 200);
+        return $this->successResponse('removed successful', 200);
     }
 
 

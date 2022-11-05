@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\CollectionFormRequest;
 use App\Http\Requests\Provider\CollectionUpdateFormRequest;
+use App\Http\Requests\Provider\UpdateCollectionFormRequest;
 use App\Http\Resources\Provider\CollectionResource;
 use App\Http\Resources\Provider\CollectionsResource;
 use App\Interfaces\CollectionInterface;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 
 class CollectionController extends Controller
@@ -68,8 +70,10 @@ class CollectionController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function update(CollectionFormRequest $collection, $collectionID)
+    public function update(UpdateCollectionFormRequest $collection, $collectionID)
     {
+        $authShop=auth('provider')->user()->providerShopDetails->id;
+         Collection::where('id',$collectionID)->where('shop_id',$authShop)->firstOrFail();
         $collection = $this->collectionInterface->updateShopCollection($collectionID, $collection->validated());
         return $this->dataResponse(['collection' => new CollectionResource($collection)], 'Updated Successfully', 200);
     }
