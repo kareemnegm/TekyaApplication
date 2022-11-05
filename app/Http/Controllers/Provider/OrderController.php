@@ -42,9 +42,9 @@ class OrderController extends Controller
 
 
 
-    // public function orderDetails(Request, $request,$id){
-
-    // }
+    public function orderDetails($id){
+    
+    }
 
     /**
      * Store a newly created resource in storage.

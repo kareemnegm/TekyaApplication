@@ -139,6 +139,8 @@ class ProductRepository implements ProductInterface
         if (isset($newDetails['variants_id'])) {
             $this->updateProductVariants($newDetails['variants_id']);
             $incoming_variants = $newDetails['variants_id'];
+            $this->deleteProductVariants($incoming_variants, $product);
+
         }
         if (isset($newDetails['variant_values_id'])) {
             $this->updateProductVariantValues($newDetails['variant_values_id']);
@@ -149,9 +151,9 @@ class ProductRepository implements ProductInterface
         if (isset($newDetails['branch_stock_id'])) {
             $this->updateBranchProductStock($newDetails['branch_stock_id']);
             $incoming_branchStockIds = $newDetails['branch_stock_id'];
+            $this->deleteProductStockBranch($incoming_branchStockIds, $product);
+
         }
-        $this->deleteProductVariants($incoming_variants, $product);
-        $this->deleteProductStockBranch($incoming_branchStockIds, $product);
 
         $product->update($newDetails);
 
@@ -164,6 +166,7 @@ class ProductRepository implements ProductInterface
         }
 
         if (!empty($newDetails['product_images'])) {
+            dd($newDetails['product_images']);
             foreach ($newDetails['product_images'] as $productImage) {
                 $product->saveFiles($productImage, 'product_images');
             }

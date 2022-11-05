@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\ProviderOrderInterface;
+use App\Models\Order;
 use App\Models\OrderShop;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,8 @@ class ProviderOrderRepository implements ProviderOrderInterface
 
 
     public function orderDetails($orderId){
-        
+        $order=Order::findOrFail($orderId);
+        dd($order);
     }
 
     public function UpdateOrderDeliveryStatus($order_shop_id)
