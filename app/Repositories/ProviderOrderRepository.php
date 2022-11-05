@@ -15,7 +15,9 @@ class ProviderOrderRepository implements ProviderOrderInterface
     }
 
 
-
+    public function orderDetails($orderId){
+        
+    }
 
     public function UpdateOrderDeliveryStatus($order_shop_id)
     {
