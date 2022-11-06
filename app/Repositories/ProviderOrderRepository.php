@@ -16,9 +16,12 @@ class ProviderOrderRepository implements ProviderOrderInterface
     }
 
 
-    public function orderDetails($orderId){
-        $order=Order::findOrFail($orderId);
-        dd($order);
+    public function orderDetails($provider_id,$orderId){
+
+
+        $order = OrderShop::where('shop_id', $provider_id)->where('order_id', $orderId)->firstOrFail();
+
+        return $order;
     }
 
     public function UpdateOrderDeliveryStatus($order_shop_id)

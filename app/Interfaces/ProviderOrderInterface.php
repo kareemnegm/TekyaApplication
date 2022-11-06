@@ -6,7 +6,7 @@ interface ProviderOrderInterface
 {
 
     public function ShopOrders($shop_id);
-    public function orderDetails($orderId);
+    public function orderDetails($provider_id,$orderId);
 
     public function UpdateOrderDeliveryStatus($order_shop_id);
 }
