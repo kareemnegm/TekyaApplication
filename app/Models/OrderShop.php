@@ -65,19 +65,16 @@ class OrderShop extends Model
      /**
      * DeliveryOption
      */
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class, 'order_shop_id');
-    }
+
 
 
      /**
      * DeliveryOption
      */
-    // public function orderItems()
-    // {
-    //     return $this->hasMany(OrderItem::class, 'order_shop_id');
-    // }
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'order_shop_id');
+    }
 }
 
 

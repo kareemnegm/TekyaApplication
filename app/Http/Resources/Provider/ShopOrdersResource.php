@@ -17,7 +17,8 @@ class ShopOrdersResource extends JsonResource
     {
 
         return [
-            'id' => $this->id,
+            'order_id' => $this->order_id,
+            'order_shop_id' => $this->id,
             'order_number' => $this->invoice->shop_invoice_number,
             'status' => $this->invoice->status,
             'delivery_option' => $this->deliveryOption->name,

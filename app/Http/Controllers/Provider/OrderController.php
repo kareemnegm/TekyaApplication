@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\OrderBranchFormRequest;
 use App\Http\Requests\Provider\OrderShopIdFormRequest;
+use App\Http\Resources\Provider\ProviderPlacedOrdersDetailsResource;
 use App\Http\Resources\Provider\ShopOrdersResource;
+use App\Http\Resources\User\PlaceOrderResource;
 use App\Interfaces\ProviderOrderInterface;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +30,7 @@ class OrderController extends Controller
     public function shopOrders(OrderBranchFormRequest $request)
     {
         $shop_id = auth('provider')->user()->providerShopDetails->id;
-        return $this->paginateCollection(ShopOrdersResource::collection($this->ProviderOrderRepository->shopOrders($request->validated(),$shop_id)), $request->limit, 'success');
+        return $this->paginateCollection(ShopOrdersResource::collection($this->ProviderOrderRepository->shopOrders($request->validated(),$shop_id)), $request->limit, 'orders_shop_list');
     }
 
     /**
@@ -43,8 +46,10 @@ class OrderController extends Controller
 
 
 
-    public function orderDetails($id){
-    
+    public function orderDetails($id)
+    {
+        $provider_id = auth('provider')->user()->providerShopDetails->id;
+        return new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->orderDetails($provider_id, $id));
     }
 
     /**

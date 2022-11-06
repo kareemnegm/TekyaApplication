@@ -19,8 +19,6 @@ class PlaceOrderItemsResource extends JsonResource
      */
     public function toArray($request)
     {
-
-
         return [
 
                 'id'=>$this->shop->id,
@@ -30,8 +28,8 @@ class PlaceOrderItemsResource extends JsonResource
                 'shop_cover' => new ImageResource($this->shop->getFirstMedia('shop_cover')) ?? null,
                 'shop_shipping_fees'=>30,
                 'products' => ShopItemsOrderResource::collection($this->orderItems),
-                "invoice_shop"=> new ShopInvoiceResource($this->invoice),  
-            
+                "invoice_shop"=> new ShopInvoiceResource($this->invoice),
+
                 'delivery_option'=> new DeliveryOptionResource($this->deliveryOption),
 
                 'delivery_type_info' => $this->when($this->deliveryType, function () {
@@ -45,7 +43,7 @@ class PlaceOrderItemsResource extends JsonResource
                     }
                 }),
 
-            
+
 
 
         ];

@@ -130,4 +130,5 @@ Route::group(['namespace' => 'GovernmentArea'], function () {
 /**shop orders  */
 
 Route::get('/orders', 'OrderController@shopOrders');
+Route::get('/order/{id}', 'OrderController@orderDetails');
 Route::put('/order', 'OrderController@updateOrderStatus');

@@ -23,6 +23,7 @@ class OrderInvoiceResource extends JsonResource
             "shipping_fees"=> $this->shipping_fees,
             "taxes"=> $this->taxes,
             "grand_total_price"=> $this->grand_total_price,
+      
         ];
     }
 }
