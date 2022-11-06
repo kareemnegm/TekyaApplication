@@ -51,5 +51,16 @@ interface ShopInrerface
      */
     public function getShopBranches($request);
 
+     /**
+     * Related Shops function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public function relatedShops($request,$productId);
+
+
+    
+
 
 }

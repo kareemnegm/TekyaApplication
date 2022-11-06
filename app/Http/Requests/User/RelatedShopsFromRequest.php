@@ -3,11 +3,9 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
-use App\Rules\LatitudeUserRule;
-use App\Rules\LogitudeUserRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShopIdFormRequest extends BaseFormRequest
+class RelatedShopsFromRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +25,7 @@ class ShopIdFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_id' => 'required|exists:provider_shop_details,id',
-            'area_id'=>'nullable|exists:areas,id',
-
-            // 'latitude'=>[new LatitudeUserRule()],
-            // 'longitude'=>[new LogitudeUserRule()],
-
-
+            'product_id' => ['required','exists:products,id'],  
         ];
     }
 }

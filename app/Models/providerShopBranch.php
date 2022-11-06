@@ -101,4 +101,6 @@ class providerShopBranch extends Model
                 ->orderby("distance", "asc")->get();
         }
     }
+
+
 }

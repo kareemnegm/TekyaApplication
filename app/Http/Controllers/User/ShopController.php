@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductsShopFormRequest;
 use App\Http\Requests\User\ShopIdFormRequest;
 use App\Http\Resources\User\ProductsResource;
 use App\Http\Resources\User\ShopBracnhesResource;
@@ -78,7 +79,7 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getProductsShop(ShopIdFormRequest $request)
+    public function getProductsShop(ProductsShopFormRequest $request)
     {
         $products = $this->shopRepository->getProductsShop($request);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'products');
@@ -94,8 +95,10 @@ class ShopController extends Controller
     {
         if (auth('user')->check()) {
             $userLocation = auth('user')->user()->userLocation;
-            $request['latitude'] = $userLocation->latitude;
-            $request['longitude'] = $userLocation->longitude;
+            if ($userLocation) {
+                $request['latitude'] = $userLocation->latitude;
+                $request['longitude'] = $userLocation->longitude;
+            }
         } elseif (isset($request->area_id) && !empty($request->area_id)) {
             $area = Area::findOrFail($request->area_id);
             $request['latitude'] = $area->latitude;
@@ -119,25 +122,35 @@ class ShopController extends Controller
     {
         if (auth('user')->check()) {
             $userLocation = auth('user')->user()->userLocation;
-            $request['latitude'] = $userLocation->latitude;
-            $request['longitude'] = $userLocation->longitude;
+            if ($userLocation) {
+                $request['latitude'] = $userLocation->latitude;
+                $request['longitude'] = $userLocation->longitude;
+            }
         }
         $branches = $this->shopRepository->getShopBranches($request);
         return $this->paginateCollection(ShopBracnhesResource::collection($branches), $request->limit, 'branches');
     }
 
 
-    public function relatedShops($productId,Request $request)
+    public function relatedShops(Request $request,$productId)
     {
+        if (auth('user')->check()) {
+            $userLocation = auth('user')->user()->userLocation;
+            if ($userLocation) {
+                $request['latitude'] = $userLocation->latitude;
+                $request['longitude'] = $userLocation->longitude;
+            }
+        } elseif (isset($request->area_id) && !empty($request->area_id)) {
+            $area = Area::findOrFail($request->area_id);
+            $request['latitude'] = $area->latitude;
+            $request['longitude'] = $area->longitude;
+        }
 
-        $product = Product::findOrFail($productId);
 
-        $relatedProducts = Category::findOrFail($product->category_id);
-        $shops = $relatedProducts->shops()->branch();
-        dd($shops);
-        $latitude = 30.012537910528884;
-        $longitude = 31.290307442198323;
-        // $q = providerShopBranch::whereIn('shop_id',$)->ByDistance($latitude, $longitude);
-        return $this->paginateCollection(ShopsResource::collection($shops), $request->limit, 'shops');
+        $shops = $this->shopRepository->relatedShops($request,$productId);
+
+
+        return $this->paginateCollection(ShopsResource::collection($shops), $request->limit, 'related_shops');
+
     }
 }

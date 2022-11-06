@@ -15,6 +15,14 @@ class ShopsProductsResoruce extends JsonResource
      */
     public function toArray($request)
     {
+
+        if(isset($request->category_id)){
+            $products=$this->shop->products()->where('category_id',$request->category_id)->orderBy('order','ASC')->take(5)->get();
+
+        }else{
+            $products=$this->shop->products()->orderBy('order','ASC')->take(5)->get();
+        }
+
        return [
         'id' => $this->shop->id,
         'shop_name' => $this->shop->shop_name,  
@@ -29,7 +37,7 @@ class ShopsProductsResoruce extends JsonResource
             'name' =>$this->name,
         ],
 
-        'shop_products'=>ProductsResource::collection($this->shop->products()->orderBy('order','ASC')->take(5)->get())?? null
+        'shop_products'=>ProductsResource::collection($products)?? null
 
        ];
     }
