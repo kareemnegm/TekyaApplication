@@ -120,13 +120,13 @@ class ShopController extends Controller
      */
     public function getShopBranches(ShopIdFormRequest $request)
     {
-        if (auth('user')->check()) {
-            $userLocation = auth('user')->user()->userLocation;
-            if ($userLocation) {
-                $request['latitude'] = $userLocation->latitude;
-                $request['longitude'] = $userLocation->longitude;
-            }
-        }
+        // if (auth('user')->check()) {
+        //     $userLocation = auth('user')->user()->userLocation;
+        //     if ($userLocation) {
+        //         $request['latitude'] = $userLocation->latitude;
+        //         $request['longitude'] = $userLocation->longitude;
+        //     }
+        // }
         $branches = $this->shopRepository->getShopBranches($request);
         return $this->paginateCollection(ShopBracnhesResource::collection($branches), $request->limit, 'branches');
     }

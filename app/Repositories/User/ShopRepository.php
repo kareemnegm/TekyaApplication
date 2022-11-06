@@ -140,7 +140,9 @@ class ShopRepository extends Controller implements ShopInrerface
         $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
         $longitude = $request->longitude ? $request->longitude : 31.290307;
 
-        $shops = providerShopBranch::ByDistance($latitude, $longitude, $category->shops->pluck('id'))->unique('shop_id');
+
+        
+        $shops = providerShopBranch::DistanceBranches($latitude, $longitude, $category->shops->pluck('id'))->unique('shop_id');
 
 
         return $shops;
