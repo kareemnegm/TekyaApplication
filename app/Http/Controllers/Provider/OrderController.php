@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\OrderBranchFormRequest;
 use App\Http\Requests\Provider\OrderShopIdFormRequest;
 use App\Http\Resources\Provider\ShopOrdersResource;
 use App\Interfaces\ProviderOrderInterface;
@@ -23,10 +24,10 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function shopOrders(Request $request)
+    public function shopOrders(OrderBranchFormRequest $request)
     {
-        $shop_id = Auth('provider')->user()->providerShopDetails->id;
-        return $this->paginateCollection(ShopOrdersResource::collection($this->ProviderOrderRepository->shopOrders($shop_id)), $request->limit, 'success');
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+        return $this->paginateCollection(ShopOrdersResource::collection($this->ProviderOrderRepository->shopOrders($request->validated(),$shop_id)), $request->limit, 'success');
     }
 
     /**
