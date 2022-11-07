@@ -132,8 +132,10 @@ class CartRepository extends Controller implements CartInterface
                     // dd($cartUser);
             $countShop=count($cartUser);
             $countProducts=$cart->products()->count();
-            $toalPrice=$cart->products->get();
-            dd($toalPrice);
+            
+            $productIds=$cart->products()->pluck('id');
+
+            $toalPrice=Product::whereIn('id',$productIds)->sum('order_price');
 
        return [
         'cart_itmes'=>UserCartResource::collection($cartUser),
