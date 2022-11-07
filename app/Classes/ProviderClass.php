@@ -29,14 +29,11 @@ class ProviderClass implements ProviderInterface
 
         if (isset($details['shop_logo'])) {
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
-        } else {
-            $shopDetails->clearMediaCollectionExcept('shop_logo');
-        }
+        } 
         if (isset($details['shop_cover'])) {
             $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
-        } else {
-            $shopDetails->clearMediaCollectionExcept('shop_cover');
-        }
+        } 
+        
         $shopDetails->update($details);
         $shopProvider = ProviderShopDetails::find($shopDetails->id);
         $shopProvider->category()->sync($details['category_id']);
