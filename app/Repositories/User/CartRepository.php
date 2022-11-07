@@ -137,13 +137,12 @@ class CartRepository extends Controller implements CartInterface
             function ($query) use($cart){   $query->where('cart_id', $cart->id);})
            ->distinct()->get();
 
-            dd($toalPrice->sum('order_price'));
 
        return [
         'cart_itmes'=>UserCartResource::collection($cartUser),
         'total_cart_shops'=>$countShop,
         'total_cart_products'=>$countProducts,
-        'total_products_price'=>$toalPrice,
+        'total_products_price'=>$toalPrice->sum('order_price'),
        ];
     }
 
