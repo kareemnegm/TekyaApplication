@@ -239,7 +239,7 @@ class OrderRepository extends Controller implements OrderInterface
 
 
             return $this->dataResponse(
-                new ($order),
+                new PlaceOrderResource($order),
                 'Order Checkout Successfully',
                 200
             );
