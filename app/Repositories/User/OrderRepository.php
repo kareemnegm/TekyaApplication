@@ -219,11 +219,11 @@ class OrderRepository extends Controller implements OrderInterface
                 'user_id' => $user->id,
                 'shipping_fees' => $totalShipping,
                 'taxes' => $taxes,
-                'grand_total_price' => $totalShopItemPrice + $taxes + $shopShpping,
+                'grand_total_price' => $totalShopItemPrice + $taxes + $totalShipping,
             ];
 
 
-            if ($totalShopItemPrice + $taxes + $shopShpping != $req['grand_total_price']) {
+            if ($totalShopItemPrice + $taxes + $totalShipping != $req['grand_total_price']) {
 
 
                 // return $this->errorResponseWithMessage('Your grand total change to another value,check items price',422);
