@@ -93,7 +93,7 @@ class CartRepository extends Controller implements CartInterface
                 'total_cart_products' => $getCartItmes['total_cart_products']
                 ,'cart' => $getCartItmes['cart_itmes']], 'Product removed from cart successfully', 200);
 
-         
+
 
         }elseif($availableStock >=  $req['quantity'] && $productInCart){
 
@@ -132,6 +132,7 @@ class CartRepository extends Controller implements CartInterface
                     // dd($cartUser);
             $countShop=count($cartUser);
             $countProducts=$cart->products()->count();
+
             $toalPrice=$cart->products()->sum('price');
 
        return [
@@ -169,7 +170,7 @@ class CartRepository extends Controller implements CartInterface
         return CartProduct::where('cart_id',$cart->id)->count();
     }
 
-    
+
     /**
      * Undocumented function
      *

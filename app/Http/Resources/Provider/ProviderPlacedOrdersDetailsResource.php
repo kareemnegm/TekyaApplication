@@ -22,7 +22,7 @@ class ProviderPlacedOrdersDetailsResource extends JsonResource
             "order_number"=>$this->order->order_number,
 
             'order_items' => new ProviderOrderItemResource($this),
-
+            'coupon'=>$this->invoice->coupon_id,
             'invoice_order' => New OrderInvoiceResource ($this->invoice),
 
             'payment_method'=>new PaymentResource($this->order->payment)
