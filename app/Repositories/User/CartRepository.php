@@ -135,7 +135,7 @@ class CartRepository extends Controller implements CartInterface
 
             $toalPrice=Product::whereHas('cart',
             function ($query) use($cart){   $query->where('cart_id', $cart->id);})
-           ->distinct()->get();
+          ->get();
 
 
        return [
