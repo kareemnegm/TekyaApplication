@@ -25,6 +25,8 @@ class ProviderClass implements ProviderInterface
     public function updateShopDetails($details, $id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
+
+
         if (isset($details['shop_logo'])) {
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
         } else {

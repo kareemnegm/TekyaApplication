@@ -25,10 +25,15 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'shop_name' => 'unique:provider_shop_details,shop_name,'.Auth('provider')->user()->providerShopDetails->id,
+            'shop_name' => 'unique:provider_shop_details,shop_name,'.auth('provider')->user()->providerShopDetails->id,
             'whatsapp_number' => 'numeric|min:10',
             'email' => 'email',
             'category_id' => 'required',
+
+            'shop_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
+            
+            'shop_cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
+
             'category_id.*' => 'required|exists:categories,id',
          
         ];
