@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Provider;
 
-use App\Http\Resources\User\OrderInvoiceResource;
+use App\Http\Resources\PaymentResource;
 use App\Http\Resources\User\PlaceOrderItemsResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,9 +21,11 @@ class ProviderPlacedOrdersDetailsResource extends JsonResource
 
             "order_number"=>$this->order->order_number,
 
-            'order_items' => new PlaceOrderItemsResource($this),
+            'order_items' => new ProviderOrderItemResource($this),
 
-            'invoice_order' => New OrderInvoiceResource($this->invoice),
+            'invoice_order' => New OrderInvoiceResource ($this->invoice),
+
+            'payment_method'=>new PaymentResource($this->order->payment)
         ];
     }
 }
