@@ -49,7 +49,7 @@ class OrderController extends Controller
     public function orderDetails($id)
     {
         $provider_id = auth('provider')->user()->providerShopDetails->id;
-        return new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->orderDetails($provider_id, $id));
+        return $this->dataResponse(['order_details'=>new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->orderDetails($provider_id, $id))],'success',200);
     }
 
     /**

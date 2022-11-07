@@ -14,10 +14,7 @@ class DeliveryShipmentResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this);
         return[
-
-
             "address"=>  new UserOrderAddressResource($this->address),
             "order_user_status"=> $this->order_user_status,
             "order_shop_status"=> $this->order_shop_status,
