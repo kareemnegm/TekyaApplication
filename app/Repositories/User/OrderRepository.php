@@ -70,6 +70,7 @@ class OrderRepository extends Controller implements OrderInterface
         $orderReview = collect($orderResource);
 
 
+
         $payment = PaymentOption::FindOrFail($request['payment_id']);
 
 
@@ -152,7 +153,7 @@ class OrderRepository extends Controller implements OrderInterface
 
 
                 $shopItemsPrice = $shopItems->sum(function ($product) {
-                    return $product->product->order_price;
+                    return $product->product->order_price*$product->quantity;
                 });
 
                 $totalShopItemPrice += $shopItemsPrice;
