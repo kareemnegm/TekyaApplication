@@ -3,15 +3,27 @@
 namespace App\Repositories;
 
 use App\Interfaces\ProviderOrderInterface;
+use App\Models\DeliveryOption;
 use App\Models\Order;
 use App\Models\OrderShop;
 use Illuminate\Support\Facades\Auth;
 
 class ProviderOrderRepository implements ProviderOrderInterface
 {
-    public function ShopOrders($shop_id)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @param [type] $shop_id
+     * @return void
+     */
+    public function ShopOrders($request,$shop_id)
     {
-        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('order')->with('invoice')->withSum('orderItems', 'quantity')->get();
+
+       
+        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('order')->
+        with('invoice')->withSum('orderItems', 'quantity')->get();
+        
         return $shopOrder;
     }
 

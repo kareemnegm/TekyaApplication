@@ -15,12 +15,13 @@ class ShopOrdersResource extends JsonResource
      */
     public function toArray($request)
     {
-        $delivery_option = DeliveryOption::find($this->delivery_option_id);
+
         return [
-            'id' => $this->id,
+            'order_id' => $this->order_id,
+            'order_shop_id' => $this->id,
             'order_number' => $this->invoice->shop_invoice_number,
             'status' => $this->invoice->status,
-            'delivery_option' => $delivery_option->option,
+            'delivery_option' => $this->deliveryOption->name,
             'total' => $this->invoice->total_invoice,
             'total_products' => $this->total_items,
             'total_product_items' => $this->order_items_sum_quantity,

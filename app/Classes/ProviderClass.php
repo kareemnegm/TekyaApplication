@@ -25,16 +25,26 @@ class ProviderClass implements ProviderInterface
     public function updateShopDetails($details, $id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
+
+
         if (isset($details['shop_logo'])) {
+
+            if($shopDetails->getMedia('shop_logo')){
+
+                $shopDetails->clearMediaCollectionExcept('shop_logo');
+            }
+
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
-        } else {
-            $shopDetails->clearMediaCollectionExcept('shop_logo');
         }
         if (isset($details['shop_cover'])) {
+            
+            if($shopDetails->getMedia('shop_cover')){
+                $shopDetails->clearMediaCollectionExcept('shop_cover');
+            }
+
             $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
-        } else {
-            $shopDetails->clearMediaCollectionExcept('shop_cover');
         }
+
         $shopDetails->update($details);
         $shopProvider = ProviderShopDetails::find($shopDetails->id);
         $shopProvider->category()->sync($details['category_id']);

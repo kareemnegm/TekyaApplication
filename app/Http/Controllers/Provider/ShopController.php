@@ -52,7 +52,7 @@ class ShopController extends Controller
     public function updateShopDetails(UpdateShopDetailsFormRequest $request)
     {
         $provider_id = Auth::user()->id;
-        $details = $request->input();
+        $details = $request->validated();
     $this->ProviderRepository->updateShopDetails($details, $provider_id);
         return $this->successResponse('updated successful', 200);
     }
