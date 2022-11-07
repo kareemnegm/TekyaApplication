@@ -19,15 +19,10 @@ class ProviderOrderRepository implements ProviderOrderInterface
      */
     public function ShopOrders($request,$shop_id)
     {
-         if($request['order_type'] == 'pickup'){
 
-         $optionIds=DeliveryOption::where('shipment_type','branch')->pluck('id');
-        }elseif($request['order_type'] == 'delivery'){
-            $optionIds=DeliveryOption::where('shipment_type','address')->pluck('id');
-        }
-
+       
         $shopOrder = OrderShop::where('shop_id', $shop_id)->
-        whereIn('delivery_option_id',$optionIds)->with('order')->
+        with('order')->
         with('invoice')->withSum('orderItems', 'quantity')->get();
         
         return $shopOrder;

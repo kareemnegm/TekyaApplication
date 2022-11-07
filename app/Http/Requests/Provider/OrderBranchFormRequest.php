@@ -32,22 +32,11 @@ class OrderBranchFormRequest extends BaseFormRequest
                 Rule::exists('provider_shop_branches', 'id')->where('shop_id',auth('provider')->user()->providerShopDetails->id),
             ],
 
-            'order_type' =>'required|in:pickup,delivery'
+            // 'order_type' =>'required|in:pickup,delivery'
         ];
     }
 
 
     
-    /**
-     * Message function
-     *
-     * @return void
-     */
-    public function messages()
-    {
-        return [
-            'order_type.in'=>':attribute is invalid used in pickup,delivery',
-
-        ];
-    }
+   
 }
