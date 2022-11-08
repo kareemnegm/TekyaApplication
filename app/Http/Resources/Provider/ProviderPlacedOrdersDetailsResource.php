@@ -18,14 +18,13 @@ class ProviderPlacedOrdersDetailsResource extends JsonResource
     public function toArray($request)
     {
         return [
-
-            "order_number"=>$this->order->order_number,
-
+            'order_id'=>$this->order_id,
+            'order_shop_id' => $this->id,
+            "order_number" => $this->order->order_number,
             'order_items' => new ProviderOrderItemResource($this),
-            'coupon'=>$this->invoice->coupon_id,
-            'invoice_order' => New OrderInvoiceResource ($this->invoice),
-
-            'payment_method'=>new PaymentResource($this->order->payment)
+            'coupon' => $this->invoice->coupon_id,
+            'invoice_order' => new OrderInvoiceResource($this->invoice),
+            'payment_method' => new PaymentResource($this->order->payment)
         ];
     }
 }
