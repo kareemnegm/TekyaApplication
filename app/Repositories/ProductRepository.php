@@ -166,7 +166,6 @@ class ProductRepository implements ProductInterface
         }
 
         if (!empty($newDetails['product_images'])) {
-            dd($newDetails['product_images']);
             foreach ($newDetails['product_images'] as $productImage) {
                 $product->saveFiles($productImage, 'product_images');
             }
