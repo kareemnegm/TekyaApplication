@@ -52,7 +52,7 @@ interface ProviderOrderInterface
      * @param [type] $order_shop_id
      * @return void
      */
-    public function finaanceStatistics($shop_id);
+    public function financeStatistics($shop_id);
 
 
 

@@ -124,22 +124,21 @@ class ProviderOrderRepository implements ProviderOrderInterface
      * @param [type] $order_shop_id
      * @return void
      */
-    public function finaanceStatistics($shop_id)
+    public function financeStatistics($shop_id)
     {
 
         $shopOrder = OrderShop::where('shop_id', $shop_id)->count();
 
-        $outOfStock = Product::where('shop_id', $shop_id)->with('invoice')->get();
-        dd($outOfStock);
+        $total_Invoice = OrderShop::where('shop_id', $shop_id)->with('invoice')->get()->sum('invoice.total_invoice');
 
        
-
-
         return[
             'orders'=>$shopOrder,
-            // 'out_of_stock'=>$outOfStock,
-            // 'order_canceled'=>$userCanceled
+            'income'=>$total_Invoice,
+            'cash'=>$total_Invoice,
+
         ];
+        
     }
 
 

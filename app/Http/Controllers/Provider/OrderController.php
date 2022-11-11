@@ -90,9 +90,15 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function financeStatistics($id)
+    public function financeStatistics(Request $request)
     {
-        //
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+
+        $order=$this->ProviderOrderRepository->financeStatistics($shop_id);
+
+        return $this->dataResponse(['orders'=>$order['orders'],'income'=>$order['income'],
+        'cash'=>$order['cash']],'success',200);
+  
     }
 
 }
