@@ -22,6 +22,13 @@ class ProviderClass implements ProviderInterface
     }
 
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $details
+     * @param [type] $id
+     * @return void
+     */
     public function updateShopDetails($details, $id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();

@@ -94,6 +94,11 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
      */
     Route::post('authentication', 'AuthController@authentication');
 
+     /**
+     * Adss Modules
+     */
+    Route::get('adds', 'AddsController@index');
+
 
     /**
      * Category Apis

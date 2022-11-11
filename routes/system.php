@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('profile', 'AdminController@editMyAccount');
     Route::put('deactivate/{id}', 'AdminController@deactivateAdminAccount');
     Route::put('activate/{id}', 'AdminController@activateAdminAccount');
+
+    Route::apiResource('adds', 'AddsController');
+
 });
 
 
