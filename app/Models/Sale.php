@@ -15,6 +15,7 @@ class Sale extends Model
         'discount',
         'shop_id',
         'category_id',
+        'branch_id',
         'price_range_start',
         'price_range_end'
     ];
@@ -25,5 +26,10 @@ class Sale extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function providerShopBranch()
+    {
+        return $this->belongsTo(providerShopBranch::class);
     }
 }

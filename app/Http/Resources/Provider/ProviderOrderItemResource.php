@@ -10,6 +10,7 @@ use App\Http\Resources\User\ShopInvoiceResource;
 use App\Http\Resources\User\ShopItemsOrderResource;
 use App\Models\OrderPickup;
 use App\Models\OrderShipment;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProviderOrderItemResource extends JsonResource
@@ -22,6 +23,7 @@ class ProviderOrderItemResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->shop->id,
             'name' => $this->shop->shop_name,
@@ -32,7 +34,6 @@ class ProviderOrderItemResource extends JsonResource
             'products' => ShopItemOrderResource::collection($this->orderItems),
 
             'delivery_option' => new DeliveryOptionResource($this->deliveryOption),
-
             'delivery_type_info' => $this->when($this->deliveryType, function () {
 
                 if ($this->resource->deliveryType instanceof OrderShipment) {

@@ -36,7 +36,6 @@ class DeliveryCoverageRepository implements DeliveryCoverageInterface
 
     public function updateDeliveryCoverage($id, $data)
     {
-        $data['delivery_date_time'] = json_encode($data['delivery_date_time']);
         $delivery = deliveryCoverage::findOrFail($id);
         $delivery->update($data);
         return $delivery;

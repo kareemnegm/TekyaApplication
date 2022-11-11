@@ -32,6 +32,7 @@ class SaleFormRequest extends BaseFormRequest
             'price_range_start' => 'required|numeric',
             'price_range_end' => 'required|numeric',
             'category_id.*' => 'required|exists:categories,id',
+            
         ];
     }
 }
