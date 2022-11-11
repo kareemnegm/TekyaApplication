@@ -114,6 +114,9 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('shop/products', 'ShopController@getProductsShop');
     Route::get('shop', 'ShopController@getShopDetails');
     Route::get('shop/branches', 'ShopController@getShopBranches');
+    Route::get('shop/collections', 'ShopController@getShopCollections');
+
+    
 
 
     /**

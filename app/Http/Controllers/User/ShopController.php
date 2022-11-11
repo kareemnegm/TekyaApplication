@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductsShopFormRequest;
+use App\Http\Requests\User\ShopCollectionsFromRequest;
 use App\Http\Requests\User\ShopIdFormRequest;
 use App\Http\Resources\User\ProductsResource;
 use App\Http\Resources\User\ShopBracnhesResource;
+use App\Http\Resources\User\ShopCollectionsResource;
 use App\Http\Resources\User\ShopResource;
 use App\Http\Resources\User\ShopsProductsResoruce;
 use App\Http\Resources\User\ShopsResource;
@@ -152,5 +154,18 @@ class ShopController extends Controller
 
         return $this->paginateCollection(ShopsResource::collection($shops), $request->limit, 'related_shops');
 
+    }
+
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getShopCollections(ShopCollectionsFromRequest $request)
+    {
+        $data=$request->validated();
+        $products = $this->shopRepository->getShopCollections($data['shop_id']);
+        return $this->paginateCollection(ShopCollectionsResource::collection($products), $request->limit, 'collections');
     }
 }

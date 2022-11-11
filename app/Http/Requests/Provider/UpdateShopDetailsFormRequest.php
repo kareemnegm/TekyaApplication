@@ -28,13 +28,17 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
             'shop_name' => 'nullable|unique:provider_shop_details,shop_name,'.auth('provider')->user()->providerShopDetails->id,
             'whatsapp_number' => 'nullable|numeric|min:10',
             'email' => 'nullable|email',
-            'category_id' => 'required',
+            'category_id' => 'nullable',
 
             'shop_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
 
+            'facebook_link' => 'nullable',
+            'instagram_link' => 'nullable',
+            'web_site' => 'nullable',
+
             'shop_cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
 
-            'category_id.*' => 'required|exists:categories,id',
+            'category_id.*' => 'nullable|exists:categories,id',
 
         ];
     }

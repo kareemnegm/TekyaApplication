@@ -60,6 +60,18 @@ interface ShopInrerface
     public function relatedShops($request,$productId);
 
 
+    /**
+     * Related Shops function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public function getShopCollections($shop_id);
+
+
+    
+
+
     
 
 

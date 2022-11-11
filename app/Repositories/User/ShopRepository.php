@@ -5,6 +5,7 @@ namespace App\Repositories\User;
 use App\Http\Controllers\Controller;
 use App\Interfaces\User\ShopInrerface;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Product;
 use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
@@ -147,5 +148,27 @@ class ShopRepository extends Controller implements ShopInrerface
 
         return $shops;
     }
+
+
+    /**
+     * New Shop Liste function
+     *
+     * @param [type] $projectId
+     * @return void
+     */
+    public function getShopCollections($shop_id)
+    {
+
+        $shop_id=auth('provider')->user()->providerShopDetails->id;
+
+        $collections=Collection::where('shop_id',$shop_id)->where('is_published',1)->get();
+
+        return $collections;
+
+    }
+
+
+
+    
     
 }
