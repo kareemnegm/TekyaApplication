@@ -18,17 +18,12 @@ class DeliveryCoverageResource extends JsonResource
      */
     public function toArray($request)
     {
-        $area=Area::find($this->area_id);
-        $government=Government::find($this->government_id);
-        $shop_branch=providerShopBranch::find($this->shop_branch_id);
+
         return[
             'id'=>$this->id,
-            'area'=>new DeliveryAreaResource($area),
-            'government'=>new GovernmentResource($government),
-            'branch'=>new DeliveryBranchResource($shop_branch),
+            'shop_id'=>$this->shop_id,
             'delivery_fees'=>$this->delivery_fees,
-            'delivery_estimated_time'=>$this->delivery_estimated_time,
-            'opening_times'=>json_decode($this->delivery_date_time)
+            'average_delivery_time'=>$this->average_delivery_time,
 
         ];
     }

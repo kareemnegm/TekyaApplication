@@ -39,11 +39,9 @@ class DeliveryCoverage extends Controller
      */
     public function store(DeliveryCoverageFormRequest $request)
     {
-        $details = $request->input();
+        $details = $request->validated();
         $shop_id = Auth::user()->providerShopDetails->id;
         $details['shop_id'] = $shop_id;
-        $details['delivery_date_time'] = json_encode($details['delivery_date_time']);
-
         return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->deliveryCoverage($details))], 'created successful', 200);
     }
 

@@ -32,6 +32,11 @@ class ProviderShopDetails extends Model implements HasMedia
     ];
 
 
+    public function deliveryCoverage()
+    {
+        return $this->hasOne(deliveryCoverage::class,'shop_id');
+    }
+
     public function admin()
     {
         return $this->belongsTo(Admin::class);

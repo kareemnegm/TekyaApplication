@@ -28,9 +28,8 @@ class UpdateDeliveryCoverageFormRequest extends BaseFormRequest
         $shop_id = Auth::user()->providerShopDetails->id;
         return [
             'delivery_coverage_id'=>'required|exists:delivery_coverages,id,shop_id,' . $shop_id,
-            'shop_branch_id' => 'exists:provider_shop_branches,id,shop_id,' . $shop_id,
-            'government_id' => 'exists:governments,id',
-            'area_id' => 'exists:areas,id',
+            'average_delivery_time'=>'nullable|numeric',
+            'delivery_fees'=>'nullable|numeric',
         ];
     }
 }

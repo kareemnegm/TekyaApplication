@@ -9,7 +9,7 @@ class OrderShipment extends Model
 {
     use HasFactory;
 
-    protected $table='order_shipments';
+    protected $table = 'order_shipments';
 
     protected $fillable = [
         'order_shop_id',
@@ -34,5 +34,4 @@ class OrderShipment extends Model
     {
         return $this->belongsTo(UserAddress::class, 'address_id');
     }
-
 }

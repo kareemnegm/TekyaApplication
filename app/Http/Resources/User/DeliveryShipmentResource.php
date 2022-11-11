@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DeliveryShipmentResource extends JsonResource
@@ -14,10 +15,11 @@ class DeliveryShipmentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return[
-            "address"=>  new UserOrderAddressResource($this->address),
-            "order_user_status"=> $this->order_user_status,
-            "order_shop_status"=> $this->order_shop_status,
+        return [
+            'delivery_time' => Carbon::parse($this->deliveryOptions->order->date_order_placed)->addMinute($this->deliveryOptions->shop->deliveryCoverage->average_delivery_time)->format('l M-Y g:i A'),
+            "address" =>  new UserOrderAddressResource($this->address),
+            "order_user_status" => $this->order_user_status,
+            "order_shop_status" => $this->order_shop_status,
         ];
     }
 }

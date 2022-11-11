@@ -25,14 +25,9 @@ class DeliveryCoverageFormRequest extends BaseFormRequest
      */
     public function rules()
     {
-        $shop_id = Auth::user()->providerShopDetails->id;
         return [
-            'shop_branch_id' => 'required|exists:provider_shop_branches,id,shop_id,' . $shop_id,
-            'government_id' => 'required|exists:governments,id',
-            'area_id' => 'exists:areas,id',
             'delivery_fees' => 'required',
-            'delivery_estimated_time' => 'required',
-            'delivery_date_time' => 'required',
+            'average_delivery_time' => 'required',
         ];
     }
 }

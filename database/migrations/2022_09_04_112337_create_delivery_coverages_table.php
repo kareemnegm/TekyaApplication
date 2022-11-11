@@ -16,17 +16,10 @@ class CreateDeliveryCoveragesTable extends Migration
         Schema::create('delivery_coverages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('shop_branch_id');
-            $table->unsignedBigInteger('government_id');
-            $table->unsignedBigInteger('area_id')->nullable();
-            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('shop_branch_id')->references('id')->on('provider_shop_branches')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('government_id')->references('id')->on('governments')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('delivery_estimated_time');
+            $table->integer('average_delivery_time');
             $table->double('delivery_fees');
-            $table->text('notes')->nullable();
-            $table->text('delivery_date_time');
+            $table->foreign('shop_id')->references('id')->on('provider_shop_details')->cascadeOnUpdate()->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
