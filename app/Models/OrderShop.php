@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -75,6 +76,19 @@ class OrderShop extends Model
     {
         return $this->hasMany(OrderItem::class, 'order_shop_id');
     }
+
+
+    /**
+     * Scope a query to only include today's entries.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedToday($query)
+    {
+        return $query->where('created_at', '>=', Carbon::today());
+    }
+    
 }
 
 

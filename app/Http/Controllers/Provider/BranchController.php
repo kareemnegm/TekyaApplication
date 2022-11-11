@@ -99,6 +99,12 @@ class BranchController extends Controller
 
 
 
+    /**
+     * Undocumented function
+     *
+     * @param BranchIdFormRequestDelPickUP $request
+     * @return void
+     */
     public function branchDeliveryPickUpToggle(BranchIdFormRequestDelPickUP $request)
     {
         $this->ProviderRepository->branchDeliveryPickUpToggle($request->validated());

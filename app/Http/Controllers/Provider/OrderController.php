@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\FinanceOrdersRequest;
 use App\Http\Requests\Provider\OrderBranchFormRequest;
 use App\Http\Requests\Provider\OrderShopIdFormRequest;
 use App\Http\Resources\Provider\ProviderPlacedOrdersDetailsResource;
@@ -52,15 +53,22 @@ class OrderController extends Controller
         return $this->dataResponse(['order_details'=>new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->orderDetails($provider_id, $id))],'success',200);
     }
 
+    
     /**
-     * Store a newly created resource in storage.
+     * Undocumented function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return void
      */
-    public function store(Request $request)
+    public function branchStatistics(Request $request)
     {
-        //
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+
+        $order=$this->ProviderOrderRepository->branchStatistics($shop_id);
+
+        return $this->dataResponse(['new_order'=>$order['new_order'],'out_of_stock'=>$order['out_of_stock'],
+        'order_canceled'=>$order['order_canceled']],'success',200);
+
     }
 
     /**
@@ -69,9 +77,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function financeOrders(FinanceOrdersRequest $request)
     {
-        //
+        $shopId = auth('provider')->user()->providerShopDetails->id;
+        return $this->dataResponse(['order_details'=> new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->finaanceOrders($shopId, $request->validated()))],'success',200);
     }
 
     /**
@@ -80,31 +89,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function financeStatistics($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
+  

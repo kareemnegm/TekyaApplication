@@ -28,4 +28,37 @@ interface ProviderOrderInterface
      * @return void
      */
     public function UpdateOrderDeliveryStatus($order_shop_id);
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $order_shop_id
+     * @return void
+     */
+    public function branchStatistics($shop_id);
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $order_shop_id
+     * @return void
+     */
+    public function finaanceOrders($shop_id,$request);
+
+     /**
+     * Undocumented function
+     *
+     * @param [type] $order_shop_id
+     * @return void
+     */
+    public function finaanceStatistics($shop_id);
+
+
+
+    
+
+
+
+    
 }
