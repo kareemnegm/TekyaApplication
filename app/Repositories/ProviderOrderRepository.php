@@ -129,9 +129,8 @@ class ProviderOrderRepository implements ProviderOrderInterface
 
         $shopOrder = OrderShop::where('shop_id', $shop_id)->count();
 
-        $outOfStock = Product::where('shop_id', $shop_id)->with('invoice' , function($query) {
-            $query->where('stock_qty', '=', 0);
-        })->count();
+        $outOfStock = Product::where('shop_id', $shop_id)->with('invoice')->get();
+        dd($outOfStock);
 
        
 

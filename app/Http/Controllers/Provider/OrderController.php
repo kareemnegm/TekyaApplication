@@ -80,7 +80,8 @@ class OrderController extends Controller
     public function financeOrders(FinanceOrdersRequest $request)
     {
         $shopId = auth('provider')->user()->providerShopDetails->id;
-        return $this->dataResponse(['order_details'=> ShopOrdersResource::collection($this->ProviderOrderRepository->finaanceOrders($shopId, $request->validated()))],'success',200);
+        return $this->paginateCollection(ShopOrdersResource::collection($this->ProviderOrderRepository->shopOrders($shopId, $request->validated())), $request->limit, 'orders_shop_list');
+
     }
 
     /**
