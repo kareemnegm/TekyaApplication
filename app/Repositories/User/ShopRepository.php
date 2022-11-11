@@ -51,7 +51,7 @@ class ShopRepository extends Controller implements ShopInrerface
     public function shopsProducts($request)
     {
 
- 
+
         $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
         $longitude = $request->longitude ? $request->longitude : 31.290307;
 
@@ -83,7 +83,7 @@ class ShopRepository extends Controller implements ShopInrerface
         if(isset($request->category_id)){
             $q->where('category_id',$request->category_id);
         }
-            
+
         $products = $q->orderBy('order', 'ASC')->get();
 
 
@@ -142,7 +142,7 @@ class ShopRepository extends Controller implements ShopInrerface
         $longitude = $request->longitude ? $request->longitude : 31.290307;
 
 
-        
+
         $shops = providerShopBranch::DistanceBranches($latitude, $longitude, $category->shops->pluck('id'))->unique('shop_id');
 
 
@@ -159,7 +159,6 @@ class ShopRepository extends Controller implements ShopInrerface
     public function getShopCollections($shop_id)
     {
 
-        $shop_id=auth('provider')->user()->providerShopDetails->id;
 
         $collections=Collection::where('shop_id',$shop_id)->where('is_published',1)->get();
 
@@ -169,6 +168,6 @@ class ShopRepository extends Controller implements ShopInrerface
 
 
 
-    
-    
+
+
 }
