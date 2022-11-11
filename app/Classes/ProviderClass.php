@@ -47,7 +47,10 @@ class ProviderClass implements ProviderInterface
 
         $shopDetails->update($details);
         $shopProvider = ProviderShopDetails::find($shopDetails->id);
+
+        if($details['category_id']){
         $shopProvider->category()->sync($details['category_id']);
+        }
     }
 
 
