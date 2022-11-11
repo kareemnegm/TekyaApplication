@@ -90,8 +90,29 @@ class ProviderOrderRepository implements ProviderOrderInterface
      */
     public function finaanceOrders($shop_id,$request)
     {
-        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('order')->
-        with('invoice')->withSum('orderItems', 'quantity')->get();
+        $q = OrderShop::where('shop_id', $shop_id)->with('order')->
+        with('invoice')->withSum('orderItems', 'quantity');
+
+
+        if($request['order_type'] == 'recent'){
+
+            $shopOrder=$q->get();
+
+        }elseif($request['order_type'] == 'pickup') {
+
+            $shopOrder= $q->where('model_type','App\Models\OrderPickup')->get();
+            
+        } elseif($request['order_type'] == 'delivery') {
+
+            $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
+        }
+        elseif($request['order_type'] == 'canceled') {
+
+            $shopOrder= $q->whereHas('deliveryType' , function($query) {
+                $query->where('order_user_status', '=', 'canceled');
+            })->get();
+        }
+        
 
         return $shopOrder;
     }
@@ -105,27 +126,21 @@ class ProviderOrderRepository implements ProviderOrderInterface
      */
     public function finaanceStatistics($shop_id)
     {
-    
-        $q = OrderShop::where('shop_id', $shop_id)->with('order')->
-        with('invoice')->withSum('orderItems', 'quantity');
 
-        
-        if('order_type'== 'recent'){
-            $shopOrder=$q->get();
+        $shopOrder = OrderShop::where('shop_id', $shop_id)->count();
 
-        }elseif('order_type'== 'pickup') {
-            $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
+        $outOfStock = Product::where('shop_id', $shop_id)->with('invoice' , function($query) {
+            $query->where('stock_qty', '=', 0);
+        })->count();
 
-        } elseif('order_type'== 'delivery') {
+       
 
-            $shopOrder= $q->where('model_type','App\Models\OrderPickup')->get();
-        }
-        elseif('order_type'== 'canceled') {
-            $shopOrder= $q->where('model_type','App\Models\OrderS')->get();
-        }
-        
 
-        return $shopOrder;
+        return[
+            'orders'=>$shopOrder,
+            // 'out_of_stock'=>$outOfStock,
+            // 'order_canceled'=>$userCanceled
+        ];
     }
 
 

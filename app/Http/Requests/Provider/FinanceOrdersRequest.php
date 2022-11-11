@@ -28,4 +28,17 @@ class FinanceOrdersRequest extends BaseFormRequest
          'order_type' =>'required|in:recent,pickup,delivery,canceled'
         ];
     }
+
+
+        /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'order_type.in'=>' :attribute is used in recent,pickup,delivery,canceled',
+        ];
+    }
 }
