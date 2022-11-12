@@ -84,6 +84,10 @@ class ShopRepository extends Controller implements ShopInrerface
             $q->where('category_id',$request->category_id);
         }
 
+        if(isset($request->collection_id)){
+            $q->where('collection_id',$request->collection_id);
+        }
+
         $products = $q->orderBy('order', 'ASC')->get();
 
 

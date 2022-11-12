@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductsShopFormRequest extends BaseFormRequest
 {
@@ -27,6 +28,7 @@ class ProductsShopFormRequest extends BaseFormRequest
             'shop_id' => 'required|exists:provider_shop_details,id',
             'area_id'=>'nullable|exists:areas,id',
             'category_id' => 'nullable|exists:categories,id',
+            'collection_id' => ['nullable',Rule::exists('collections', 'id')->where('shop_id',request()->shop_id)  ],
 
         ];
     }
