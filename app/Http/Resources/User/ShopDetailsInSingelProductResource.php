@@ -49,7 +49,7 @@ class ShopDetailsInSingelProductResource extends JsonResource
 
             'delivery_time' => 30,
  
-            'nearest_brnach'=> $brnach ? New NearestBranchResource($brnach) :null,
+            'nearest_brnach'=> isset($brnach) ? New NearestBranchResource($brnach) :null,
 
             // 'nearest_brnach' => [
             //     'id' => isset($brnach) ? $brnach->id :null,
