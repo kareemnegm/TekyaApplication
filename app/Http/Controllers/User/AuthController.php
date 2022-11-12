@@ -134,7 +134,16 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->update($request->input());
-        return $this->successResponse('updated successful', 200);
+
+
+        if (isset($user->email) && isset($user->first_name) && isset($user->last_name)) {
+            $complete_profile = true;
+        } else {
+            $complete_profile = false;
+        }
+
+        return $this->dataResponse(['user' => $user, 'complete_profile' => $complete_profile], 'success', 200);
+
     }
 
 
