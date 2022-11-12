@@ -33,7 +33,8 @@ class ShopDetailsInSingelProductResource extends JsonResource
         $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
         $longitude = $request->longitude ? $request->longitude : 31.290307;
 
-        // $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id);
+        dd($latitude, $longitude,$this->id);
+        $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id);
 
         return [
             'id' => $this->id,
@@ -48,7 +49,7 @@ class ShopDetailsInSingelProductResource extends JsonResource
 
             'delivery_time' => 30,
  
-            // 'nearest_brnach'=> New NearestBranchResource($brnach),
+            'nearest_brnach'=> New NearestBranchResource($brnach),
 
             // 'nearest_brnach' => [
             //     'id' => isset($brnach) ? $brnach->id :null,
