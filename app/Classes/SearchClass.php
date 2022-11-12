@@ -31,33 +31,27 @@ class SearchClass extends Controller
 
             }
 
-
-
             if (isset($limit)) {
-                $total_result = $result->get();
-                $result = $result->paginate($limit);
+
+                $result= $this->paginateCollection($result->get(),$request->limit,'items');
+                $total_result = $result['data']['result']['items']->count();
+
+                $result=$result['data']['result']['items'];
             } else {
-                $total_result = $result->get();
-                $result = $result->paginate(6);
+                $result= $this->paginateCollection($result->get(),$request->limit,'items');
+                $total_result = $result['data']['result']['items']->count();
+                $result=$result['data']['result']['items'];
             }
 
             if ($result->isNotEmpty()) {
 
                 foreach ($result as $obj) {
-                    // dd($obj,$model);
                     $model_result[$slug][] = new  SearchResource($obj, $model);
                 }
             }
-            //Total Numbers Of Results
-            if (!empty($total_result)) {
-                $total = 0;
-                foreach ($total_result as $obj) {
-                    $total += 1;
-                }
-                $model_result['total_' . $slug] = $total;
-            } else {
-                $model_result['total_' . $slug] = 0;
-            }
+            
+                $model_result['total_' . $slug] = $total_result;
+           
         }
         return $model_result;
     }
