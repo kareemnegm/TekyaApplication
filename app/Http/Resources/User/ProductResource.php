@@ -26,8 +26,9 @@ class ProductResource extends JsonResource
 
         if (auth('user')->check()) {
             $cart_id = auth('user')->user()->cart->id;
-            dd($cart_id);
             $inCart = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop->id)->exists();
+            
+            dd($inCart);
             if ($inCart) {
                 $cartProductQuantity = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop->id)->value('quantity');
             }
