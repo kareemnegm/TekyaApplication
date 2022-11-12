@@ -134,6 +134,7 @@ class AuthController extends Controller
     {
 
         $user = Auth::user();
+
         $user->update($request->input());
 
 
