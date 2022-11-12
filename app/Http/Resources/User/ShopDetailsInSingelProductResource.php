@@ -35,7 +35,6 @@ class ShopDetailsInSingelProductResource extends JsonResource
 
         $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id);
 
-        dd($brnach);
 
         return [
             'id' => $this->id,
@@ -50,7 +49,7 @@ class ShopDetailsInSingelProductResource extends JsonResource
 
             'delivery_time' => 30,
  
-            'nearest_brnach'=> New NearestBranchResource($brnach),
+            'nearest_brnach'=> $brnach ? New NearestBranchResource($brnach) :null,
 
             // 'nearest_brnach' => [
             //     'id' => isset($brnach) ? $brnach->id :null,

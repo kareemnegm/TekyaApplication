@@ -143,7 +143,6 @@ class providerShopBranch extends Model
                 ->orderby("distance", "asc")
                 ->having("distance", "<=", $distance)
                 ->first();
-                dd($latitude, $longitude, $shop_id,$s);
         
     }
 
