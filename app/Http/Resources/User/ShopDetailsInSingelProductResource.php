@@ -51,13 +51,7 @@ class ShopDetailsInSingelProductResource extends JsonResource
             'delivery_time' => 30,
  
             'nearest_brnach'=> isset($brnach) ? New NearestBranchResource($brnach) :null,
-
-            // 'nearest_brnach' => [
-            //     'id' => isset($brnach) ? $brnach->id :null,
-            //     'name' => isset($brnach) ? $brnach->name:null,
-            //     'working_hours_day' => isset($brnach) ? json_decode($brnach->working_hours_day):null,
-            //     'distance' =>  $brnach->distance > 1 ? round($brnach->distance, 1) . " K" : round($brnach->distance * 1000) . " M",
-            // ],
+        
             ];
     }
 }
