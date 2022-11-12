@@ -28,7 +28,6 @@ class ProductResource extends JsonResource
             $cart_id = auth('user')->user()->cart->id;
             $inCart = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop->id)->exists();
             
-            dd($inCart);
             if ($inCart) {
                 $cartProductQuantity = CartProduct::where('product_id', $this->id)->where('cart_id', $cart_id)->where('provider_shop_details_id', $this->shop->id)->value('quantity');
             }
@@ -65,7 +64,7 @@ class ProductResource extends JsonResource
             'product_images' => ImageResource::collection($this->getMedia('product_images')) ?? null,
             'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
             'updated_at' => $this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A') : null,
-            'shop_data' => new ShopDetailsInSingelProductResource($this->shop)
+            // 'shop_data' => new ShopDetailsInSingelProductResource($this->shop)
 
         ];
     }
