@@ -132,6 +132,8 @@ class AuthController extends Controller
 
     public function updateProfile(UpdateUserFormRequest $request)
     {
+        dd('s');
+
         $user = Auth::user();
         $user->update($request->input());
 
