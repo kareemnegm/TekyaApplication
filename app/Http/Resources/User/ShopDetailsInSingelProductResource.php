@@ -47,13 +47,15 @@ class ShopDetailsInSingelProductResource extends JsonResource
             'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
 
             'delivery_time' => 30,
+ 
+            'nearest_brnach'=> New NearestBranchResource($brnach),
 
-            'nearest_brnach' => [
-                'id' => isset($brnach) ? $brnach->id :null,
-                'name' => isset($brnach) ? $brnach->name:null,
-                'working_hours_day' => isset($brnach) ? json_decode($brnach->working_hours_day):null,
-                'distance' => isset($brnach) > 1 ? round($brnach->distance, 1) . " K" : round($brnach->distance * 1000) . " M",
-            ],
+            // 'nearest_brnach' => [
+            //     'id' => isset($brnach) ? $brnach->id :null,
+            //     'name' => isset($brnach) ? $brnach->name:null,
+            //     'working_hours_day' => isset($brnach) ? json_decode($brnach->working_hours_day):null,
+            //     'distance' =>  $brnach->distance > 1 ? round($brnach->distance, 1) . " K" : round($brnach->distance * 1000) . " M",
+            // ],
             ];
     }
 }
