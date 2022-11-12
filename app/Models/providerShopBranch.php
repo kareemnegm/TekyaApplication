@@ -125,5 +125,26 @@ class providerShopBranch extends Model
         }
     }
 
+    public function scopeNearestBranch($query, $latitude, $longitude, $shop_id ,$distance = null, $unit = "km",)
+    {
+        $distance = 30;
+        $constant = $unit == "km" ? 6371 : 3959;
+
+        $haversine = "(
+            6371 * acos(
+                cos(radians(" . $latitude . "))
+                * cos(radians(`latitude`))
+                * cos(radians(`longitude`) - radians(" . $longitude . "))
+                + sin(radians(" . $latitude . ")) * sin(radians(`latitude`))
+            )
+        )";
+        
+        return  providerShopBranch::where('shop_id',$shop_id)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
+                ->orderby("distance", "asc")
+                ->having("distance", "<=", $distance)
+                ->first();
+        
+    }
+
 
 }
