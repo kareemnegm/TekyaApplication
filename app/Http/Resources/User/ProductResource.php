@@ -64,7 +64,7 @@ class ProductResource extends JsonResource
             'product_images' => ImageResource::collection($this->getMedia('product_images')) ?? null,
             'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
             'updated_at' => $this->updated_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('m-d-Y g:i A') : null,
-            // 'shop_data' => new ShopDetailsInSingelProductResource($this->shop)
+            'shop_data' => new ShopDetailsInSingelProductResource($this->shop)
 
         ];
     }
