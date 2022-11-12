@@ -27,7 +27,7 @@ class UpdateUserFormRequest extends BaseFormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,'.auth('user')->user()->id,
             'gender' => 'required|in:male,female',
         ];
     }
