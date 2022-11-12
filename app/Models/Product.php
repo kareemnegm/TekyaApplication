@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FileTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -105,6 +106,41 @@ class Product extends Model implements HasMedia
     public function shop()
     {
         return $this->belongsTo(ProviderShopDetails::class, 'shop_id');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function branchStockQuanttity(Request $request,$product_id)
+    {
+        if (auth('user')->check()) {
+            $userLocation = auth('user')->user()->userLocation;
+            if ($userLocation) {
+                $request['latitude'] = $userLocation->latitude;
+                $request['longitude'] = $userLocation->longitude;
+            }
+        } elseif (isset($request->area_id) && !empty($request->area_id)) {
+            $area = Area::findOrFail($request->area_id);
+            $request['latitude'] = $area->latitude;
+            $request['longitude'] = $area->longitude;
+        }
+
+
+        $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
+        $longitude = $request->longitude ? $request->longitude : 31.290307;
+
+         $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id)->first();
+
+         if($brnach){
+            
+            $branchStock=BranchProductStock::where('product_id',$product_id)->where('branch_id',$brnach->id)->first();
+            return $stock= $branchStock?$branchStock->stock_qty:0;
+         }else{
+            return $stock=0;
+         }
+        
     }
 
     /**

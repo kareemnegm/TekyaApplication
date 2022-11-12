@@ -42,8 +42,7 @@ class ProductResource extends JsonResource
             'offer_price' => $this->offer_price,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'stock_quantity ' => ProductDetailsListStockResouce::collection($this->branchStock),
-
+            'stock_quantity ' => $this->branchStockQuanttity($request,$this->id),
             'is_published' => $this->is_published,
             'to_donation' => $this->to_donation,
 

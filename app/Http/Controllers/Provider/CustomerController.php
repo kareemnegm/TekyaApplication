@@ -48,7 +48,6 @@ class CustomerController extends Controller
     {
         $data=$request->validated();
         $customerOrderDetails = $this->customerInterface->customerOrderDetails($data['user_id']);
-
         return $this->paginateCollection(CustomerOrderDetailsResource::collection($customerOrderDetails), $request->limit, 'customer_orders_details');
 
     }
