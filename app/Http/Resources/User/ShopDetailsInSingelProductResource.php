@@ -33,8 +33,9 @@ class ShopDetailsInSingelProductResource extends JsonResource
         $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
         $longitude = $request->longitude ? $request->longitude : 31.290307;
 
-        dd($latitude, $longitude,$this->id);
         $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id);
+
+        dd($brnach);
 
         return [
             'id' => $this->id,
