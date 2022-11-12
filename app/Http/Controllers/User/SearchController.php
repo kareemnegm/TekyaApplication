@@ -11,7 +11,7 @@ class SearchController extends Controller
 {
     private SearchClass $SearchClass;
 
-
+           
     public function __construct(SearchClass $SearchClass)
     {
         $this->SearchClass = $SearchClass;
