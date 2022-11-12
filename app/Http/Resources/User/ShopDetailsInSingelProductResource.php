@@ -18,17 +18,17 @@ class ShopDetailsInSingelProductResource extends JsonResource
     public function toArray($request)
     {
 
-        if (auth('user')->check()) {
-            $userLocation = auth('user')->user()->userLocation;
-            if ($userLocation) {
-                $request['latitude'] = $userLocation->latitude;
-                $request['longitude'] = $userLocation->longitude;
-            }
-        } elseif (isset($request->area_id) && !empty($request->area_id)) {
-            $area = Area::findOrFail($request->area_id);
-            $request['latitude'] = $area->latitude;
-            $request['longitude'] = $area->longitude;
-        }
+        // if (auth('user')->check()) {
+        //     $userLocation = auth('user')->user()->userLocation;
+        //     if ($userLocation) {
+        //         $request['latitude'] = $userLocation->latitude;
+        //         $request['longitude'] = $userLocation->longitude;
+        //     }
+        // } elseif (isset($request->area_id) && !empty($request->area_id)) {
+        //     $area = Area::findOrFail($request->area_id);
+        //     $request['latitude'] = $area->latitude;
+        //     $request['longitude'] = $area->longitude;
+        // }
 
         $latitude = $request->latitude ? $request->latitude : 30.012537910528884;
         $longitude = $request->longitude ? $request->longitude : 31.290307;
