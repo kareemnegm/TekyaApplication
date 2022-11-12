@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CategoryIdFormRequest;
+use App\Http\Resources\ShopCategoryResource;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\User\CategoriesResource;
 use App\Http\Resources\User\ProductsResource;
@@ -65,7 +66,7 @@ class CategoryController extends Controller
     public function categoryShops(CategoryIdFormRequest $request)
     {
         $categoryShops=$this->CategoryRepository->categoryShops($request);
-        return $this->paginateCollection(ShopResource::collection($categoryShops),$request->limit,'category_shops');
+        return $this->paginateCollection(ShopCategoryResource::collection($categoryShops),$request->limit,'category_shops');
 
     }
 
