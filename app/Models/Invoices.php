@@ -18,7 +18,8 @@ class Invoices extends Model
         'total_invoice',
         'invoice_date',
         'taxes',
-        'shop_invoice_number'
+        'shop_invoice_number',
+        'user_id'
 
     ];
 }

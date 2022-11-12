@@ -1,6 +1,8 @@
 <?php
 
 use App\Mail\MyTestMail;
+use App\Models\Order;
+use App\Models\OrderShop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +65,22 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
 // });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
+
+    Route::post('update_user_id', function () {
+
+        $orders=Order::get();
+    
+        foreach($orders as $order){
+            $orderShop=OrderShop::where('order_id',$order->id)->update(['user_id'=>$order->user_id]);
+        }
+        $ordersShops=OrderShop::get();
+
+        foreach($ordersShops as $shop){
+            $shop->invoice->update(['user_id'=>$shop->user_id]);
+        }
+        return 'done';
+
+    });
     /**
      * signup
      */
@@ -78,6 +96,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
 
 
     Route::get('send-mail', function () {
+
+        
 
         $details = [
             'title' => 'Tekya.com',

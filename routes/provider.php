@@ -137,3 +137,14 @@ Route::get('branch_statistics', 'OrderController@branchStatistics');
 Route::get('finance_orders', 'OrderController@financeOrders');
 Route::get('finance_statistics', 'OrderController@financeStatistics');
 
+
+Route::get('finance_statistics', 'OrderController@financeStatistics');
+Route::get('finance_statistics', 'OrderController@financeStatistics');
+
+
+/**
+ * Customer  Orders
+ */
+Route::get('customers_orders', 'CustomerController@customersList');
+Route::get('customer_order_details', 'CustomerController@customerOrder');
+

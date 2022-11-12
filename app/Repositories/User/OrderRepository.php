@@ -174,7 +174,9 @@ class OrderRepository extends Controller implements OrderInterface
                     'total_product_price' => $shopItemsPrice,
                     'total_invoice' => $shopItemsPrice + $shopShpping - 0,
                     'invoice_date' => $date,
-                    "taxes" => $shopTaxes
+                    "taxes" => $shopTaxes,
+                    'user_id' => $user->id,
+
                 ];
 
                 $shopInvoice = $this->shopsOrderInvoice($orderShopInvoice);
@@ -186,6 +188,7 @@ class OrderRepository extends Controller implements OrderInterface
                     'delivery_option_id' => $shopItem['delivery_option_id'],
                     'total_items' => $shopItems->count(),
                     'note' => null,
+                    'user_id' => $user->id,
                 ];
 
 

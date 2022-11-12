@@ -17,6 +17,7 @@ class OrderShop extends Model
         'delivery_option_id',
         'total_items',
         'note',
+        'user_id'
 
     ];
 
