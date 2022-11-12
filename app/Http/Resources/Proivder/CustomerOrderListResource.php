@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Proivder;
 
+use App\Models\Invoices;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerOrderListResource extends JsonResource
@@ -14,9 +15,15 @@ class CustomerOrderListResource extends JsonResource
      */
     public function toArray($request)
     {
+        $totalInvoice=Invoices::where('user_id',$this->user_id)->sum('total_invoice');
         return [
+           'user_id'=>$this->user_id,
+           'total_order'=>$this->total,
+           'total_shop_invoices'=>$totalInvoice,
+           'name'=>$this->user->first_name.' '.$this->user->last_name,
+           'gender '=>$this->user->gender,
+           'mobile '=>$this->user->country_code .' '.$this->user->mobile
 
-            
         ];
     }
 }

@@ -24,17 +24,14 @@ class CustomerRepository implements CustomerInterface
 
         $shop_id = auth('provider')->user()->providerShopDetails->id;
 
-         $customerOrders=Order::whereHas('orderShops' , function($query)use($shop_id) {
-            $query->where('shop_id',$shop_id);
-        })
-        ->withSum('orderShops.invoice','total_invoice')
+         $customerOrders=OrderShop::where('shop_id',$shop_id)
+        ->select('user_id', DB::raw('count(*) as total'))
+        ->orderBy('total','DESC')
+        ->groupBy('user_id')
 
-        ->select('total_invoice','user_id', DB::raw('count(*) as total'))
-        ->groupBy('user_id','total_invoice')
         ->get();
 
-        dd($customerOrders);
-
+        return  $customerOrders;
         
     }
 
@@ -44,33 +41,21 @@ class CustomerRepository implements CustomerInterface
      * @param [type] $projectId
      * @return void
      */
-    public function customerOrderDetails($request)
+    public function customerOrderDetails($user_id)
     {
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+
+        $shopOrder = OrderShop::where('user_id',$user_id)->where('shop_id', $shop_id)->with('order')->
+        with('invoice')->withSum('orderItems', 'quantity')->get();
+
+        return $shopOrder;
+
 
     }
 
 
     
-     /**
-     * Get All Shop Collection function
-     *
-     * @param [type] $projectId
-     * @return void
-     */
-    public function orderShopUserId($request)
-    {
-        $orders=Order::get();
-        foreach($orders as $order){
-            $orderShop=OrderShop::where('order_id',$order->order_id)->update(['user_id'=>$order->user_id]);
-        }
-
-        $ordersShops=OrderShop::get();
-
-        foreach($ordersShops as $shop){
-            $shop->invoice->update(['user_id'=>$shop->user_id]);
-        }
-
-    }
+   
 
 
 
