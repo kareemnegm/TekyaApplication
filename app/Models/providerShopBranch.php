@@ -125,7 +125,7 @@ class providerShopBranch extends Model
         }
     }
 
-    public function scopeNearestBranch($query, $latitude, $longitude, $shop_id ,$distance = null, $unit = "km",)
+    public function scopeNearestBranch($query, $latitude, $longitude, $shop_id ,$distance = null, $unit = "km")
     {
         $distance = 30;
         $constant = $unit == "km" ? 6371 : 3959;
