@@ -33,6 +33,7 @@ class UserFormRequest extends BaseFormRequest
             // 'password'=>'required|min:8',
             'mobile' => ['required', new PhoneNumber,'max:11',Rule::unique('users')->whereNull('deleted_at')],
             'country_code' => ['nullable','in:+20'],
+            'fcm_token'=>'nullable',
             // 'gender'=>'required|in:male,female',
             // 'government_id'=>'required|exists:governments,id',
             // 'area_id'=>'required|exists:areas,id',

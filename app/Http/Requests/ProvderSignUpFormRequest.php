@@ -32,6 +32,9 @@ class ProvderSignUpFormRequest extends BaseFormRequest
 
             'password'=>'required|min:8',
             'type'=>'required',
+
+            'fcm_token'=>'nullable',
+
             'mobile'=>   ['required', Rule::unique('providers')->whereNull('deleted_at')],
         ];
     }
