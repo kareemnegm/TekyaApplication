@@ -140,7 +140,6 @@ class ProductRepository implements ProductInterface
             $this->updateProductVariants($newDetails['variants_id']);
             $incoming_variants = $newDetails['variants_id'];
             $this->deleteProductVariants($incoming_variants, $product);
-
         }
         if (isset($newDetails['variant_values_id'])) {
             $this->updateProductVariantValues($newDetails['variant_values_id']);
@@ -152,7 +151,6 @@ class ProductRepository implements ProductInterface
             $this->updateBranchProductStock($newDetails['branch_stock_id']);
             $incoming_branchStockIds = $newDetails['branch_stock_id'];
             $this->deleteProductStockBranch($incoming_branchStockIds, $product);
-
         }
 
         $product->update($newDetails);
@@ -209,10 +207,25 @@ class ProductRepository implements ProductInterface
     public function productsSearch($request)
     {
 
-        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->get();
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->where('shop_id', $request['shop_id'])->get();
         return $prdoucts;
     }
 
+
+
+    public function collectionSearch($request){
+        $collection = Collection::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id', $request['shop_id'])->get();
+        return $collection;
+    }
+
+
+
+    public function productNotInCollectionSearch($request)
+    {
+
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->where('collection_id', null)->where('shop_id', $request['shop_id'])->get();
+        return $prdoucts;
+    }
     /**
      * Undocumented function
      *

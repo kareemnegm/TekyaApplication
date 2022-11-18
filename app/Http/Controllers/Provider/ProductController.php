@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\CollectionSearchFormRequest;
 use App\Http\Requests\Provider\Product\ProductSortFormRequest;
 use App\Http\Requests\Provider\Product\ProductVariantFormRequest;
 use App\Http\Requests\Provider\Product\VariantIdFormRequestDelete;
@@ -12,6 +13,7 @@ use App\Http\Requests\Provider\ProductMoveCollectionFormRequest;
 use App\Http\Requests\Provider\ProductPublishUnPublishFormRequest;
 use App\Http\Requests\Provider\ProductSearchRequest;
 use App\Http\Requests\Provider\ProductUpdateFormRequest;
+use App\Http\Resources\Provider\CollectionsResource;
 use App\Http\Resources\Provider\ProductBranchStockResource;
 use App\Http\Resources\Provider\ProductResource;
 use App\Http\Resources\Provider\ProductSearchResource;
@@ -30,7 +32,7 @@ class ProductController extends Controller
      * @var ProductInterface
      */
     private ProductInterface $productInterface;
-
+    private $auth;
     /**
      * Product function
      *
@@ -39,6 +41,7 @@ class ProductController extends Controller
     public function __construct(ProductInterface $productInterface)
     {
         $this->productInterface = $productInterface;
+        $this->auth = auth('provider')->user()->providerShopDetails->id;
     }
 
     /**
@@ -73,7 +76,26 @@ class ProductController extends Controller
      */
     public function productsSearch(ProductSearchRequest $request)
     {
-        $products = $this->productInterface->productsSearch($request->validated());
+        $data=$request->validated();
+        $data['shop_id']=$this->auth;
+        $products = $this->productInterface->productsSearch($data);
+        return $this->paginateCollection(ProductSearchResource::collection($products), $request->limit, 'product');
+    }
+
+    public function collectionSearch(CollectionSearchFormRequest $request)
+    {
+        $data=$request->validated();
+        $data['shop_id']=$this->auth;
+        $products = $this->productInterface->collectionSearch($data);
+        return $this->paginateCollection(CollectionsResource::collection($products), $request->limit, 'collection');
+    }
+
+
+    public function productNotInCollectionSearch(ProductSearchRequest $request)
+    {
+        $data=$request->validated();
+        $data['shop_id']=$this->auth;
+        $products = $this->productInterface->productNotInCollectionSearch($data);
         return $this->paginateCollection(ProductSearchResource::collection($products), $request->limit, 'product');
     }
     /**
