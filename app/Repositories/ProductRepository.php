@@ -61,7 +61,7 @@ class ProductRepository implements ProductInterface
 
         if ($request->is_publish) {
             $is_publish = $request->is_publish == 'true' ? 1 : 0;
-            $q->where('is_publish', $is_publish);
+            $q->where('is_published', $is_publish);
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
