@@ -209,7 +209,7 @@ class ProductRepository implements ProductInterface
     {
 
         $products = Product::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id', $request['shop_id']);
-
+        $products->where('shop_id', auth('provider')->user()->providerShopDetails->id);
 
         if ($request->is_published) {
             $is_publish = $request->is_published == 'true' ? 1 : 0;
@@ -221,7 +221,6 @@ class ProductRepository implements ProductInterface
         } elseif (isset($request->in_collection) && $request->in_collection == 'false') {
             $products->where('collection_id',null);
         }
-
         if (isset($request->sortBy) && isset($request->filter)) {
             $collections = $products->orderBy($request->filter, $request->sortBy)->get();
         } else {
@@ -235,7 +234,9 @@ class ProductRepository implements ProductInterface
 
     public function collectionSearch($request)
     {
-        $collection = Collection::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id', $request['shop_id']);
+
+        $collection = Collection::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id',auth('provider')->user()->providerShopDetails->id);
+
 
         if ($request->is_published) {
             $is_publish = $request->is_published == 'true' ? 1 : 0;
