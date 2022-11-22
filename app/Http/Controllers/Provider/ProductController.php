@@ -76,16 +76,16 @@ class ProductController extends Controller
      */
     public function productsSearch(ProductSearchRequest $request)
     {
-        $data=$request->validated();
-        $data['shop_id']=$this->auth;
+        $data = $request;
+        $data['shop_id'] = $this->auth;
         $products = $this->productInterface->productsSearch($data);
         return $this->paginateCollection(ProductSearchResource::collection($products), $request->limit, 'product');
     }
 
     public function collectionSearch(CollectionSearchFormRequest $request)
     {
-        $data=$request->validated();
-        $data['shop_id']=$this->auth;
+        $data = $request;
+        $data['shop_id'] = $this->auth;
         $products = $this->productInterface->collectionSearch($data);
         return $this->paginateCollection(CollectionsResource::collection($products), $request->limit, 'collection');
     }
@@ -93,8 +93,8 @@ class ProductController extends Controller
 
     public function productNotInCollectionSearch(ProductSearchRequest $request)
     {
-        $data=$request->validated();
-        $data['shop_id']=$this->auth;
+        $data = $request->validated();
+        $data['shop_id'] = $this->auth;
         $products = $this->productInterface->productNotInCollectionSearch($data);
         return $this->paginateCollection(ProductSearchResource::collection($products), $request->limit, 'product');
     }

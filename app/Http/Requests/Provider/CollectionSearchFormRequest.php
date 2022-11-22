@@ -25,7 +25,12 @@ class CollectionSearchFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'search'=>'required|string|min:1'
+            'search'=>'required|string|min:1',
+            'filter'=>'in:name,created_at',
+            'sortBy'=>'in:desc,asc',
+            'is_published'=>'in:true,false',
+            'page'=>'integer',
+            'limit'=>'integer',
         ];
     }
 }
