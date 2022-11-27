@@ -24,7 +24,7 @@ class ProductsResource extends JsonResource
             'offer_price'=>$this->offer_price,
             'start_date'=>$this->start_date,
             'end_date'=>$this->end_date,
-            'stock_quantity'=>$this->stock_quantity,
+            // 'stock_quantity'=>$this->stock_quantity,
             'is_published'=>$this->is_published,
             'to_donation'=>$this->to_donation,
             'product_image'=> new ImageResource($this->getFirstMedia('product_images'))?? null,

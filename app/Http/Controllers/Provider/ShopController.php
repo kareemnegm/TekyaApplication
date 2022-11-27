@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
+use App\Http\Requests\Provider\WorkingHourRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\ShopDetailsFormRequest;
 use App\Interfaces\ProviderInterface;
+use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,11 +55,25 @@ class ShopController extends Controller
     {
         $provider_id = Auth::user()->id;
         $details = $request->validated();
-    $this->ProviderRepository->updateShopDetails($details, $provider_id);
+        $this->ProviderRepository->updateShopDetails($details, $provider_id);
         return $this->successResponse('updated successful', 200);
     }
 
 
+    public function addWorkingHoursToShop(WorkingHourRequest $request)
+    {
+
+        $details = $request->validated();
+        $auth = auth('provider')->user()->providerShopDetails->id;
+        $branch = providerShopBranch::where('shop_id', $auth)->first();
+        if (isset($details['working_hours_day'])) {
+            $details['working_hours_day'] = json_encode($details['working_hours_day']);
+        }
+
+        $branch->update($details);
+        return $this->successResponse('added successful', 200);
+
+    }
 
     public function getShopDetails()
     {
@@ -70,12 +86,3 @@ class ShopController extends Controller
         return $this->paginateCollection($this->ProviderRepository->getShopByCategoryId($id, $request), $request->limit, 'shop');
     }
 }
-
-
-
-
-
-
-
-
-

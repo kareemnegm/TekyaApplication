@@ -116,9 +116,9 @@ class ProductRepository implements ProductInterface
         if (!empty($productDetails['product_images'])) {
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
-        if (!empty($productDetails['branches_stock'])) {
-            $this->branchProductStock($productDetails['branches_stock'], $product->id);
-        }
+        // if (!empty($productDetails['branches_stock'])) {
+        //     $this->branchProductStock($productDetails['branches_stock'], $product->id);
+        // }
 
         if (!empty($productDetails['variants'])) {
             return $this->productVarints($productDetails['variants'], $product);
@@ -145,14 +145,14 @@ class ProductRepository implements ProductInterface
         if (isset($newDetails['variant_values_id'])) {
             $this->updateProductVariantValues($newDetails['variant_values_id']);
         }
-        if (isset($newDetails['branches_stock'])) {
-            $this->branchProductStock($newDetails['branches_stock'], $product->id);
-        }
-        if (isset($newDetails['branch_stock_id'])) {
-            $this->updateBranchProductStock($newDetails['branch_stock_id']);
-            $incoming_branchStockIds = $newDetails['branch_stock_id'];
-            $this->deleteProductStockBranch($incoming_branchStockIds, $product);
-        }
+        // if (isset($newDetails['branches_stock'])) {
+        //     $this->branchProductStock($newDetails['branches_stock'], $product->id);
+        // }
+        // if (isset($newDetails['branch_stock_id'])) {
+        //     $this->updateBranchProductStock($newDetails['branch_stock_id']);
+        //     $incoming_branchStockIds = $newDetails['branch_stock_id'];
+        //     $this->deleteProductStockBranch($incoming_branchStockIds, $product);
+        // }
 
         $product->update($newDetails);
 

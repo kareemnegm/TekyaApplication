@@ -32,7 +32,7 @@ class ProviderClass implements ProviderInterface
     public function updateShopDetails($details, $id)
     {
         $shopDetails = ProviderShopDetails::where('provider_id', $id)->first();
-
+        $branch_id = providerShopBranch::where('shop_id', $shopDetails->id)->first();
 
         if (isset($details['shop_logo'])) {
 
@@ -58,6 +58,7 @@ class ProviderClass implements ProviderInterface
         if (isset($details['category_id'])) {
             $shopProvider->category()->sync($details['category_id']);
         }
+        $this->updateBranch($details, $branch_id->id);
     }
 
 
@@ -109,6 +110,9 @@ class ProviderClass implements ProviderInterface
     }
 
 
+
+
+
     public function BranchAddress($branchDetails)
     {
         return  BranchAddress::create($branchDetails);
@@ -131,6 +135,9 @@ class ProviderClass implements ProviderInterface
     {
         $branch = providerShopBranch::findOrFail($id);
 
+        if (isset($details['payment_option_id'])) {
+            $branch->paymentOption()->syncWithoutDetaching($details['payment_option_id']);
+        }
         if (isset($details['working_hours_day'])) {
             $details['working_hours_day'] = json_encode($details['working_hours_day']);
         }

@@ -64,6 +64,7 @@ Route::get('/shopDetails', 'ShopController@getShopDetails');
  * /shop/branch
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
+Route::post('/shop_working_hours', 'ShopController@addWorkingHoursToShop');
 Route::get('/shop/branches', 'BranchController@getBranches');
 Route::get('/shop/stock_branches', 'BranchController@getBranchesForStocks');
 Route::get('/shop/branch', 'BranchController@getBranch');
