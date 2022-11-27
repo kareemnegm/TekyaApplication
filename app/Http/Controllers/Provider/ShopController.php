@@ -7,7 +7,7 @@ use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
 use App\Http\Requests\Provider\WorkingHourRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\ShopDetailsFormRequest;
-use App\Http\Resources\provider\openingTimeResource;
+use App\Http\Resources\Provider\openingTimeResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
