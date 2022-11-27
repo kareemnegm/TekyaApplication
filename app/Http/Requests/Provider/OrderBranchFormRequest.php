@@ -26,17 +26,17 @@ class OrderBranchFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            
-            'branch_id' => [
-                'required',
-                Rule::exists('provider_shop_branches', 'id')->where('shop_id',auth('provider')->user()->providerShopDetails->id),
-            ],
+
+            // 'branch_id' => [
+            //     'required',
+            //     Rule::exists('provider_shop_branches', 'id')->where('shop_id',auth('provider')->user()->providerShopDetails->id),
+            // ],
 
             // 'order_type' =>'required|in:pickup,delivery'
         ];
     }
 
 
-    
-   
+
+
 }
