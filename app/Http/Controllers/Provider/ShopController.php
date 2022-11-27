@@ -80,6 +80,7 @@ class ShopController extends Controller
     public function openingTime(){
         $auth = auth('provider')->user()->providerShopDetails->id;
         $branch = providerShopBranch::where('shop_id', $auth)->first();
+        dd($branch);
         return $this->dataResponse(['shop_opening_times'=>isset($branch)?new openingTimeResource($branch):null],'success',200);
     }
 
