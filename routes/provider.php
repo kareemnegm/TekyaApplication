@@ -60,6 +60,7 @@ Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
 
 Route::put('/shopDetails', 'ShopController@updateShopDetails');
 Route::get('/shopDetails', 'ShopController@getShopDetails');
+Route::get('/shopOpeningTime', 'ShopController@openingTime');
 /**
  * /shop/branch
  */

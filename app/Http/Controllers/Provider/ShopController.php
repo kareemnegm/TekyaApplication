@@ -7,6 +7,7 @@ use App\Http\Requests\Provider\UpdateShopDetailsFormRequest;
 use App\Http\Requests\Provider\WorkingHourRequest;
 use App\Http\Requests\ShopBranchFormRequest;
 use App\Http\Requests\ShopDetailsFormRequest;
+use App\Http\Resources\provider\openingTimeResource;
 use App\Interfaces\ProviderInterface;
 use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
@@ -73,6 +74,13 @@ class ShopController extends Controller
         $branch->update($details);
         return $this->successResponse('added successful', 200);
 
+    }
+
+
+    public function openingTime(){
+        $auth = auth('provider')->user()->providerShopDetails->id;
+        $branch = providerShopBranch::where('shop_id', $auth)->first();
+        return $this->dataResponse(['opening_time'=>new openingTimeResource($branch)],'success',200);
     }
 
     public function getShopDetails()
