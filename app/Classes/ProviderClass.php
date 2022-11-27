@@ -36,7 +36,7 @@ class ProviderClass implements ProviderInterface
 
         if (isset($details['shop_logo'])) {
 
-            if($shopDetails->getMedia('shop_logo')){
+            if ($shopDetails->getMedia('shop_logo')) {
 
                 $shopDetails->clearMediaCollectionExcept('shop_logo');
             }
@@ -44,8 +44,8 @@ class ProviderClass implements ProviderInterface
             $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
         }
         if (isset($details['shop_cover'])) {
-            
-            if($shopDetails->getMedia('shop_cover')){
+
+            if ($shopDetails->getMedia('shop_cover')) {
                 $shopDetails->clearMediaCollectionExcept('shop_cover');
             }
 
@@ -55,8 +55,8 @@ class ProviderClass implements ProviderInterface
         $shopDetails->update($details);
         $shopProvider = ProviderShopDetails::find($shopDetails->id);
 
-        if(isset($details['category_id'])){
-        $shopProvider->category()->sync($details['category_id']);
+        if (isset($details['category_id'])) {
+            $shopProvider->category()->sync($details['category_id']);
         }
     }
 
@@ -149,7 +149,7 @@ class ProviderClass implements ProviderInterface
     public function branchDeliveryPickUpToggle($details)
     {
 
-        $branch = providerShopBranch::findOrFail($details['branch_id']);
+        $branch = providerShopBranch::where('shop_id', $details['shop_id'])->firstOrFail();
         $branch->update($details);
     }
 
