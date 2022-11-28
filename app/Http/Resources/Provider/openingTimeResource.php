@@ -16,6 +16,8 @@ class openingTimeResource extends JsonResource
     {
         return [
             'opening_time' => json_decode($this->working_hours_day),
+            'delivery'=>$this->delivery,
+            'pick_up'=>$this->pick_up,
 
         ];
     }
