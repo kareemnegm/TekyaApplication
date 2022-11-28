@@ -60,7 +60,7 @@ class CategoryRepository implements CategoryInterface
      */
     public function categoryShops($request){
 
-        $limit=$request->limit ?$request->limit:10;
+    $limit=$request->limit ?$request->limit:10;
 
 
         $category = Category::findOrFail($request->category_id);
