@@ -36,7 +36,7 @@ class DeliveryCoverageResource extends JsonResource
             ],
 
             'delivery_fees'=>$this->delivery_fees,
-            'average_delivery_time'=>$this->average_delivery_time,
+            'delivery_estimated_time'=>$this->delivery_estimated_time,
 
         ];
     }
