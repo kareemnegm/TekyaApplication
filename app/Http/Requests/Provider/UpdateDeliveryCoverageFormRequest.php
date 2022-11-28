@@ -37,7 +37,7 @@ class UpdateDeliveryCoverageFormRequest extends BaseFormRequest
             'delivery_estimated_time'=>'nullable|numeric',
             'delivery_fees'=>'nullable|numeric',
 
-            'note'=>'nullable|string'
+            'notes'=>'nullable|string'
         ];
     }
 }

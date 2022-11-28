@@ -37,6 +37,7 @@ class DeliveryCoverageResource extends JsonResource
 
             'delivery_fees'=>$this->delivery_fees,
             'delivery_estimated_time'=>$this->delivery_estimated_time,
+            'notes'=>$this->notes,
 
         ];
     }
