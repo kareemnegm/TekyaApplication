@@ -5,6 +5,7 @@ namespace App\Http\Requests\Provider;
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateDeliveryCoverageFormRequest extends BaseFormRequest
 {
@@ -25,11 +26,18 @@ class UpdateDeliveryCoverageFormRequest extends BaseFormRequest
      */
     public function rules()
     {
-        $shop_id = Auth::user()->providerShopDetails->id;
         return [
-            'delivery_coverage_id'=>'required|exists:delivery_coverages,id,shop_id,' . $shop_id,
-            'average_delivery_time'=>'nullable|numeric',
+            'government_id' => 'required|exists:governments,id',
+            'area_id' => [
+                'required',
+                Rule::exists('areas', 'id')->where('government_id',request()->government_id),
+            ],
+
+                  
+            'delivery_estimated_time'=>'nullable|numeric',
             'delivery_fees'=>'nullable|numeric',
+
+            'note'=>'nullable|string'
         ];
     }
 }

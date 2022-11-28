@@ -48,9 +48,8 @@ Route::apiResource('/payment', 'PaymentController');
 
 
 /**delivery coverage */
-
-Route::apiResource('/deliveryCoverage', 'DeliveryCoverage')->except(['update']);
-Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
+Route::apiResource('/delivery_coverage', 'DeliveryCoverage');
+// Route::put('/deliveryCoverage', 'DeliveryCoverage@update');
 
 /**end of delivery coverage */
 

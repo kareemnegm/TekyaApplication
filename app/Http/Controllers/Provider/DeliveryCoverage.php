@@ -42,7 +42,7 @@ class DeliveryCoverage extends Controller
         $details = $request->validated();
         $shop_id = Auth::user()->providerShopDetails->id;
         $details['shop_id'] = $shop_id;
-        return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->deliveryCoverage($details))], 'created successful', 200);
+        return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->storeCoverage($details))], 'created successful', 200);
     }
 
     /**
@@ -58,7 +58,7 @@ class DeliveryCoverage extends Controller
         if ($coverageAreas) {
             return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->getDeliveryCoverage($id))], 'success', 200);
         }
-        return $this->errorResponseWithMessage('Unauthorized', 401);
+        return $this->errorResponseWithMessage('the delivery coverage Not exists ,or not own this delivery coverage', 401);
     }
 
 
@@ -70,11 +70,19 @@ class DeliveryCoverage extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDeliveryCoverageFormRequest $request)
+    public function update(UpdateDeliveryCoverageFormRequest $request,$id)
     {
-        $deliveryCoverageId = $request->delivery_coverage_id;
-        $data = $request->except('delivery_coverage_id');
-        return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->updateDeliveryCoverage($deliveryCoverageId,$data))], 'updated successful', 200);
+
+        $shop_id = Auth::user()->providerShopDetails->id;
+
+        $coverageAreas = ModelsDeliveryCoverage::where('id', $id)->where('shop_id', $shop_id)->exists();
+
+        if ($coverageAreas) {
+            return $this->dataResponse(['delivery_coverage' => new DeliveryCoverageResource($this->deliveryCoverageRepository->updateDeliveryCoverage($id, $request->validated()))], 'updated successful', 200);
+        }else{
+            return $this->errorResponseWithMessage('the delivery coverage Not exists ,or not own this delivery coverage', 401);
+
+        }
     }
 
     /**
@@ -85,12 +93,8 @@ class DeliveryCoverage extends Controller
      */
     public function destroy($id)
     {
-        $shop_id = Auth::user()->providerShopDetails->id;
-        $coverageAreas = ModelsDeliveryCoverage::where('id', $id)->where('shop_id', $shop_id)->exists();
-        if ($coverageAreas) {
-            $this->deliveryCoverageRepository->deleteDeliveryCoverage($id);
-            return $this->successResponse('deleted successful', 200);
-        }
-        return $this->errorResponseWithMessage('Unauthorized', 401);
+
+        $this->deliveryCoverageRepository->deleteDeliveryCoverage($id);
+        return $this->successResponse('deleted successful', 200);
     }
 }

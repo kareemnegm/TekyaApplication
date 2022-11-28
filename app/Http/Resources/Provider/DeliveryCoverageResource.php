@@ -21,7 +21,20 @@ class DeliveryCoverageResource extends JsonResource
 
         return[
             'id'=>$this->id,
-            'shop_id'=>$this->shop_id,
+
+            'shop'=>[
+                'id'=>$this->shop->id,
+                'name'=>$this->shop->shop_name,
+            ],
+            'government'=>[
+                'id'=>$this->government->id,
+                'name'=>$this->government->name,
+            ],
+            'area'=>[
+                'id'=>$this->area->id,
+                'name'=>$this->area->name,
+            ],
+
             'delivery_fees'=>$this->delivery_fees,
             'average_delivery_time'=>$this->average_delivery_time,
 
