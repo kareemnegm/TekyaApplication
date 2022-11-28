@@ -53,14 +53,14 @@ class OrderController extends Controller
         return $this->dataResponse(['order_details'=>new ProviderPlacedOrdersDetailsResource($this->ProviderOrderRepository->orderDetails($provider_id, $id))],'success',200);
     }
 
-    
+
     /**
      * Undocumented function
      *
      * @param Request $request
      * @return void
      */
-    public function branchStatistics(Request $request)
+    public function shopStatistics(Request $request)
     {
         $shop_id = auth('provider')->user()->providerShopDetails->id;
 
@@ -98,8 +98,8 @@ class OrderController extends Controller
 
         return $this->dataResponse(['orders'=>$order['orders'],'income'=>$order['income'],
         'cash'=>$order['cash']],'success',200);
-  
+
     }
 
 }
-  
+

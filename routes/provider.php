@@ -59,16 +59,18 @@ Route::apiResource('/delivery_coverage', 'DeliveryCoverage');
 
 Route::put('/shopDetails', 'ShopController@updateShopDetails');
 Route::get('/shopDetails', 'ShopController@getShopDetails');
+Route::get('/shopOpeningTime', 'ShopController@openingTime');
 /**
  * /shop/branch
  */
 Route::post('/shop/branch', 'BranchController@createBranch');
+Route::post('/shop_working_hours', 'ShopController@addWorkingHoursToShop');
 Route::get('/shop/branches', 'BranchController@getBranches');
 Route::get('/shop/stock_branches', 'BranchController@getBranchesForStocks');
 Route::get('/shop/branch', 'BranchController@getBranch');
 Route::put('/shop/branch/status', 'BranchController@branchActive');
 Route::put('/shop/branch/{id}', 'BranchController@updateBranch');
-Route::put('/branch/toggle_delivery_pickup', 'BranchController@branchDeliveryPickUpToggle');
+Route::put('/shop/toggle_delivery_pickup', 'BranchController@branchDeliveryPickUpToggle');
 Route::put('/branch/{id}/remove_payment_option', 'BranchController@removePaymentOptionFromBranch');
 Route::delete('/shop/branch/{id}', 'BranchController@deleteBranch');
 
@@ -92,6 +94,8 @@ Route::get('collection/{id}/products', 'ProductController@index');
 Route::get('all_products', 'ProductController@getAllShopProduct');
 Route::put('order_product', 'ProductController@orderProduct');
 Route::get('products_search', 'ProductController@productsSearch');
+Route::get('collections_search', 'ProductController@collectionSearch');
+Route::get('products_not_in_collection', 'ProductController@productNotInCollectionSearch');
 
 
 /**
@@ -131,7 +135,7 @@ Route::group(['namespace' => 'GovernmentArea'], function () {
 Route::get('/orders', 'OrderController@shopOrders');
 Route::get('/order/{id}', 'OrderController@orderDetails');
 Route::put('/order', 'OrderController@updateOrderStatus');
-Route::get('branch_statistics', 'OrderController@branchStatistics');
+Route::get('shop_statistics', 'OrderController@shopStatistics');
 
 Route::get('finance_orders', 'OrderController@financeOrders');
 Route::get('finance_statistics', 'OrderController@financeStatistics');

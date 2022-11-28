@@ -15,6 +15,12 @@ interface ProductInterface
      * @return void
      */
     public function productsSearch($request);
+
+    public function collectionSearch($request);
+
+
+    public function productNotInCollectionSearch($request);
+
     /**
      * All Shop Procuts function
      *

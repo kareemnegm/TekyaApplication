@@ -25,14 +25,11 @@ class ProductSortFormRequest extends BaseFormRequest
      */
     public function rules(Request $request)
     {
-        // dd($this->route('id'));
-
-
-        // dd($request);
+      
         return [
             'filter'=>'in:name,price,created_at,order',
             'sortBy'=>'in:desc,asc',
-            'is_publish'=>'in:true,false',
+            'is_published'=>'in:true,false',
             'in_collection'=>'in:true,false',
             'page'=>'integer',
             'limit'=>'integer',

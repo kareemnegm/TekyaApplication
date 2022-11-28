@@ -24,9 +24,8 @@ class BranchIdFormRequestDelPickUP extends BaseFormRequest
      */
     public function rules()
     {
-        $shop_id=auth('provider')->user()->providerShopDetails->id;
         return [
-          "branch_id"=>'required|exists:provider_shop_branches,id,shop_id,'.$shop_id,
+          "shop_id"=>'required|exists:provider_shop_branches,shop_id',
           'pick_up'=>'required_without:delivery',
           'delivery'=>'required_without:pick_up',
         ];

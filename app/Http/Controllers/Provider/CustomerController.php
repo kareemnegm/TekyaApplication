@@ -31,9 +31,8 @@ class CustomerController extends Controller
     public function customersList(Request $request)
     {
         $customerOrdersList = $this->customerInterface->customerOrdersList($request);
-        // dd($customerOrdersList);
         return $this->paginateCollection(CustomerOrderListResource::collection($customerOrdersList), $request->limit, 'customers_orders');
-// 
+//
     }
 
 

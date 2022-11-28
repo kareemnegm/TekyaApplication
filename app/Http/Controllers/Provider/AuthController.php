@@ -8,6 +8,7 @@ use App\Http\Requests\ProvderSignUpFormRequest;
 use App\Http\Requests\ProviderLoginFormRequest;
 use App\Http\Requests\User\UpdateUserFormRequest;
 use App\Models\Provider;
+use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,9 @@ class AuthController extends Controller
         $user = Provider::create($data);
         $data['provider_id'] = $user->id;
         $shop = ProviderShopDetails::create($data);
+        $shop->branches()->create([
+            'name' => $shop['shop_name']
+        ]);
         $token = $user->createToken('ProviderToken')->plainTextToken;
         return $this->dataResponse(['provider' => $user, 'shop_name' => $shop->shop_name], 'success', 200);
     }

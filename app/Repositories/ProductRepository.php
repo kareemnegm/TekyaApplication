@@ -27,15 +27,15 @@ class ProductRepository implements ProductInterface
 
         $q->where('shop_id', auth('provider')->user()->providerShopDetails->id);
 
-        if ($request->is_publish) {
-            $is_publish = $request->is_publish == 'true' ? 1 : 0;
-            $q->where('is_publish', $is_publish);
+        if ($request->is_published) {
+            $is_publish = $request->is_published == 'true' ? 1 : 0;
+            $q->where('is_published', $is_publish);
         }
 
         if (isset($request->in_collection) && $request->in_collection == 'true') {
-            $q->whereNotNull('collection_id');
+            $q->where('collection_id','!=',null);
         } elseif (isset($request->in_collection) && $request->in_collection == 'false') {
-            $q->whereNull('collection_id');
+            $q->where('collection_id',null);
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
@@ -59,9 +59,10 @@ class ProductRepository implements ProductInterface
 
         $q->where('collection_id', $collectionId);
 
-        if ($request->is_publish) {
-            $is_publish = $request->is_publish == 'true' ? 1 : 0;
-            $q->where('is_publish', $is_publish);
+
+        if ($request->is_published) {
+            $is_publish = $request->is_published == 'true' ? 1 : 0;
+            $q->where('is_published', $is_publish);
         }
 
         if (isset($request->sortBy) && isset($request->filter)) {
@@ -115,9 +116,9 @@ class ProductRepository implements ProductInterface
         if (!empty($productDetails['product_images'])) {
             $product->saveFiles($productDetails['product_images'], 'product_images');
         }
-        if (!empty($productDetails['branches_stock'])) {
-            $this->branchProductStock($productDetails['branches_stock'], $product->id);
-        }
+        // if (!empty($productDetails['branches_stock'])) {
+        //     $this->branchProductStock($productDetails['branches_stock'], $product->id);
+        // }
 
         if (!empty($productDetails['variants'])) {
             return $this->productVarints($productDetails['variants'], $product);
@@ -140,20 +141,18 @@ class ProductRepository implements ProductInterface
             $this->updateProductVariants($newDetails['variants_id']);
             $incoming_variants = $newDetails['variants_id'];
             $this->deleteProductVariants($incoming_variants, $product);
-
         }
         if (isset($newDetails['variant_values_id'])) {
             $this->updateProductVariantValues($newDetails['variant_values_id']);
         }
-        if (isset($newDetails['branches_stock'])) {
-            $this->branchProductStock($newDetails['branches_stock'], $product->id);
-        }
-        if (isset($newDetails['branch_stock_id'])) {
-            $this->updateBranchProductStock($newDetails['branch_stock_id']);
-            $incoming_branchStockIds = $newDetails['branch_stock_id'];
-            $this->deleteProductStockBranch($incoming_branchStockIds, $product);
-
-        }
+        // if (isset($newDetails['branches_stock'])) {
+        //     $this->branchProductStock($newDetails['branches_stock'], $product->id);
+        // }
+        // if (isset($newDetails['branch_stock_id'])) {
+        //     $this->updateBranchProductStock($newDetails['branch_stock_id']);
+        //     $incoming_branchStockIds = $newDetails['branch_stock_id'];
+        //     $this->deleteProductStockBranch($incoming_branchStockIds, $product);
+        // }
 
         $product->update($newDetails);
 
@@ -209,10 +208,59 @@ class ProductRepository implements ProductInterface
     public function productsSearch($request)
     {
 
-        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->get();
-        return $prdoucts;
+        $products = Product::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id', $request['shop_id']);
+        $products->where('shop_id', auth('provider')->user()->providerShopDetails->id);
+
+        if ($request->is_published) {
+            $is_publish = $request->is_published == 'true' ? 1 : 0;
+            $products->where('is_published', $is_publish);
+        }
+
+        if (isset($request->in_collection) && $request->in_collection == 'true') {
+            $products->where('collection_id','!=',null);
+        } elseif (isset($request->in_collection) && $request->in_collection == 'false') {
+            $products->where('collection_id',null);
+        }
+        if (isset($request->sortBy) && isset($request->filter)) {
+            $collections = $products->orderBy($request->filter, $request->sortBy)->get();
+        } else {
+            $collections = $products->orderBy('order', 'ASC')->get();
+        }
+
+        return $collections;
     }
 
+
+
+    public function collectionSearch($request)
+    {
+
+        $collection = Collection::where('name', 'like', '%' . $request['search'] . '%')->where('shop_id',auth('provider')->user()->providerShopDetails->id);
+
+
+        if ($request->is_published) {
+            $is_publish = $request->is_published == 'true' ? 1 : 0;
+
+            $collection->where('is_published', $is_publish);
+        }
+
+        if (isset($request->sortBy) && isset($request->filter)) {
+            $collections = $collection->orderBy($request->filter, $request->sortBy)->get();
+        } else {
+            $collections = $collection->orderBy('order', 'ASC')->get();
+        }
+
+        return $collections;
+    }
+
+
+
+    public function productNotInCollectionSearch($request)
+    {
+
+        $prdoucts = Product::orderBy('order', 'ASC')->where('name', 'like', '%' . $request['search'] . '%')->where('collection_id', null)->where('shop_id', $request['shop_id'])->get();
+        return $prdoucts;
+    }
     /**
      * Undocumented function
      *

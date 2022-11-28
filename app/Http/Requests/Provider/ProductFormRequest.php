@@ -47,9 +47,9 @@ class ProductFormRequest extends BaseFormRequest
             'product_images' => 'nullable',
             'variants' => 'nullable|array',
             'variants.*.*.value' => 'sometimes|required|string',
-            'branches_stock' => 'required|array',
-            'branches_stock.*.branch_id' => 'required|exists:provider_shop_branches,id,shop_id,'.auth('provider')->user()->providerShopDetails->id,
-            'branches_stock.*.stock_qty' => 'required|numeric',
+            // 'branches_stock' => 'required|array',
+            // 'branches_stock.*.branch_id' => 'required|exists:provider_shop_branches,id,shop_id,'.auth('provider')->user()->providerShopDetails->id,
+            // 'branches_stock.*.stock_qty' => 'required|numeric',
             'variants.*.*.is_default' => 'distinct'
 
         ];
