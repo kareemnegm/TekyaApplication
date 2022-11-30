@@ -18,7 +18,7 @@ class OrderBranchFormRequest extends BaseFormRequest
         return true;
     }
 
-    /**
+   /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -26,17 +26,22 @@ class OrderBranchFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-
-            // 'branch_id' => [
-            //     'required',
-            //     Rule::exists('provider_shop_branches', 'id')->where('shop_id',auth('provider')->user()->providerShopDetails->id),
-            // ],
-
-            // 'order_type' =>'required|in:pickup,delivery'
+         'order_type' =>'nullable|in:recent,pickup,delivery,canceled'
         ];
     }
 
 
+        /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'order_type.in'=>' :attribute is used in recent,pickup,delivery,canceled',
+        ];
+    }
 
 
 }

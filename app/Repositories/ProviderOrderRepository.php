@@ -22,8 +22,32 @@ class ProviderOrderRepository implements ProviderOrderInterface
     {
 
 
-        $shopOrder = OrderShop::where('shop_id', $shop_id)->with('order')->
-        with('invoice')->withSum('orderItems', 'quantity')->get();
+        $q = OrderShop::where('shop_id', $shop_id)->with('order')->
+        with('invoice')->withSum('orderItems', 'quantity');
+
+        
+        if(!isset($request['order_type'])){
+           $shopOrder= $q->get();
+        }
+        elseif($request['order_type'] == 'recent'){
+
+            $shopOrder=$q->orderBy('id','desc')->get();
+
+        }elseif($request['order_type'] == 'pickup') {
+
+            $shopOrder= $q->where('model_type','App\Models\OrderPickup')->get();
+            
+        } elseif($request['order_type'] == 'delivery') {
+
+            $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
+        }
+        elseif($request['order_type'] == 'canceled') {
+
+            $shopOrder= $q->whereHas('deliveryType' , function($query) {
+                $query->where('order_user_status', '=', 'canceled');
+            })->get();
+        }
+
 
         return $shopOrder;
     }
