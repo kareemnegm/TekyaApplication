@@ -41,10 +41,10 @@ class ProviderOrderRepository implements ProviderOrderInterface
 
             $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
         }
-        elseif($request['order_type'] == 'canceled') {
+        elseif($request['order_type'] == 'rejected') {
 
             $shopOrder= $q->whereHas('deliveryType' , function($query) {
-                $query->where('order_user_status', '=', 'canceled');
+                $query->where('order_shop_status', '=', 'rejected');
             })->get();
         }
 
@@ -130,10 +130,10 @@ class ProviderOrderRepository implements ProviderOrderInterface
 
             $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
         }
-        elseif($request['order_type'] == 'canceled') {
+        elseif($request['order_type'] == 'rejected') {
 
             $shopOrder= $q->whereHas('deliveryType' , function($query) {
-                $query->where('order_user_status', '=', 'canceled');
+                $query->where('order_user_status', '=', 'rejected');
             })->get();
         }
         
