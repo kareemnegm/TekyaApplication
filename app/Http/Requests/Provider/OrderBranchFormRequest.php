@@ -26,7 +26,7 @@ class OrderBranchFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-         'order_type' =>'nullable|in:recent,pickup,delivery,canceled'
+         'order_type' =>'nullable|in:recent,pickup,delivery,rejected'
         ];
     }
 
@@ -39,7 +39,7 @@ class OrderBranchFormRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            'order_type.in'=>' :attribute is used in recent,pickup,delivery,canceled',
+            'order_type.in'=>' :attribute is used in recent,pickup,delivery,rejected',
         ];
     }
 

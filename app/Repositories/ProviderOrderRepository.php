@@ -35,11 +35,12 @@ class ProviderOrderRepository implements ProviderOrderInterface
             $shopOrder = $q->where('model_type', 'App\Models\OrderPickup')->get();
         } elseif ($request['order_type'] == 'delivery') {
 
-            $shopOrder = $q->where('model_type', 'App\Models\OrderShipment')->get();
-        } elseif ($request['order_type'] == 'canceled') {
+            $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
+        }
+        elseif($request['order_type'] == 'rejected') {
 
-            $shopOrder = $q->whereHas('deliveryType', function ($query) {
-                $query->where('order_user_status', '=', 'canceled');
+            $shopOrder= $q->whereHas('deliveryType' , function($query) {
+                $query->where('order_shop_status', '=', 'rejected');
             })->get();
         }
 
@@ -135,8 +136,12 @@ class ProviderOrderRepository implements ProviderOrderInterface
             $shopOrder = $q->where('model_type', 'App\Models\OrderShipment')->get();
         } elseif ($request['order_type'] == 'canceled') {
 
-            $shopOrder = $q->whereHas('deliveryType', function ($query) {
-                $query->where('order_user_status', '=', 'canceled');
+            $shopOrder= $q->where('model_type','App\Models\OrderShipment')->get();
+        }
+        elseif($request['order_type'] == 'rejected') {
+
+            $shopOrder= $q->whereHas('deliveryType' , function($query) {
+                $query->where('order_shop_status', '=', 'rejected');
             })->get();
         }
 
