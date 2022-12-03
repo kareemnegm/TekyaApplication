@@ -25,7 +25,7 @@ class FinanceOrdersRequest extends BaseFormRequest
     public function rules()
     {
         return [
-         'order_type' =>'required|in:recent,pickup,delivery,rejected'
+         'order_type' =>'required|in:recent,pickup,delivery,rejected','canceled'
         ];
     }
 
@@ -38,7 +38,7 @@ class FinanceOrdersRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            'order_type.in'=>' :attribute is used in recent,pickup,delivery,rejected',
+            'order_type.in'=>' :attribute is used in recent,pickup,delivery,rejected','canceled',
         ];
     }
 }
