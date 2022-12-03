@@ -27,7 +27,7 @@ class OrderShopIdFormRequest extends BaseFormRequest
         $shop_id = Auth('provider')->user()->providerShopDetails->id;
         return [
             'order_shop_id' => 'required|exists:order_shops,id,shop_id,'.$shop_id,
-            'status' => 'required|in:pending,process,picked,onway,arrived,ready,canceled'
+            'status' => 'required|in:pending,process,picked,onway,arrived,ready,rejected'
         ];
     }
 }

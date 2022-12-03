@@ -8,6 +8,7 @@ use App\Http\Requests\Provider\OrderBranchFormRequest;
 use App\Http\Requests\Provider\OrderShopIdFormRequest;
 use App\Http\Resources\Provider\ProviderPlacedOrdersDetailsResource;
 use App\Http\Resources\Provider\ShopOrdersResource;
+use App\Http\Resources\ShopOrderSearchResource;
 use App\Http\Resources\User\PlaceOrderResource;
 use App\Interfaces\ProviderOrderInterface;
 use App\Models\Order;
@@ -98,6 +99,16 @@ class OrderController extends Controller
 
         return $this->dataResponse(['orders'=>$order['orders'],'income'=>$order['income'],
         'cash'=>$order['cash']],'success',200);
+
+    }
+
+
+    public function OrderSearch(Request $request){
+
+        $shop_id = auth('provider')->user()->providerShopDetails->id;
+
+        $data=$this->ProviderOrderRepository->OrderSearch($shop_id,$request->search);
+        return $this->paginateCollection(ShopOrderSearchResource::collection($data), $request->limit, 'orders_shop_list');
 
     }
 
