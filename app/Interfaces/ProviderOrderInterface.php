@@ -56,9 +56,9 @@ interface ProviderOrderInterface
 
 
 
-    
 
 
+    public function OrderSearch($provider_id,$search);
 
-    
+
 }
