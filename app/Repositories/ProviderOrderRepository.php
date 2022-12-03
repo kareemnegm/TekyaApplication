@@ -133,7 +133,7 @@ class ProviderOrderRepository implements ProviderOrderInterface
         elseif($request['order_type'] == 'rejected') {
 
             $shopOrder= $q->whereHas('deliveryType' , function($query) {
-                $query->where('order_user_status', '=', 'rejected');
+                $query->where('order_shop_status', '=', 'rejected');
             })->get();
         }
         
