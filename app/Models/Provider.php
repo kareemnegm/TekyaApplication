@@ -23,7 +23,6 @@ class Provider extends Authenticatable
         'mobile',
         'admin_id',
         'fcm_token',
-        'approved'
 
     ];
 
