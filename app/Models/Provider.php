@@ -22,7 +22,8 @@ class Provider extends Authenticatable
         'type', //shop or charity
         'mobile',
         'admin_id',
-        'fcm_token'
+        'fcm_token',
+        'approved'
 
     ];
 
