@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\System\Provider;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminProductFormRequest;
 use App\Http\Requests\Admin\AdminProductIdsFormRequest;
@@ -51,9 +49,9 @@ class ProductController extends Controller
      * @param [type] $projectId
      * @return Object
      */
-    public function show(Request $request, $collectionId)
+    public function show(Request $request, $productId)
     {
-        $projects = $this->productInterface->getAdminProductById($collectionId, $request);
+        $projects = $this->productInterface->getAdminProductById($productId, $request);
         return $this->dataResponse(['product' => new ProductResource($projects)], 'OK', 200);
     }
 

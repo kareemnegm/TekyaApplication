@@ -39,7 +39,7 @@ class OrderBranchFormRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            'order_type.in'=>' :attribute is used in recent,pickup,delivery,rejected','canceled',
+            'order_type.in'=>' :attribute is used in recent,pickup,delivery,rejected,canceled',
         ];
     }
 
