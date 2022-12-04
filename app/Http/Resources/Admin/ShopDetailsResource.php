@@ -30,10 +30,9 @@ class ShopDetailsResource extends JsonResource
             'shop_logo' => new ImageResource($this->getFirstMedia('shop_logo')) ?? null,
             'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
             'category' =>  CategoryResource::collection($this->category),
-            'delivery' => $this->delivery,
-            'pick_up' => $this->pick_up,
+            'delivery' => $this->branches ? $this->branches()->first()->delivery:null,
+            'pick_up' => $this->branches ? $this->branches()->first()->pick_up:null,
             'provider' => new ProviderResource($this->provider),
-            'number_branches' => $this->branches->count(),
             'status' => $this->status
         ];
     }

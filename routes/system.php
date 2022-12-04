@@ -72,6 +72,7 @@ Route::apiResource('/category', 'CategoryController');
 Route::apiResource('/deliveryOption', 'DeliveryOptionController');
 
 
+
 /**
  * collections
  */
@@ -82,6 +83,9 @@ Route::group(['namespace' => 'Provider'], function () {
     Route::put('collection_rename', 'CollectionController@renameCollection');
     Route::put('collection_status', 'CollectionController@changeStatusCollection');
     Route::post('search/collection', 'CollectionController@collectionSearch');
+
+    Route::apiResource('delivery_coverage', 'DeliveryCoverageController');
+
 });
 Route::post('search/category', 'CategoryController@CategorySearch');
 

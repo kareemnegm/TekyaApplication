@@ -11,6 +11,7 @@ use App\Http\Requests\Provider\BranchIdFormRequest;
 use App\Http\Resources\Admin\ShopDetailsResource;
 use App\Http\Resources\Provider\ShopBranchResource;
 use App\Interfaces\Admin\ProviderInterface;
+use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,22 +28,42 @@ class ShopController extends Controller
 
     public function createShop(ProviderShopFormRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $data['status'] = 'approved';
-        $shop = ProviderShopDetails::create($data);
-        if (isset($data['shop_logo'])) {
-            $shop->saveFiles($data['shop_logo'], 'shop_logo');
-        } else {
-            $shop->clearMediaCollectionExcept('shop_logo');
+
+        $data['name']=$data['shop_name'];
+
+        $shopDetails = ProviderShopDetails::create($data);
+
+        $data['shop_id']=$shopDetails->id;
+
+        $branch = providerShopBranch::create($data);
+
+        if (isset($details['shop_logo'])) {
+
+            if ($shopDetails->getMedia('shop_logo')) {
+
+                $shopDetails->clearMediaCollectionExcept('shop_logo');
+            }
+
+            $shopDetails->saveFiles($details['shop_logo'], 'shop_logo');
         }
-        if (isset($data['shop_cover'])) {
-            $shop->saveFiles($data['shop_cover'], 'shop_cover');
-        } else {
-            $shop->clearMediaCollectionExcept('shop_cover');
+        if (isset($details['shop_cover'])) {
+
+            if ($shopDetails->getMedia('shop_cover')) {
+                $shopDetails->clearMediaCollectionExcept('shop_cover');
+            }
+
+            $shopDetails->saveFiles($details['shop_cover'], 'shop_cover');
         }
-        $shop_categories = $shop->category()->sync($data['category_id']);
-        return $this->dataResponse(['shop' => new ShopDetailsResource($shop)], 'success', 200);
+
+
+        if (isset($details['category_id'])) {
+            $shopDetails->category()->sync($details['category_id']);
+        }
+      
+        return $this->dataResponse(['shop' => new ShopDetailsResource($shopDetails)], 'success', 200);
     }
 
 
@@ -60,7 +81,7 @@ class ShopController extends Controller
     public function updateShopDetails(AdminUpdateShopDetailsFormRequest $request, $id)
     {
         $shopExists = ProviderShopDetails::findOrFail($id);
-        $details = $request->input();
+        $details = $request->validated();
         $details['admin_id'] = Auth::user()->id;
         $this->ProviderRepository->updateShopDetails($details, $id);
         return $this->successResponse('updated successful', 200);
@@ -73,7 +94,6 @@ class ShopController extends Controller
      */
     public function getShopDetails($id)
     {
-
         return $this->dataResponse(['shop' => $this->ProviderRepository->getShopDetails($id)], 'success', 200);
     }
 
@@ -81,6 +101,7 @@ class ShopController extends Controller
 
     public function getShops(Request $request)
     {
+
         return $this->paginateCollection(ShopDetailsResource::collection($this->ProviderRepository->getShops()), $request->limit, 'shops');
     }
 

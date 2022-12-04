@@ -20,7 +20,8 @@ class ProviderController extends Controller
 
 
     public function createProvider(ProviderCreateFormRequest $request)
-    {
+    {        
+
         $data = $request->input();
         $data['admin_id'] = Auth::user()->id;
         $data['type'] = 'shop';

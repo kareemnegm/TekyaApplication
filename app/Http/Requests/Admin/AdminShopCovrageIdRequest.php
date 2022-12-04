@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProviderCreateFormRequest extends BaseFormRequest
+class AdminShopCovrageIdRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,7 @@ class ProviderCreateFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|unique:providers,email',
-            'mobile' => 'required|unique:providers,mobile|numeric',
-            'password' => 'required'
+            'shop_id' => 'required|exists:provider_shop_details,id',
         ];
     }
 }

@@ -17,7 +17,7 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
         return true;
     }
 
-    /**
+     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -25,14 +25,28 @@ class UpdateShopDetailsFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-
-            'shop_name' => 'unique:provider_shop_details,shop_name,' . request()->route('id'),
-            'whatsapp_number' => 'numeric|min:10',
-            'email' => 'email',
-            'category_id' => 'required',
-            'category_id.*' => 'required|exists:categories,id',
+            'shop_name' => 'nullable|unique:provider_shop_details,shop_name,' . $this->id,
+            'whatsapp_number' => 'nullable|numeric|min:10',
+            'email' => 'nullable|email',
+            'category_id' => 'nullable',
+            'shop_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
+            'facebook_link' => 'nullable',
+            'instagram_link' => 'nullable',
+            'web_site' => 'nullable',
+            'shop_cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20000',
+            'category_id.*' => 'nullable|exists:categories,id',
+            "street" => "required",
+            "area_id" => "required_without:latitude,longitude|exists:areas,id",
+            "government_id" => "required_without:latitude,longitude|exists:governments,id",
+            "nearest_landmark" => "required",
+            "address_details" => "required",
+            "latitude" => "required_without:area_id,government_id|numeric",
+            "longitude" => "required_without:area_id,government_id|numeric",
+            "payment_option_id.*" => 'required|exists:payment_options,id',
             'delivery' => 'in:1,0',
             'pick_up' => 'in:1,0',
+
+
         ];
     }
 }
