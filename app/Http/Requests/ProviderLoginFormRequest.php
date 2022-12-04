@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProviderLoginFormRequest extends BaseFormRequest
 {
@@ -24,7 +25,8 @@ class ProviderLoginFormRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|exists:providers,email',
+
+            'email'=>   ['required', Rule::exists('providers','email')->whereNull('deleted_at')],
             'password' => 'required'
         ];
     }
