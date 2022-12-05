@@ -92,13 +92,13 @@ class providerShopBranch extends Model
             )
         )";
         if (!empty($shopIDs)) {
-            return providerShopBranch::with('shop')->whereIn('shop_id', $shopIDs)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
-                ->having("distance", "<=", $distance)
-                ->orderby("distance", "asc")->get();
-        } else {
-            dd ( providerShopBranch::with('shop')->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
+            dd( providerShopBranch::with('shop')->whereIn('shop_id', $shopIDs)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
                 ->having("distance", "<=", $distance)
                 ->orderby("distance", "asc")->get());
+        } else {
+            return  providerShopBranch::with('shop')->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
+                ->having("distance", "<=", $distance)
+                ->orderby("distance", "asc")->get();
         }
     }
 
