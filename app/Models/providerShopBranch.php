@@ -138,11 +138,11 @@ class providerShopBranch extends Model
                 + sin(radians(" . $latitude . ")) * sin(radians(`latitude`))
             )
         )";
-        
+
        return  providerShopBranch::where('shop_id',$shop_id)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
                 ->orderby("distance", "asc")
                 ->having("distance", "<=", $distance);
-        
+
     }
 
 
