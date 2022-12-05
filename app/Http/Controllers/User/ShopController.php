@@ -111,7 +111,7 @@ class ShopController extends Controller
         $products = $this->shopRepository->getShopDetails($request);
 
         // if ($products == null) {
-        //     return $this->dataResponse([], 'OK', 200);
+        //     return $this->dataResponse([], 'OK', 200``);``
         // }
         return $this->dataResponse(['shop' => new ShopResource($products)], 'OK', 200);
     }
