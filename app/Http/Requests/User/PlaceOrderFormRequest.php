@@ -33,7 +33,7 @@ class PlaceOrderFormRequest extends BaseFormRequest
             'shops.*.id'=>'required',
 
             'shops.*.coupon_id'=>'nullable',
-            
+
             'shops.*.delivery_option_id'=>'required|exists:delivery_options,id',
 
             'shops.*.shipping_fees'=>'required',

@@ -241,6 +241,7 @@ class OrderRepository extends Controller implements OrderInterface
 
             DB::commit();
 
+            // $userCart = CartProduct::with(['shop', 'product'])->where('cart_id', $user->cart->id)->delete();
 
             return $this->dataResponse(
                 new PlaceOrderResource($order),
@@ -254,6 +255,10 @@ class OrderRepository extends Controller implements OrderInterface
             DB::rollback();
             return $this->errorResponseWithMessage('Order not place please try agin', 422);
         }
+
+
+
+
     }
 
 
