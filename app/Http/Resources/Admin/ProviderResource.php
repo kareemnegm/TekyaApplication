@@ -19,6 +19,8 @@ class ProviderResource extends JsonResource
             'email' => $this->email,
             'shop_name' => $this->providerShopDetails ? $this->providerShopDetails->shop_name:null,
             'type' => $this->type,
+            'mobile' => $this->mobile,
+
         ];
     }
 }
