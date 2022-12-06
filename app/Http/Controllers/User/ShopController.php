@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductsShopFormRequest;
 use App\Http\Requests\User\ShopCollectionsFromRequest;
 use App\Http\Requests\User\ShopIdFormRequest;
+use App\Http\Requests\User\SingleShopResource;
 use App\Http\Resources\User\ProductsResource;
 use App\Http\Resources\User\ShopBracnhesResource;
 use App\Http\Resources\User\ShopCollectionsResource;
@@ -93,26 +94,23 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopDetails(ShopIdFormRequest $request)
+    public function getShopDetails(SingleShopResource $request)
     {
-        if (auth('user')->check()) {
-            $userLocation = auth('user')->user()->userLocation;
-            if ($userLocation) {
-                $request['latitude'] = $userLocation->latitude;
-                $request['longitude'] = $userLocation->longitude;
-            }
-        } elseif (isset($request->area_id) && !empty($request->area_id)) {
-            $area = Area::findOrFail($request->area_id);
-            $request['latitude'] = $area->latitude;
-            $request['longitude'] = $area->longitude;
-        }
+        // if (auth('user')->check()) {
+        //     $userLocation = auth('user')->user()->userLocation;
+        //     if ($userLocation) {
+        //         $request['latitude'] = $userLocation->latitude;
+        //         $request['longitude'] = $userLocation->longitude;
+        //     }
+        // } elseif (isset($request->area_id) && !empty($request->area_id)) {
+        //     $area = Area::findOrFail($request->area_id);
+        //     $request['latitude'] = $area->latitude;
+        //     $request['longitude'] = $area->longitude;
+        // }
 
 
         $products = $this->shopRepository->getShopDetails($request);
 
-        // if ($products == null) {
-        //     return $this->dataResponse([], 'OK', 200``);``
-        // }
         return $this->dataResponse(['shop' => new ShopResource($products)], 'OK', 200);
     }
     /**
