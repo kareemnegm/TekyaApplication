@@ -16,7 +16,8 @@ class ProviderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            // 'name' => $this->user_name,
+            'email' => $this->email,
+            'shop_name' => $this->providerShopDetails ? $this->providerShopDetails->shop_name:null,
             'type' => $this->type,
         ];
     }
