@@ -162,7 +162,9 @@ class ProductController extends Controller
         $products = $request->product_id;
         $collection_id = $request->collection_id;
         $data = $this->productInterface->moveAdminProductFromCollection($products, $collection_id);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+        $this->successResponse('add products to collection successfully', 200);
+
+        // $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
     }
 
     /**
