@@ -4,6 +4,7 @@ namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\System\OrdersFormRequest;
+use App\Http\Requests\System\OrderShopIdFormRequest;
 use App\Http\Resources\Admin\OrderResource;
 use App\Models\OrderShop;
 use Illuminate\Http\Request;
@@ -47,5 +48,14 @@ class OrderController extends Controller
         }
 
         return $this->paginateCollection(OrderResource::collection($shopOrder), $request->limit, 'orders_shop_list');
+    }
+
+
+
+    public function AdminUpdateOrderDeliveryStatus(OrderShopIdFormRequest $order_shop_id)
+    {
+        // $order_shop_id->validate();
+        $shopOrder = OrderShop::findOrFail($order_shop_id['order_shop_id']);
+        $shopOrder->deliveryType->update(['order_shop_status' => $order_shop_id['status']]);
     }
 }

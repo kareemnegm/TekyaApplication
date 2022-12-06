@@ -95,3 +95,4 @@ Route::post('search/category', 'CategoryController@CategorySearch');
 
 
 Route::get('orders', 'OrderController@ShopOrders');
+Route::put('order_shop', 'OrderController@AdminUpdateOrderDeliveryStatus');
