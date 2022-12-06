@@ -64,6 +64,7 @@ class ProductController extends Controller
      */
     public function store(AdminProductFormRequest $bundel)
     {
+        return $bundel;
         $shopCollection = $this->productInterface->createAdminShopProduct($bundel->validated());
 
         return $this->dataResponse(['product' => new ProductResource($shopCollection)], 'created successful', 200);

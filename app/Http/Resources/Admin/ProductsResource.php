@@ -26,15 +26,12 @@ class ProductsResource extends JsonResource
             'offer_price' => $this->offer_price,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            // 'stock_quantity' => $this->stock_quantity,
             'is_published' => $this->is_published,
             'to_donation' => $this->to_donation,
 
-            'collection' => [
-                'id' => $this->collection->id,
-                'name' => $this->collection->name
-            ],
-            
+         
+            'collection' => new CollectionResource($this->collection),
+
             'product_image' => $this->getFirstMedia('product_images') ? $this->getFirstMedia('product_images')->getFullUrl() : null,
             'order' => $this->order,
             'created_at' => $this->created_at ? Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('m-d-Y g:i A') : null,
