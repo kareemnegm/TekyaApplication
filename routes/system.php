@@ -98,3 +98,5 @@ Route::post('search/category', 'CategoryController@CategorySearch');
 
 
 Route::get('orders', 'OrderController@ShopOrders');
+Route::get('finance_orders', 'OrderController@financeOrders');
+Route::get('finance_statistics', 'OrderController@financeStatistics');
