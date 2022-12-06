@@ -28,7 +28,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('activate/{id}', 'AdminController@activateAdminAccount');
 
     Route::apiResource('adds', 'AddsController');
-
 });
 
 
@@ -37,6 +36,7 @@ Route::group(['prefix' => 'provider', 'namespace' => 'Provider'], function () {
     Route::post('/', 'ProviderController@createProvider');
     Route::get('/', 'ProviderController@getAllProviders');
 });
+
 
 Route::group(['prefix' => 'shop', 'namespace' => 'Provider'], function () {
     Route::post('/', 'ShopController@createShop');
@@ -85,10 +85,13 @@ Route::group(['namespace' => 'Provider'], function () {
     Route::post('search/collection', 'CollectionController@collectionSearch');
 
     Route::apiResource('delivery_coverage', 'DeliveryCoverageController');
-
 });
 Route::post('search/category', 'CategoryController@CategorySearch');
 
-    //     Route::put('status', 'CollectionController@changeStatusCollection');
+//     Route::put('status', 'CollectionController@changeStatusCollection');
 
-    // });
+// });
+
+
+
+Route::get('orders', 'OrderController@ShopOrders');
