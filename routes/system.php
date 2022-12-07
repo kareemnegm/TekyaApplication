@@ -65,6 +65,9 @@ Route::group(['namespace' => 'Provider'], function () {
     Route::put('/move_product_collection', 'ProductController@move_product_from_collection');
     Route::get('shop/{id}/products', 'ProductController@index');
     Route::put('order_product', 'ProductController@orderProduct');
+    Route::put('add_products_to_collections', 'ProductController@moveAdminProductFromCollection');
+
+
     //  Route::put('/product_remove_collection', 'ProductController@remove_product_from_collection');
 });
 
@@ -96,3 +99,5 @@ Route::post('search/category', 'CategoryController@CategorySearch');
 
 Route::get('orders', 'OrderController@ShopOrders');
 Route::put('order_shop', 'OrderController@AdminUpdateOrderDeliveryStatus');
+Route::get('finance_orders', 'OrderController@financeOrders');
+Route::get('finance_statistics', 'OrderController@financeStatistics');

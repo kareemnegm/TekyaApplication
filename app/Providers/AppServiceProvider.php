@@ -7,6 +7,7 @@ use App\Classes\ProviderClass;
 use App\Classes\SearchClass;
 use App\Http\Controllers\User\SearchController;
 use App\Interfaces\Admin\AdminDeliveryCoverageInterface;
+use App\Interfaces\Admin\AdminOrderInterface;
 use App\Interfaces\Admin\CollectionInterface as AdminCollectionInterface;
 use App\Interfaces\Admin\ProductInterface as AdminProductInterface;
 use App\Interfaces\Admin\ProviderInterface as AdminProviderInterface;
@@ -41,6 +42,7 @@ use App\Interfaces\User\ProductInterface as InterfacesProductInterface;
 use App\Models\OrderItem;
 use App\Observers\UpdateStockQuantity;
 use App\Repositories\Admin\AdminDeliveryCoverageRepository;
+use App\Repositories\Admin\AdminOrderRepository;
 use App\Repositories\Admin\CollectionRepository as AdminCollectionRepository;
 use App\Repositories\Admin\ProductRepository as AdminProductRepository;
 use App\Repositories\Admin\ProviderRepository;
@@ -90,8 +92,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AdminCollectionInterface::class, AdminCollectionRepository::class);
         $this->app->bind(CustomerInterface::class, CustomerRepository::class);
         $this->app->bind(AdminDeliveryCoverageInterface::class, AdminDeliveryCoverageRepository::class);
+        $this->app->bind(AdminOrderInterface::class, AdminOrderRepository::class);
 
-
+        
         
         
 

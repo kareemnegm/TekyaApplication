@@ -64,6 +64,7 @@ class ProductController extends Controller
      */
     public function store(AdminProductFormRequest $bundel)
     {
+        return $bundel;
         $shopCollection = $this->productInterface->createAdminShopProduct($bundel->validated());
 
         return $this->dataResponse(['product' => new ProductResource($shopCollection)], 'created successful', 200);
@@ -158,10 +159,14 @@ class ProductController extends Controller
      */
     public function moveAdminProductFromCollection(AdminProductIdsFormRequest $request)
     {
+
         $products = $request->product_id;
         $collection_id = $request->collection_id;
+
         $data = $this->productInterface->moveAdminProductFromCollection($products, $collection_id);
-        $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
+        return $this->successResponse('add products to collection successfully', 200);
+
+        // $this->dataResponse(['product' =>  ProductResource::collection($data)], 'moved Successfully', 200);
     }
 
     /**
