@@ -35,7 +35,7 @@ class AdminOrderRepository implements AdminOrderInterface
             $shopOrder = $q->where('model_type', 'App\Models\OrderPickup');
         } elseif ( isset($request['order_type']) && $request['order_type'] == 'delivery') {
 
-            $shopOrder = $q->where('model_type', 'App\Models\OrderShipment');
+        $shopOrder = $q->where('model_type', 'App\Models\OrderShipment');
 
         } elseif(isset($request['order_type']) && $request['order_type'] == 'rejected') {
 
@@ -79,7 +79,7 @@ class AdminOrderRepository implements AdminOrderInterface
         $total_Invoice = OrderShop::with('invoice');
 
         if (isset($shop_id) && !empty($shop_id)) {
-            
+
          $shopOrder= $shopOrder->where('shop_id', $shop_id);
          $total_Invoice= $shopOrder->where('shop_id', $shop_id);
         }
