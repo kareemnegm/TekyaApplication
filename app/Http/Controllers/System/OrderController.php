@@ -85,6 +85,7 @@ class OrderController extends Controller
         // $order_shop_id->validate();
         $shopOrder = OrderShop::findOrFail($order_shop_id['order_shop_id']);
         $shopOrder->deliveryType->update(['order_shop_status' => $order_shop_id['status']]);
+        return $this->successResponse('Order shop status updated successfuly.');
     }
     /**
      * Display the specified resource.
