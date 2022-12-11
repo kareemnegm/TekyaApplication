@@ -18,9 +18,9 @@ class AreaResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'description'=>$this->description,
+            // 'description'=>$this->description,
 
-            "governmet"=>[
+            "government"=>[
                 "id"=>$this->government->id,
                 "name"=>$this->government->name,
 

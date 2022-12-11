@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserAddressFormRequest;
 use App\Http\Requests\User\UserLocationFormRequest;
 use App\Http\Resources\User\UserAddressResource;
+use App\Http\Resources\User\UserProfileResource;
 use App\Interfaces\User\UserInterface;
 use App\Models\User;
 use App\Models\UserAddress;
@@ -99,5 +100,14 @@ class UserController extends Controller
     {
         $this->UserRepository->deleteUser();
         return $this->successResponse('delete successfully', 200);
+    }
+
+
+
+    public function myProfile()
+    {
+
+        $user = $this->UserRepository->myProfile(Auth::user()->id);
+        return $this->dataResponse(['my_profile' => new UserProfileResource($user)], 'success', 200);
     }
 }

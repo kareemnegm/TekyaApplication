@@ -59,5 +59,12 @@ class UserRepository implements UserInterface
         return User::findOrFail($userId)->delete();
     }
 
-    
+
+    public function myProfile($user_id)
+    {
+        return User::where('id', $user_id)->first();
+
+    }
+
+
 }

@@ -40,6 +40,15 @@ class User extends Authenticatable  implements HasMedia
         'fcm_token'
     ];
 
+    public function government(){
+        return $this->belongsTo(Government::class);
+    }
+
+
+    public function area(){
+        return $this->belongsTo(Area::class);
+    }
+
     public function message()
     {
         return $this->hasMany(Message::class);

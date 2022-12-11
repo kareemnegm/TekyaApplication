@@ -12,6 +12,8 @@ interface UserInterface
     public function createUserLocation($data);
     public function gerUserLocation($user_id);
     public function deleteUser();
+    public function myProfile($user_id);
 
-    
+
+
 }

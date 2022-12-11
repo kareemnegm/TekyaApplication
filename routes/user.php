@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
  *
  * change password
  */
-
+Route::get('/profile', 'UserController@myProfile');
 Route::put('changePassword', 'AuthController@ChangePassword');
 Route::put('/profile', 'AuthController@updateProfile');
 
@@ -44,5 +44,4 @@ Route::group(['prefix' => 'order'], function () {
     Route::post('place_order', 'OrderController@placeOrder');
     Route::get('my_orders', 'OrderController@myOrderList');
     Route::get('order_details', 'OrderController@orderDetiels');
-
 });

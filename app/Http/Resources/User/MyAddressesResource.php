@@ -18,6 +18,7 @@ class MyAddressesResource extends JsonResource
             'id'=>$this->id,
             'address'=>$this->address,
             'address_details'=>$this->address_details,
+            'is_default'=>$this->is_default,
         ];
     }
 }
