@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\User;
 
 use App\Models\Product;
@@ -12,11 +13,12 @@ class ProductRepository implements ProductInterface
      *
      * @return void
      */
-    public function mostPopularProduct(){
+    public function mostPopularProduct()
+    {
         $q = Product::query();
-        $products = $q->orderBy('id','ASC')->get();
+        $products = $q->where('is_published', 1)->orderBy('id', 'ASC')->get();
 
-        return $products ;
+        return $products;
     }
 
 
@@ -25,10 +27,11 @@ class ProductRepository implements ProductInterface
      *
      * @return void
      */
-    public function productJustForYou(){
+    public function productJustForYou()
+    {
         $q = Product::query();
-        $products = $q->orderBy('id','ASC')->get();
-        return $products ;
+        $products = $q->where('is_published', 1)->orderBy('id', 'ASC')->get();
+        return $products;
     }
 
 
@@ -37,14 +40,14 @@ class ProductRepository implements ProductInterface
      *
      * @return void
      */
-    public function relatedProducts($productId){
+    public function relatedProducts($productId)
+    {
 
         $product = Product::findOrFail($productId);
 
-        $relatedProducts =Product::where('id','!=',$product->id)->
-        where('category_id',$product->category_id)->where('shop_id',$product->shop_id)->get();
+        $relatedProducts = Product::where('id', '!=', $product->id)->where('is_published', 1)->where('category_id', $product->category_id)->where('shop_id', $product->shop_id)->get();
 
-        return $relatedProducts ;
+        return $relatedProducts;
     }
 
     /**
@@ -52,11 +55,12 @@ class ProductRepository implements ProductInterface
      *
      * @return void
      */
-    public function similarProducts($productId){
+    public function similarProducts($productId)
+    {
 
         $product = Product::findOrFail($productId);
 
-        $similarProducts =Product::where('category_id',$product->category_id)->where('shop_id','!=',$product->shop_id)->get();
+        $similarProducts = Product::where('category_id', $product->category_id)->where('is_published', 1)->where('shop_id', '!=', $product->shop_id)->get();
 
         return $similarProducts;
     }
@@ -67,5 +71,4 @@ class ProductRepository implements ProductInterface
         $product_variants = ProductVariant::findOrFail($variant_id);
         return $product_variants->value;
     }
-
 }

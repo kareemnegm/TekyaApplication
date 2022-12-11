@@ -60,7 +60,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return void
      */
-    public function relatedProducts(Request $request,$product_id)
+    public function relatedProducts(Request $request, $product_id)
     {
         $products = $this->ProductRepository->relatedProducts($product_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'related_products');
@@ -73,7 +73,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return void
      */
-    public function similarProducts(Request $request,$product_id)
+    public function similarProducts(Request $request, $product_id)
     {
         $products = $this->ProductRepository->similarProducts($product_id);
         return $this->paginateCollection(ProductsResource::collection($products), $request->limit, 'similar_products');
@@ -82,13 +82,13 @@ class ProductController extends Controller
 
     public function showProduct($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('id', $id)->where('is_published', 1)->firstOrFail();
         return $this->dataResponse(['product' => new ProductResource($product)], 'success', 200);
     }
 
 
     public function getVariantsValues(Request $variant_id)
     {
-        return $this->dataResponse(['values'=>VariantValueResource::collection($this->ProductRepository->getVariantsValues($variant_id->variant_id))],'success',200);
+        return $this->dataResponse(['values' => VariantValueResource::collection($this->ProductRepository->getVariantsValues($variant_id->variant_id))], 'success', 200);
     }
 }

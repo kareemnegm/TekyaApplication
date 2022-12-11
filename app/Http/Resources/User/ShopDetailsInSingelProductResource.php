@@ -49,9 +49,9 @@ class ShopDetailsInSingelProductResource extends JsonResource
             'shop_cover' => new ImageResource($this->getFirstMedia('shop_cover')) ?? null,
 
             'delivery_time' => 30,
- 
-            'nearest_brnach'=> isset($brnach) ? New NearestBranchResource($brnach) :null,
-        
+
+            // 'nearest_brnach'=> isset($brnach) ? New NearestBranchResource($brnach) :null,
+
             ];
     }
 }

@@ -134,13 +134,13 @@ class Product extends Model implements HasMedia
          $brnach = providerShopBranch::NearestBranch($latitude, $longitude,$this->id)->first();
 
          if($brnach){
-            
+
             $branchStock=BranchProductStock::where('product_id',$product_id)->where('branch_id',$brnach->id)->first();
             return $stock= $branchStock?$branchStock->stock_qty:0;
          }else{
             return $stock=0;
          }
-        
+
     }
 
     /**
@@ -167,4 +167,5 @@ class Product extends Model implements HasMedia
     {
         return $this->tags()->get();
     }
+    
 }
