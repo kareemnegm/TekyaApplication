@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -91,5 +92,33 @@ class ProviderShopDetails extends Model implements HasMedia
             ->width(400)
             ->height(600)
             ->sharpen(0);
+    }
+
+
+    public function scopeNearestShop($query, $latitude, $longitude, $shop_id ,$distance = null, $unit = "km")
+    {
+        $distance = 30;
+        $constant = $unit == "km" ? 6371 : 3959;
+
+        $haversine = "(
+            6371 * acos(
+                cos(radians(" . $latitude . "))
+                * cos(radians(`latitude`))
+                * cos(radians(`longitude`) - radians(" . $longitude . "))
+                + sin(radians(" . $latitude . ")) * sin(radians(`latitude`))
+            )
+        )";
+
+
+       $nearestBrnach= providerShopBranch::where('shop_id',$shop_id)->select(DB::raw("$haversine AS distance, id as id , name as name,shop_id as shop_id"),'latitude','longitude')
+                ->orderby("distance", "asc")
+                ->having("distance", "<=", $distance)->first();
+
+        if($nearestBrnach){
+            return $query->where('id',$nearestBrnach->shop_id)->select(['*', DB::raw("'{$nearestBrnach->distance}' as distance")]);
+
+        }
+
+      return $query->where('id',null);
     }
 }

@@ -21,6 +21,7 @@ use App\Models\providerShopBranch;
 use App\Models\ProviderShopDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Monolog\Handler\IFTTTHandler;
 
 class ShopController extends Controller
 {
@@ -38,6 +39,8 @@ class ShopController extends Controller
     public function __construct(ShopInrerface $shopRepository)
     {
         $this->shopRepository = $shopRepository;
+
+        
     }
 
     /**
@@ -96,22 +99,17 @@ class ShopController extends Controller
      */
     public function getShopDetails(SingleShopResource $request)
     {
-        // if (auth('user')->check()) {
-        //     $userLocation = auth('user')->user()->userLocation;
-        //     if ($userLocation) {
-        //         $request['latitude'] = $userLocation->latitude;
-        //         $request['longitude'] = $userLocation->longitude;
-        //     }
-        // } elseif (isset($request->area_id) && !empty($request->area_id)) {
-        //     $area = Area::findOrFail($request->area_id);
-        //     $request['latitude'] = $area->latitude;
-        //     $request['longitude'] = $area->longitude;
-        // }
+        $data=$request->validated();
+      
+         $data= $this->userArea($data);
 
+        $shop = $this->shopRepository->getShopDetails($data);
 
-        $products = $this->shopRepository->getShopDetails($request);
-
-        return $this->dataResponse(['shop' => new ShopResource($products)], 'OK', 200);
+        if($shop){
+        return $this->dataResponse(['shop' => new ShopResource($shop)], 'OK', 200);
+        }{
+            return $this->errorResponseWithMessage('The shop not in your area',422);
+        }
     }
     /**
      * Display a listing of the resource.
@@ -158,12 +156,47 @@ class ShopController extends Controller
      /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response    
      */
     public function getShopCollections(ShopCollectionsFromRequest $request)
     {
         $data=$request->validated();
         $products = $this->shopRepository->getShopCollections($data['shop_id']);
         return $this->paginateCollection(ShopCollectionsResource::collection($products), $request->limit, 'collections');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $date
+     * @return array
+     */
+    private function userArea($data){
+
+        if (auth('user')->check()) {
+
+            $user = auth('user')->user();
+    
+            if ($user->userLocation) {
+                    $data['latitude'] = $user->userLocation->latitude;
+                    $data['longitude'] = $user->userLocation->longitude;
+            }elseif(isset($user->area_id)) {
+                $area = Area::findOrFail($user->area_id);
+                $data['latitude'] = $area->latitude;
+                $data['longitude'] = $area->longitude;
+    
+    
+            }
+            if(!isset($data['latitude']) && !isset($data['longitude'])){
+                return $this->errorResponseWithMessage('User not have any area location or lat and long',422);
+            }
+        }else{
+            if(isset($data['area_id'])){
+                $area = Area::findOrFail($data['area_id']);
+                $data['latitude'] = $area->latitude;
+                $data['longitude'] = $area->longitude;
+            }
+        }
+        return $data;
     }
 }
